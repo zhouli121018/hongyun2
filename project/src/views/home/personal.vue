@@ -1,20 +1,23 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="用户中心" />
         <div class="my_title" v-if="info != null">
             <img class="my_title_photo" :src="$https_img+info.img" alt="">
             <div class="my_title_center">
                 <div>
                     <span style="font-weight:bold;font-size:0.45rem;color:#232323;">{{info.uname}}</span>
-                </div>
-                <div class="goldcoins_fans">
-                    <!-- <p><span>金币: </span><span class="red">{{info.coin}}</span></p>
-                    <p><span>粉丝: </span><span class="red">{{info.fans}}</span></p> -->
-                    <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
-                    <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt="">
-                    <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt="">
+                    <img class="my_title_center_img" src="../../assets/vip.png" alt="">
+                    <img class="my_title_center_img" src="../../assets/zhuan.png" alt="">
                     <span v-if="info.isvip == 1" class="red">(剩余{{info.vipdate}}天)</span>
                     <span v-else class="red">(非会员)</span>
+                </div>
+                <div class="goldcoins_fans">
+                    <p><span style="font-size:13px">粉丝: </span><span style="font-size:13px">0999</span></p> 
+                     <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
+                    <!-- <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt="">
+                    <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt="">
+                    <span v-if="info.isvip == 1" class="red">(剩余{{info.vipdate}}天)</span>
+                    <span v-else class="red">(非会员)</span> -->
                 </div>
             </div>
             <van-button v-if="info.isvip == 0" class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">开通会员</van-button>
@@ -25,44 +28,43 @@
                 <img class="my_title_photo title_photo" src="~@/assets/icon.png" alt="">
                 <div class="my_title_center my_centers">
                     <p>
-                        <b style="font-size:0.5rem;font-weight:bold;">{{info.income_cur}}元</b>
+                        <b style="font-size:0.5rem;font-weight:bold;">{{info.income_cur}}</b>
                     </p>
                     <p class="goldcoins_fans">
-                        佣金金额
+                        金币
                     </p>
                 </div>
-                <van-button type="danger" size="small" >返佣提款</van-button>
+                <van-button style="background:#87AC55;color:#fff;border-radius:.1rem;padding:0 .3rem" size="small" >购买</van-button>
             </div>
             <div class="my_title" style="border:none;width:51%" v-if="info">
-                <img class="my_title_photo title_photo" src="~@/assets/ticketnum.png" alt="">
+                <img class="my_title_photo title_photo" src="~@/assets/icon.png" alt="">
                 <div class="my_title_center my_centers">
                     <p>
-                        <b style="font-size:0.5rem;font-weight:bold;">{{info.invitenum}}人</b>
+                        <b style="font-size:0.5rem;font-weight:bold;">{{info.invitenum}}</b>
                     </p>
                     <p class="goldcoins_fans">
-                        邀请人数
+                        余额
                     </p>
                 </div>
-                <van-button type="danger" size="small" @click="jumpTo('/personal/inviteDetail')" >邀请明细</van-button>
+                <van-button style="background:#87AC55;color:#fff;border-radius:.1rem;padding:0 .3rem" size="small" @click="jumpTo('/personal/inviteDetail')" >提款</van-button>
             </div>
         </div>
-        <!-- <div class="xian"></div>         -->
         <div>
-            <van-cell title="我的推荐页" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
-            <van-cell title="推荐赚钱" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
-            <van-cell title="开奖提醒设置" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
-            <van-cell title="免费使用" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
-        </div>
-        <div class="xian"></div>
-        <div>
-            <van-cell title="关于鸿运四码" is-link icon="about"  @click="jumpTo('/personal/about')"/>
+            <van-cell title="修改资料" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
+            <van-cell title="提交预测" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
+            <van-cell title="我查看的预测" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
+            <van-cell title="分享赚钱和金币(0元)" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="我的关注" is-link icon="mylook"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="卖会员码（专家权限）" is-link icon="membercode"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="专家推广页" is-link icon="promote"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
 
         <div class="xian"></div>
 
-        <div class="text_center">
+        <!-- <div class="text_center">
             <van-button @click="logout" type="danger" size="small" style="width:30%">退出账号</van-button>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -121,6 +123,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.red
+    font-size 12px
 .text_center
     padding .2rem
     text-align center
@@ -139,27 +143,45 @@ export default {
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/tj_p.png') no-repeat
+    background url('~@/assets/modify.png') no-repeat
     background-size contain
 /deep/ .van-icon-dlzq::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/dlzq_p.png') no-repeat
+    background url('~@/assets/submit.png') no-repeat
     background-size contain
 /deep/ .van-icon-kjtx::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/kjtx_p.png') no-repeat
+    background url('~@/assets/look_predict.png') no-repeat
     background-size contain
 /deep/ .van-icon-free::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/free.png') no-repeat
+    background url('~@/assets/share.png') no-repeat
     background-size contain
-/deep/ .van-icon-about::before
+/deep/ .van-icon-mylook::before
+    content ''
+    width .88rem
+    height .88rem
+    background url('~@/assets/my_look.png') no-repeat
+    background-size contain
+/deep/ .van-icon-membercode::before
+    content ''
+    width .88rem
+    height .88rem
+    background url('~@/assets/membercode.png') no-repeat
+    background-size contain    
+/deep/ .van-icon-promote::before
+    content ''
+    width .88rem
+    height .88rem
+    background url('~@/assets/promote.png') no-repeat
+    background-size contain   
+/deep/ .van-icon-about::before 
     content ''
     width .88rem
     height .88rem
@@ -175,7 +197,7 @@ export default {
     background #fff
     margin-top:-.1rem
     .my_title_center
-        width 53%
+        width 60%
         span 
             line-height .5rem
             padding-right .1rem
@@ -193,9 +215,10 @@ export default {
         p
             padding-right .3rem
     .my_title_center_img
-        width .8rem
-        height .7rem
+        width .65rem
+        height .65rem
         margin 0 .2rem 0 0
+        vertical-align middle
 .orange_btn
     border-radius .6rem
     background #FFC131

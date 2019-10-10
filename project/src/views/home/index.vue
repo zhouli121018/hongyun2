@@ -1,7 +1,7 @@
 <template>
   <div >
-    <div class="container" id="home_page">
-        <div class="fixed_title">
+    <div id="home_page">
+        <!-- <div class="fixed_title">
           <van-nav-bar
             title="鸿运四码"
             :left-text="left_text"
@@ -11,7 +11,7 @@
             <span slot="title">鸿运四码
             </span>
           </van-nav-bar>
-        </div>
+        </div> -->
         <van-swipe :autoplay="3000" indicator-color="#007BC2">
           <van-swipe-item  v-for="(image, index) in advs" :key="index">
             <div class="swipe_img_box" @click="jumpTo(image.url)">
@@ -29,13 +29,34 @@
             </div>
           </van-col>
         </van-row>
-
-        
-
         <div style="background:#F5F5F5;height:0.2rem;"></div>
-       
-
-        <div style="background:#F5F5F5;height:0.2rem"></div>
+        <!-- 公告 -->
+        <div class="announcement_list">
+          <div>
+            <img src="../../assets/gonggao.png" alt="">
+            <span class="gonggao">公告</span>
+            <span class="gray">2019/12/12</span>
+          </div>
+          <div>
+            <van-notice-bar
+              color="#333"
+              text="足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。"
+            />
+          </div>
+        </div>
+        <div style="background:#F5F5F5;height:0.2rem;"></div>
+        <!-- 列表栏 -->
+        <div class="announcement_list" v-for="(item,index) in imgList" :key="index">
+          <div>
+            <img :src="item.src" alt="" style="width:.6rem;height:.6rem">
+            <span class="gonggao">{{item.txt}}</span>
+            <span class="gray">2019/12/12</span>
+          </div>
+          <div>
+            <p>七星彩 【1928】 ：887261</p>
+            <p>排列五 【1928】 ：887261</p>
+          </div>
+        </div>
     </div>
 
     <div class="container" v-if="is_ios" style="background:#F5F5F5;padding-top:0.4rem !important;position:absolute;top:0;z-index:1001;padding-bottom:2rem;">
@@ -62,13 +83,17 @@ export default {
   data () {
     return {
       list:[
-        {src:require('../../assets/mfsy.png'),title:'免费使用',link:'/personal/freeUse',islink: false},
-        // {src:require('../../assets/fajh.png'),title:'方案计划',link:'/home/aPlan',islink: false},
-        {src:require('../../assets/kjtx.png'),title:'开奖提醒',link:'/home/openRemind',islink: false},
-        {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/charts.png'),title:'走势图',link:'/personal/freeUse',islink: false},
+        {src:require('../../assets/filter.png'),title:'过滤',link:'/home/openRemind',islink: false},
+        {src:require('../../assets/missing.png'),title:'遗漏',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/dreams.png'),title:'梦兆',link:'/home/dreams',islink: localStorage.getItem('uid')?false:true}
         
-        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true}
-        
+      ],
+      imgList: [
+        {src:require('../../assets/speak _table.png'),txt:'奖表'},
+        {src:require('../../assets/prize_figure.png'),txt:'奖图'},
+        {src:require('../../assets/lucky_star.png'),txt:'幸运用户'},
+        {src:require('../../assets/expert_ ranking.png'),txt:'专家排名奖励'}
       ],
       advs:[],
       left_text:'登录',
@@ -151,17 +176,31 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.green
-  color #2fc900
+.announcement_list
+  width 100%
+  padding .3rem 
+  box-sizing border-box
+  margin-bottom .2rem
+  background #fff
+  div:first-child
+    padding-bottom .15rem
+  .gonggao
+    width 60%
+    display inline-block
+    font-size 18px
+  img 
+    width .54rem 
+    height .5rem
+    margin-right .25rem
+    vertical-align top
+  p  
+    padding-top .2rem
+    padding-left .84rem
+    color #333
+.gray
+  color #333
 .blue
   color #0096ff
-/deep/ .membership_privileges
-    border:none;
-    background:#FFBD28!important
-    color:#FF0B60;
-    height:.6rem;
-    line-height:.4rem
-    font-size .32rem
 
 .van-cell .van-cell__title span{
   /* font-size:0.4rem; */
@@ -177,20 +216,6 @@ export default {
 }
 /deep/ .van-dialog__content .van-cell{
   padding: 10px 15px;
-}
-.left_border_ori{
-  /* border-left:0.1rem solid #FC7953; */
-  display:inline-block;
-  /* padding:0; */
-  /* padding-left:0.2rem; */
-  /* font-size:0.4rem; */
-  /* color:#7D7D7D; */
-  background:#FC7953;
-  width:0.08rem;
-  height:0.4rem;
-  position:relative;
-  top:0.08rem;
-  margin-right:0.1rem;
 }
 .max_width_100{
   margin-bottom: .15rem;
@@ -224,27 +249,9 @@ export default {
     width:100%;
     border-radius:.2rem;
   }
-  .gonggao_box{
-    background:#F5F5F5;
-    padding:4px;
-    margin: 4px 0;
-    display:flex;
-    align-items:center;
-    height:30px;
-    padding-left:12px;
-  }
-  .gonggao_box .grow_1{
-    flex-grow:1;
-  }
   .grow_1 .van-notice-bar{
     padding:0;
     background:none !important;
-  }
-  .gonggao_img{
-    width:20px;
-    height:16px;
-    vertical-align: middle;
-    margin:0 10px;
   }
   .list_box{
     padding:10px 20px;
@@ -261,22 +268,6 @@ export default {
     display: block;
     color: #767676;
     font-size:.38rem
-  }
-  .rank_item{
-    padding:10px 10px;
-    border-top:1px solid #F0F0F0;
-  }
-  .rank_item .desc>h3{
-    font-weight:bold;
-  }
-  .rank_item .desc>div{
-    color:#8D8D8D;
-    padding:8px 0 0;
-  }
-  .rank_item_bottom{
-    color:#707070;
-    padding:10px 0;
-    font-size:16px;
   }
   #home_page .tabs_type .van-tab{
     color:#1D1D1D;
@@ -296,5 +287,7 @@ export default {
     z-index: 1000;
     top: 0;
   }
-  
+  .container
+    padding-top 0!important
+    background #f5f5f5
 </style>

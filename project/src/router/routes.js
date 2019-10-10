@@ -1,5 +1,6 @@
 const _import = require(`./_import_${process.env.NODE_ENV}`)
 const layout = _import('layout/index')
+const layouts = _import('index')
 
 /**
  *
@@ -15,8 +16,9 @@ export default [
         redirect:'/home/index',
     },
     {
+        //带底部栏页面
         path: '/home',
-        component:layout,
+        component:layouts,
         children: [
             {//首页
                 path: 'index',
@@ -24,7 +26,28 @@ export default [
                 component: _import('home/index'),
                 meta:{
                     title:'鸿运四码',
-                    cache: true
+                    cache: true,
+                    has_bottom:true
+                }
+            },
+            {//商城
+                path: 'shopping',
+                name:'home',
+                component: _import('home/shopping'),
+                meta:{
+                    title:'商城',
+                    cache: true,
+                    has_bottom:true
+                }
+            },
+            {//用户中心
+                path: 'personal',
+                name: 'personalIndex',
+                component: _import('home/personal'),
+                meta: {
+                    title: '用户中心',
+                    cache: true,
+                    has_bottom:true
                 }
             },
         ]
@@ -42,12 +65,41 @@ export default [
         path: '/personal',
         component:layout,
         children: [
-            {//用户中心
-                path: 'index',
-                name: 'personalIndex',
-                component: _import('personal/index'),
+            {//梦兆
+                path: 'dreams',
+                name:'dreams',
+                component: _import('personal/dreams'),
+                meta:{
+                    title:'梦兆',
+                    cache: true,
+                    has_bottom:false
+                }
+            },
+            {//商城
+                path: 'shoppingDetail',
+                name:'shoppingDetail',
+                component: _import('personal/shoppingDetail'),
+                meta:{
+                    title:'商城',
+                    cache: true,
+                    has_bottom:false
+                }
+            },
+            {
+                path: 'memberDetail',
+                name: 'memberDetail',
+                component: _import('personal/memberDetail'),
                 meta: {
-                    title: '用户中心',
+                    title: '会员码明细',
+                    cache: true
+                }
+            },
+            {
+                path: 'incomeDetails',
+                name: 'incomeDetails',
+                component: _import('personal/incomeDetails'),
+                meta: {
+                    title: '收入明细',
                     cache: true
                 }
             },
