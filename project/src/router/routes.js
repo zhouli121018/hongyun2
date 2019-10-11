@@ -40,16 +40,7 @@ export default [
                     has_bottom:true
                 }
             },
-            {//用户中心
-                path: 'personal',
-                name: 'personalIndex',
-                component: _import('home/personal'),
-                meta: {
-                    title: '用户中心',
-                    cache: true,
-                    has_bottom:true
-                }
-            },
+            
         ]
     },
     {
@@ -63,8 +54,18 @@ export default [
     
     {//个人中心
         path: '/personal',
-        component:layout,
+        component:layouts,
         children: [
+            {//用户中心
+                path: 'index',
+                name: 'personalIndex',
+                component: _import('personal/personal'),
+                meta: {
+                    title: '用户中心',
+                    cache: true,
+                    has_bottom:true
+                }
+            },
             {//梦兆
                 path: 'dreams',
                 name:'dreams',
@@ -72,7 +73,6 @@ export default [
                 meta:{
                     title:'梦兆',
                     cache: true,
-                    has_bottom:false
                 }
             },
             {//商城
@@ -81,8 +81,7 @@ export default [
                 component: _import('personal/shoppingDetail'),
                 meta:{
                     title:'商城',
-                    cache: true,
-                    has_bottom:false
+                    cache: true
                 }
             },
             {
@@ -107,7 +106,7 @@ export default [
     },
     {//登录
         path: '/login',
-        component: layout,
+        component: layouts,
         children: [
             {
                 path: 'index',
@@ -131,7 +130,7 @@ export default [
     },
     {//注册
         path: '/register',
-        component: layout,
+        component: layouts,
         children: [
             {
                 path: 'index',

@@ -21,7 +21,7 @@
         </van-swipe>
         <a :href="banner_url" v-show="false" id="banner_a">1</a>
         
-        <van-row :gutter="30" class="list_box text_center">
+        <van-row :gutter="30" class="list_box text_center" style="margin-right:0;margin-left:0;">
           <van-col span="6" style="width:23%;padding-left:0;padding-right:0" v-for="(l,index) in list" :key="index">
             <div class="item_box"  @click="jumpTo(l.link,l.islink)">
               <img :src="l.src" alt="" class="max_width_100">
@@ -46,17 +46,20 @@
         </div>
         <div style="background:#F5F5F5;height:0.2rem;"></div>
         <!-- 列表栏 -->
-        <div class="announcement_list" v-for="(item,index) in imgList" :key="index">
-          <div>
-            <img :src="item.src" alt="" style="width:.6rem;height:.6rem">
-            <span class="gonggao">{{item.txt}}</span>
-            <span class="gray">2019/12/12</span>
-          </div>
-          <div>
-            <p>七星彩 【1928】 ：887261</p>
-            <p>排列五 【1928】 ：887261</p>
+        <div style="background:#F5F5F5;padding-bottom:.2rem;">
+          <div class="announcement_list" v-for="(item,index) in imgList" :key="index">
+            <div>
+              <img :src="item.src" alt="" style="width:.6rem;height:.6rem">
+              <span class="gonggao">{{item.txt}}</span>
+              <span class="gray">2019/12/12</span>
+            </div>
+            <div>
+              <p>七星彩 【1928】 ：887261</p>
+              <p>排列五 【1928】 ：887261</p>
+            </div>
           </div>
         </div>
+        
     </div>
 
     <div class="container" v-if="is_ios" style="background:#F5F5F5;padding-top:0.4rem !important;position:absolute;top:0;z-index:1001;padding-bottom:2rem;">
