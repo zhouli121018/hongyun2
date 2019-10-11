@@ -40,6 +40,26 @@ export default [
                     has_bottom:true
                 }
             },
+            {//榜单
+                path: 'bangdan',
+                name:'home',
+                component: _import('home/bangdan'),
+                meta:{
+                    title:'榜单',
+                    cache: true,
+                    has_bottom:true
+                }
+            },
+            {//搜索  榜单2
+                path: 'search',
+                name:'home',
+                component: _import('home/search'),
+                meta:{
+                    title:'搜索',
+                    cache: true,
+                    has_bottom:true
+                }
+            },
             
         ]
     },

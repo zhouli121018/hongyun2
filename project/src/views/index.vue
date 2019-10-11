@@ -10,7 +10,7 @@
                 <!-- </transition> -->
             </div>
         
-        <tabbar v-model="active" active-color="#87AC55" v-if="$route.meta.has_bottom" style="height:58px;">
+        <tabbar v-model="active" active-color="#87AC55" v-if="$route.meta.has_bottom" style="height:58px;background:#f7f7f7;">
             <tabbar-item :to="{name: 'home'}">
                 <img slot="icon"
                     slot-scope="props"

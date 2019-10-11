@@ -84,6 +84,13 @@ export default {
 </script>
 
 <style lang='stylus'>
+.mian_color{
+  color:#87ac55;
+}
+.mian_bgcolor{
+  background:#87ac55 !important;
+  color:#fff !important;
+}
 .left_width_box .van-nav-bar__left{
   left: 0;
   width: 1.5rem;
@@ -139,9 +146,7 @@ export default {
   .flex_grow_1{
       flex-grow:1
   }
-  .van-tab--active{
-    color:#e4393c;
-  }
+  
   .container{
     padding-top:50px !important;
     box-sizing: border-box;
