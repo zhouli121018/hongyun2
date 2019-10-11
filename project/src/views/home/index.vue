@@ -257,7 +257,7 @@ export default {
     background:none !important;
   }
   .list_box{
-    padding:10px 20px;
+    padding:10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
