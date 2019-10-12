@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="wrap_box">
         <div class="recommend_title">
             <van-nav-bar
                 left-arrow
@@ -30,8 +30,14 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.container
-    padding-top 0!important
+.wrap_box
+    position absolute 
+    top 0
+    bottom 0
+    left 0 
+    right 0
+// .container
+//     padding-top 0!important
 .van-nav-bar
     background transparent
     height 41px
