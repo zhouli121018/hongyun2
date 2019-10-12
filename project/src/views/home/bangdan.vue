@@ -1,6 +1,12 @@
 <template>
     <div>
         <title-bar title_name="榜单"/>
+        <div class="right_button">
+            <van-dropdown-menu>
+                <van-dropdown-item v-model="option_value" :options="option" @change="change_lottype" />
+            </van-dropdown-menu>
+        </div>
+        
         <div class="">
             <van-tabs v-model="num_active" :swipe-threshold="7" v-if="poslist && poslist.length>0" @click="change_pos" class="no_bottom_border border_color">
                 <van-tab v-for="(p,index) in poslist" :key="index" :title="p.name">
@@ -10,11 +16,6 @@
                 </div>
                 </van-tab>
             </van-tabs>
-            <!-- <van-row class="text_center btn_group" style="padding-bottom:0.2rem;">
-                <van-col span="6" v-for="(y,index) in ycplaytypes" :key="index">
-                <van-button :type="index==yc_active?'danger':'default'" size="small" @click="change_yc(index)">{{y.ycplayname}}</van-button>
-                </van-col>
-            </van-row> -->
             <div class="flex fangan_box" v-if="ycplaytypes.length>0">
                 <div v-for="(item,k) in ycplaytypes" :key="k" @click="change_yc(k)">
                 <van-button :class="{mian_bgcolor:yc_active==k}" type="default" size="large">{{item.ycplayname}}</van-button>
@@ -25,11 +26,29 @@
         <div>
             <div v-for="(item,index) in list" :key="index">
                 <div  class="flex list_item">
-                    <div class="">
-                        <img class="img_box" src="http://sscby.cn/zzh/defaulticon.png" alt="">
+                    <div class="img_box">
+                        <img src="http://sscby.cn/zzh/defaulticon.png" alt="">
                     </div>
-                    <div class="flex_grow_1">
-                        <div style="font-size:.45rem">用户名</div>
+                    <div class="flex_grow_1 content_box">
+                        <div class="line_1">
+                            <span class="uname">用户名</span>
+                            <img class="zhuan_img" src="../../assets/zhuan.png" alt="">
+                            <img src="../../assets/vip.png" alt="">
+                            <van-button round  style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
+                        </div>
+                        <div class="line_2">
+                            <span>1万次查看</span><span style="padding:0 .3rem">测10期对10期</span><span>粉丝: 200</span>
+                        </div>
+                        <div class="line_3">
+                            <span>上期预测杀3码: 3 3 9</span><van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/>
+                        </div>
+                        <div class="line_4">
+                            <span>上期预测杀3码: 3 3 9</span>
+                        </div>
+                        <div class="line_5">
+                            <span class="color_red">点击查看本次预测</span>
+                            <van-button round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
+                        </div>
                     </div>
                 </div>
                 <div style="background:#F5F5F5;height:0.2rem;"></div>
@@ -43,6 +62,12 @@
 export default {
     data(){
         return {
+            option_value:'a',
+            option: [
+                { text: '七星彩', value: 'a' },
+                { text: '七星彩1', value: 'b' },
+                { text: '七星彩2', value: 'c' },
+            ],
             tabs_active:0,
             num_active:0,
             yc_active:0,
@@ -79,6 +104,9 @@ export default {
         }
     },
     methods:{
+        change_lottype(val){
+            this.$toast(val)
+        },
         change_pos(index){
             this.num_active = index;
             this.yc_active = 0;
@@ -92,11 +120,73 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+// 右上角下拉菜单样式 start
+/deep/ .van-dropdown-item.van-dropdown-item--down
+    top 50px !important
+.right_button
+    width: 2.4rem;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    z-index: 1000;
+    /deep/ .van-dropdown-menu  
+        background #A4D068
+        height 26px
+        border-radius 5px
+        .van-dropdown-menu__title 
+            color #fff
+            .van-ellipsis
+                font-size .32rem
+// 右上角下拉菜单样式 end
+
 .list_item
-    padding .2rem 0
-    .img_box
-        width 1.6rem
-        height 1.6rem
+    padding .4rem 0
+    align-items flex-start
+    .img_box 
+        padding 0 .28rem
+        img
+            width 1.12rem
+            height 1.12rem
+    .content_box
+        span.uname
+            font-size:.42rem;
+            color:#333;
+            font-family:PingFang SC;
+            margin-right: .68rem;
+        img
+            width .56rem
+            height .56rem
+            vertical-align middle
+        .zhuan_img
+            margin-right .19rem
+        /deep/ .line_1 .van-button
+            border-radius: 10em;
+            font-size .32rem
+            width 1.53rem
+            height 0.62rem
+            line-height .55rem
+            border:2px solid rgba(247,247,247,1);
+        .line_2
+            padding .23rem 0 .28rem
+            color #666
+            font-family:PingFang SC;
+            font-size .37rem
+        .line_3,.line_4
+            padding-bottom .28rem
+            color #333
+            font-family:PingFang SC;
+            font-size .37rem
+        .line_4
+            padding-bottom 0
+        .line_5
+            padding-top .28rem
+            span.color_red
+                color #FF0B60
+            /deep/ .van-button
+                font-size .3rem
+                padding-left .3rem
+                padding-right .3rem
+
 /deep/ .van-tabs__nav.van-tabs__nav--line .van-tab--active
     span
         color:#87ac55;

@@ -31,7 +31,9 @@ import {
     PullRefresh,
     NoticeBar,
     Dialog,
-    Search
+    Search,
+    DropdownMenu,
+    DropdownItem,
 } from 'vant'
 import wx from 'weixin-js-sdk'
 import { VueSpinners } from '@saeris/vue-spinners'
@@ -83,6 +85,8 @@ Vue
     .use(NoticeBar)
     .use(Dialog)
     .use(Search)
+    .use(DropdownMenu)
+    .use(DropdownItem)
 Vue.prototype.$wx = wx
 new Vue({
     store,
