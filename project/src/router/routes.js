@@ -95,31 +95,64 @@ export default [
                     cache: true,
                 }
             },
-            {//商城
+            {//商城详情
                 path: 'shoppingDetail',
                 name:'shoppingDetail',
                 component: _import('personal/shoppingDetail'),
                 meta:{
                     title:'商城',
-                    cache: true
+                    cache: true,
+                    has_bottom:false
                 }
             },
-            {
+            {//会员码明细
                 path: 'memberDetail',
                 name: 'memberDetail',
                 component: _import('personal/memberDetail'),
                 meta: {
                     title: '会员码明细',
-                    cache: true
+                    cache: true,
+                    has_bottom: false
                 }
             },
-            {
+            {//收入明细
                 path: 'incomeDetails',
                 name: 'incomeDetails',
                 component: _import('personal/incomeDetails'),
                 meta: {
                     title: '收入明细',
-                    cache: true
+                    cache: true,
+                    has_bottom: false
+                }
+            },
+            {//提款
+                path: 'withdrawals',
+                name: 'withdrawals',
+                component: _import('personal/withdrawals'),
+                meta: {
+                    title: '提款',
+                    cache: true,
+                    has_bottom: false
+                }
+            },
+            {//修改资料
+                path: 'modifydata',
+                name: 'modifydata',
+                component: _import('personal/modifydata'),
+                meta: {
+                    title: '修改资料',
+                    cache: true,
+                    has_bottom: false
+                }
+            },
+            {//参与规则
+                path: 'expertranking',
+                name: 'expertranking',
+                component: _import('personal/expertranking'),
+                meta: {
+                    title: '参与规则',
+                    cache: true,
+                    has_bottom: false
                 }
             },
         ]

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="收入明细"/>
         <div class="member_box">
             <div>
@@ -43,6 +43,13 @@ export default {
         border-bottom 1px solid #eee
         span    
             font-size 13px
+            text-align center
+            &:first-child
+                width 30%
+            &:nth-child(2)
+                width 40%  
+            &:last-child
+                width 20%  
         &:first-child
             background #f5f5f5
             span 

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="会员码明细"/>
         <div class="member_box">
             <div>

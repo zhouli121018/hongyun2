@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="商品详情"/>
         <div style="padding:.2rem .35rem;box-sizing:border-box">
             <van-swipe indicator-color="#007BC2">

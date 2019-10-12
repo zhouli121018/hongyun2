@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="梦兆"/>
         <div class="search_box">
             <input v-model="keyword" placeholder="请输入号码或梦境关键词" />
