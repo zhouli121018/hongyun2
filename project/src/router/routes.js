@@ -42,7 +42,7 @@ export default [
             },
             {//榜单
                 path: 'bangdan',
-                name:'home',
+                name:'bangdan',
                 component: _import('home/bangdan'),
                 meta:{
                     title:'榜单',
@@ -52,12 +52,40 @@ export default [
             },
             {//搜索  榜单2
                 path: 'search',
-                name:'home',
+                name:'search',
                 component: _import('home/search'),
                 meta:{
                     title:'搜索',
                     cache: true,
                     has_bottom:true
+                }
+            },
+            {//彩友圈
+                path: 'caiyouquan',
+                name:'caiyouquan',
+                component: _import('home/caiyouquan'),
+                meta:{
+                    title:'彩友圈',
+                    cache: true,
+                    has_bottom:true
+                }
+            },
+            {//彩友圈-发表
+                path: 'publish',
+                name:'publish',
+                component: _import('home/publish'),
+                meta:{
+                    title:'发表',
+                    cache: true,
+                }
+            },
+            {//彩友圈-评论
+                path: 'comment',
+                name:'comment',
+                component: _import('home/comment'),
+                meta:{
+                    title:'评论',
+                    cache: true,
                 }
             },
             

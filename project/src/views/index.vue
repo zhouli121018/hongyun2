@@ -17,12 +17,12 @@
                     :src="props.active ? icon.active : icon.normal" alt=""> 
                 首页
             </tabbar-item>
-            <tabbar-item :to="{name: 'boyOrgirl'}">
+            <tabbar-item :to="{name: 'bangdan'}">
                 <img slot="icon"
                     slot-scope="props"
                     :src="props.active ? boyOrgirl.active : boyOrgirl.normal" alt=""> 
                 榜单</tabbar-item>
-            <tabbar-item :to="{name: 'recommend'}" icon="gender">
+            <tabbar-item :to="{name: 'caiyouquan'}" icon="gender">
                 <img slot="icon" 
                     slot-scope="props"
                     :src="props.active ? gender.active : gender.normal" alt="">

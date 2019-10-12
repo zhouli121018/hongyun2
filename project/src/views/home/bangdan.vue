@@ -137,6 +137,16 @@ export default {
             color #fff
             .van-ellipsis
                 font-size .32rem
+        // .van-dropdown-menu__title::after
+        //     background: url('../../assets/dropdown_caret.png') no-repeat;
+        //     display:inline-block;
+        //     width:.36rem;
+        //     height:.23rem;
+        //     background-size:100%;
+        //     border:none;
+        //     transform: rotate(0deg);
+        //     right: -10px;
+        //     margin-top: -4px;
 // 右上角下拉菜单样式 end
 
 .list_item

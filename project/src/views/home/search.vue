@@ -44,7 +44,7 @@ export default {
             list:[
                 {},{},{}
             ],
-            value:''
+            keyword:''
         }
     },
     methods:{
