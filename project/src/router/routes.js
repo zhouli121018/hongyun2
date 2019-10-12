@@ -145,10 +145,20 @@ export default [
                     has_bottom: false
                 }
             },
-            {//参与规则
+            {//专家排名奖励
                 path: 'expertranking',
                 name: 'expertranking',
                 component: _import('personal/expertranking'),
+                meta: {
+                    title: '专家排名奖励',
+                    cache: true,
+                    has_bottom: false
+                }
+            },
+            {//参与规则
+                path: 'participaterules',
+                name: 'participaterules',
+                component: _import('personal/participaterules'),
                 meta: {
                     title: '参与规则',
                     cache: true,

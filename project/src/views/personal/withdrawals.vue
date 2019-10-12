@@ -1,6 +1,6 @@
 <template>
     <div>
-        <title-bar title_name="提款" right_text="收入明细" right-url="/personal/incomeDetails"/>
+        <title-bar title_name="提款" right_text="收入明细" right_url="/personal/incomeDetails"/>
         <div class="money_box">
             <p>余额(元)</p>
             <div>
