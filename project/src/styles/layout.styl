@@ -113,3 +113,31 @@
   flex unset
 .pink
     color #FF0B60
+// 右上角下拉菜单样式 start
+/deep/ .van-dropdown-item.van-dropdown-item--down
+    top 50px !important
+.right_button
+    width: 2.4rem;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    z-index: 1000;
+    /deep/ .van-dropdown-menu  
+        background #A4D068
+        height 26px
+        border-radius 5px
+        .van-dropdown-menu__title 
+            color #fff
+            .van-ellipsis
+                font-size .32rem
+        // .van-dropdown-menu__title::after
+        //     background: url('../../assets/dropdown_caret.png') no-repeat;
+        //     display:inline-block;
+        //     width:.36rem;
+        //     height:.23rem;
+        //     background-size:100%;
+        //     border:none;
+        //     transform: rotate(0deg);
+        //     right: -10px;
+        //     margin-top: -4px;
+// 右上角下拉菜单样式 end

@@ -183,6 +183,16 @@ export default [
                     has_bottom: false
                 }
             },
+            {//每日幸运儿
+                path: 'lunckson',
+                name: 'lunckson',
+                component: _import('personal/lunckson'),
+                meta: {
+                    title: '每日幸运儿',
+                    cache: true,
+                    has_bottom: false
+                }
+            },
             {//参与规则
                 path: 'participaterules',
                 name: 'participaterules',
@@ -208,6 +218,15 @@ export default [
                 component: _import('personal/myfocus'),
                 meta:{
                     title:'我的关注',
+                    cache: true,
+                }
+            },
+            {//专家名称 
+                path: 'expertsname',
+                name:'expertsname',
+                component: _import('personal/expertsname'),
+                meta:{
+                    title:'专家名称',
                     cache: true,
                 }
             },
