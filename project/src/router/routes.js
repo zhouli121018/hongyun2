@@ -155,6 +155,24 @@ export default [
                     has_bottom: false
                 }
             },
+            {//我的查看 
+                path: 'myview',
+                name:'myview',
+                component: _import('personal/myview'),
+                meta:{
+                    title:'我的查看',
+                    cache: true,
+                }
+            },
+            {//我的关注 
+                path: 'myfocus',
+                name:'myfocus',
+                component: _import('personal/myfocus'),
+                meta:{
+                    title:'我的关注',
+                    cache: true,
+                }
+            },
         ]
     },
     {//登录
