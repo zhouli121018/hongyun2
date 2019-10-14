@@ -88,6 +88,15 @@ export default [
                     cache: true,
                 }
             },
+            {//过滤 
+                path: 'filter',
+                name:'filter',
+                component: _import('home/filter'),
+                meta:{
+                    title:'过滤',
+                    cache: true,
+                }
+            },
             
         ]
     },
