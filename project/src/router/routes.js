@@ -139,7 +139,6 @@ export default [
                 meta:{
                     title:'商城',
                     cache: true,
-                    has_bottom:false
                 }
             },
             {//会员码明细
@@ -149,7 +148,15 @@ export default [
                 meta: {
                     title: '会员码明细',
                     cache: true,
-                    has_bottom: false
+                }
+            },
+            {//我的-卖会员码
+                path: 'sell',
+                name: 'sell',
+                component: _import('personal/sell'),
+                meta: {
+                    title: '卖会员码',
+                    cache: true,
                 }
             },
             {//收入明细
@@ -159,7 +166,6 @@ export default [
                 meta: {
                     title: '收入明细',
                     cache: true,
-                    has_bottom: false
                 }
             },
             {//提款

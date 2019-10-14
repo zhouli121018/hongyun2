@@ -55,7 +55,7 @@
             <van-cell title="我查看的预测" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
             <van-cell title="分享赚钱和金币(0元)" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
             <van-cell title="我的关注" is-link icon="mylook"  @click="jumpTo('/personal/freeUse')"/>
-            <van-cell title="卖会员码（专家权限）" is-link icon="membercode"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="卖会员码（专家权限）" is-link icon="membercode"  @click="jumpTo('/personal/sell')"/>
             <van-cell title="专家推广页" is-link icon="promote"  @click="jumpTo('/personal/freeUse')"/>
             <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
