@@ -32,7 +32,7 @@ export default [
             },
             {//商城
                 path: 'shopping',
-                name:'home',
+                name:'shopping',
                 component: _import('home/shopping'),
                 meta:{
                     title:'商城',

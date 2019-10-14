@@ -24,52 +24,16 @@ export default {
                 { text: '七星彩1', value: 'b' },
                 { text: '七星彩2', value: 'c' },
             ],
-            tabs_active:0,
-            num_active:0,
-            yc_active:0,
-            poslist:[
-                {
-                    name: "红球杀码",
-                    type: 101,
-                    ycplaytypes:[
-                        {ycplaytype: 103, ycplayname: "杀三码"},
-                        {ycplaytype: 106, ycplayname: "杀六码"},
-                        {ycplaytype: 110, ycplayname: "杀十码"}
-                    ]
-                },
-                {
-                    name: "球杀码",
-                    type: 102,
-                    ycplaytypes:[
-                        {ycplaytype: 106, ycplayname: "杀六码"},
-                        {ycplaytype: 110, ycplayname: "杀十码"}
-                    ]
-                },
-            ],
-            ycplaytypes:[
-                {ycplaytype: 103, ycplayname: "杀三码"},
-                {ycplaytype: 106, ycplayname: "杀六码"},
-                {ycplaytype: 110, ycplayname: "杀十码"},
-                {ycplaytype: 104, ycplayname: "杀三码"},
-                {ycplaytype: 107, ycplayname: "杀六码"},
-                {ycplaytype: 118, ycplayname: "杀十码"}
-            ],
-            list:[
-                {},{},{}
-            ]
         }
     },
     methods:{
         change_lottype(val){
             this.$toast(val)
         },
-        change_pos(index){
-            this.num_active = index;
-            this.yc_active = 0;
-        },
-        change_yc(index){
-            this.yc_active = index;
-        },
+    },
+    created(){
+        
+        
     }
         
 }
