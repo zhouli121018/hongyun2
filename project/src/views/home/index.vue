@@ -87,7 +87,7 @@ export default {
     return {
       list:[
         {src:require('../../assets/charts.png'),title:'走势图',link:'/personal/freeUse',islink: false},
-        {src:require('../../assets/filter.png'),title:'过滤',link:'/home/openRemind',islink: false},
+        {src:require('../../assets/filter.png'),title:'过滤',link:'/home/filter',islink: false},
         {src:require('../../assets/missing.png'),title:'遗漏',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true},
         {src:require('../../assets/dreams.png'),title:'梦兆',link:'/home/dreams',islink: localStorage.getItem('uid')?false:true}
         

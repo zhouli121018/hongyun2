@@ -32,7 +32,7 @@
                     slot-scope="props"
                     :src="props.active ? recommended.active : recommended.normal" alt="">
                 商城</tabbar-item>
-            <tabbar-item :to="{name: 'personal-my'}" icon="personal">
+            <tabbar-item :to="{name: 'personalIndex'}" icon="personal">
                 <img slot="icon"
                     slot-scope="props"
                     :src="props.active ? personal.active : personal.normal" alt="">

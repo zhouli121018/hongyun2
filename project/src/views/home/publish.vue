@@ -13,7 +13,7 @@
             <div class="box"></div>
         </div>
         <div class="btn_box">
-            <van-button size="normal"> <img src="~@/assets/luyin.png" style="width:.32rem" /> 长按录音</van-button>
+            <van-button size="normal" @touchstart.native="start" @touchend.native="stop" @click.native="play"> <img src="~@/assets/luyin.png" style="width:.32rem" /> {{desc}}</van-button>
         </div>
         <div class="upload_box">
             <van-uploader :after-read="afterRead" />
@@ -39,6 +39,13 @@ export default {
                 { text: '七星彩1', value: 'b' },
                 { text: '七星彩2', value: 'c' },
             ],
+
+            rec:null,
+            audio:null,
+            blob:null,
+            desc:'长按录音',
+            start_status:false,
+            start_timer:null
         }
     },
     methods:{
@@ -48,7 +55,55 @@ export default {
         afterRead(file) {
             // 此时可以自行将文件上传至服务器
             console.log(file);
+        },
+        start(){
+            this.start_timer = setTimeout(()=>{
+                this.rec=Recorder({type:"mp3",sampleRate:16000});
+                if(this.rec){
+                    this.rec.close();
+                    this.rec.open(()=>{//打开麦克风授权获得相关资源
+                        //dialog&&dialog.Cancel(); 如果开启了弹框，此处需要取消
+                        this.rec.start();//开始录音
+                        this.start_status = true;
+                        this.desc = '松开停止录音'
+                    },(msg,isUserNotAllow)=>{//用户拒绝未授权或不支持
+                        //dialog&&dialog.Cancel(); 如果开启了弹框，此处需要取消
+                        this.$toast((isUserNotAllow?"UserNotAllow，":"")+"无法录音:"+msg)
+                    });
+                }else{
+                    this.$toast('初始化录音失败！')
+                }
+            },500);
+        },
+        stop(){
+            clearTimeout(this.start_timer);
+            this.start_timer = null
+            if(this.start_status){
+                this.rec.stop((blob,duration)=>{//到达指定条件停止录音
+                    console.log((window.URL||webkitURL).createObjectURL(blob),"时长:"+duration+"ms");
+                    this.rec.close();//释放录音资源
+                    this.start_status = false;
+                    this.desc = '点击播放'
+                    //已经拿到blob文件对象想干嘛就干嘛：立即播放、上传
+                    this.blob = blob;
+                },(msg)=>{
+                    this.$toast("录音失败:"+msg)
+                });
+            }
+        },
+        play(){
+            /*立即播放例子*/
+            if(this.blob){
+                this.audio=document.createElement("audio");
+                this.audio.controls=true;
+                document.body.appendChild(this.audio);
+                //简单的一哔
+                this.audio.src=(window.URL||webkitURL).createObjectURL(this.blob);
+                this.audio.play();
+            }
         }
+
+
     }
         
 }
