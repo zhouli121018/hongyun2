@@ -263,6 +263,15 @@ export default [
                     cache: true,
                 }
             },
+            {//提交预测 
+                path: 'submitPredict',
+                name:'submitPredict',
+                component: _import('personal/submitPredict'),
+                meta:{
+                    title:'提交预测',
+                    cache: true,
+                }
+            },
         ]
     },
     {//登录
