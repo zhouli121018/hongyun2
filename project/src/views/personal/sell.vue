@@ -17,10 +17,12 @@
             <span class="line_border"></span>
         </div>
         <div style="line-height:0.64rem;padding:.65rem 1.83rem .76rem;">
-            <div style="font-size:0.37rem;">
+            <div style="font-size:0.37rem;" class="flex">
+                <span class="flex_grow_1">添加微信：<span style="color:#FF0B60;">SNSN889922</span></span>
                 
+                <span>购买会员码</span>
             </div>
-            <div style="font-size:0.37rem;">平台开通会员没有打折，所以用户会找专家买会员码买卖跟平台无关，请谨慎交易</div>
+            <div style="font-size:0.37rem;">购买的会员码不可以退还，也不能退款</div>
         </div>
         
         
