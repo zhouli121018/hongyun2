@@ -1,6 +1,6 @@
 <template>
     <div>
-        <title-bar title_name="商城"/>
+        <title-bar title_name="商城" right_text="订单列表" right_url="/home/orderList"/>
         <div class="shopping_box">
             <router-link class="shopping_list" to="/personal/shoppingDetail">
                 <img src="../../assets/recommend_page.png" alt="">

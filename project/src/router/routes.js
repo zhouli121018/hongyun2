@@ -40,6 +40,24 @@ export default [
                     has_bottom:true
                 }
             },
+            {//订单
+                path: 'order',
+                name:'home',
+                component: _import('home/order'),
+                meta:{
+                    title:'订单',
+                    cache: true,
+                }
+            },
+            {//订单列表
+                path: 'orderList',
+                name:'home',
+                component: _import('home/orderList'),
+                meta:{
+                    title:'订单列表',
+                    cache: true,
+                }
+            },
             {//榜单
                 path: 'bangdan',
                 name:'bangdan',
