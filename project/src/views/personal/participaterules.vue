@@ -19,15 +19,18 @@
 export default {
     data() {
         return {
-            // 返回
-            goBack(){
-                this.$store.dispatch('set_isback',true)
-                setTimeout(() => {
-                    this.$store.dispatch('set_isback',false)
-                }, 500);
-                this.$router.go(-1)
-            },
+            
         }
+    },
+    methods: {
+        // 返回
+        goBack(){
+            this.$store.dispatch('set_isback',true)
+            setTimeout(() => {
+                this.$store.dispatch('set_isback',false)
+            }, 500);
+            this.$router.go(-1)
+        },
     }
 }
 </script>

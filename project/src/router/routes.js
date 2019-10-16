@@ -272,6 +272,15 @@ export default [
                     cache: true,
                 }
             },
+            {//专家推广页 
+                path: 'promotionPage',
+                name:'promotionPage',
+                component: _import('personal/promotionPage'),
+                meta:{
+                    title:'专家推广页',
+                    cache: true,
+                }
+            },
         ]
     },
     {//登录
