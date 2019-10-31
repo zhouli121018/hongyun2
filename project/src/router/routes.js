@@ -115,6 +115,48 @@ export default [
                     cache: true,
                 }
             },
+            {//开通会员
+                path: 'openingMember',
+                name: 'openingMember',
+                component: _import('home/openingMember'),
+                meta: {
+                    title: '开通会员',
+                    cache: false
+                }
+            },
+            {//公告
+                path: 'announcement',
+                component: layout,
+                children: [
+                    {
+                        path: 'index',
+                        name: 'announcementIndex',
+                        component: _import('home/announcement/index'),
+                        meta: {
+                            title: '公告',
+                            cache: true
+                        }
+                    },
+                    {//消息详情页
+                        path: 'detail',
+                        name: 'announcementDetail',
+                        component: _import('home/announcement/detail'),
+                        meta: {
+                            title: '公告详情',
+                            cache: false
+                        }
+                    }
+                ]
+            },
+            {
+                path:'earnMoney',
+                name:'earnMoney',
+                component: _import('home/earnMoney'),
+                meta: {
+                    title: '推荐赚钱',
+                    cache: true
+                }
+            }
             
         ]
     },
@@ -139,6 +181,24 @@ export default [
                     title: '用户中心',
                     cache: true,
                     has_bottom:true
+                }
+            },
+            {//微信支付页面
+                path: 'pay',
+                name:'pay',
+                component: _import('personal/pay'),
+                meta:{
+                    title:'微信二维码支付',
+                    cache: false
+                }
+            },
+            {//我的推荐页
+                path: 'recommend',
+                name:'recommend',
+                component: _import('personal/recommend'),
+                meta:{
+                    title:'我的推荐页',
+                    cache: false
                 }
             },
             {//梦兆
@@ -281,6 +341,15 @@ export default [
                     cache: true,
                 }
             },
+            {
+                path: 'about',
+                name:'about',
+                component: _import('personal/about'),
+                meta:{
+                    title:'关于鸿运四码',
+                    cache: false
+                }
+            }
         ]
     },
     {//登录

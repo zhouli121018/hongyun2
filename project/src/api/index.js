@@ -52,4 +52,45 @@ export function getaccount(data) {
     })
 }
 
+//31、获取关于接口 getabout.php
+export function getabout(data) {
+    return request({
+        url: '/getabout.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+//支付宝支付
+export function getalipayorderinfor(data) {
+    return request({
+        url: '/alipay_wap/getalipayorderinfor.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+//开通会员
+export function getvipdata(data) {
+    return request({
+        url: '/getvipdata.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+// 获取微信二维码（金币和会员） 
+export function getwechatcode(data) {
+    return request({
+        url: '/getwechatcode.php',
+        method: 'post',
+        data
+    })
+}
 
