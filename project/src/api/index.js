@@ -52,4 +52,12 @@ export function getaccount(data) {
     })
 }
 
-
+// 获取公告
+// getnotices.php 
+export function getnotices(data) {
+    return request({
+        url: '/getnotices.php',
+        method: 'post',
+        data
+    })
+}
