@@ -13,7 +13,7 @@
         <div  v-for="(item,index) in list" :key="index">
             <div class="content_item">
                 <div class="flex line_1">
-                    <img src="http://sscby.cn/zzh/defaulticon.png" alt="">
+                    <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     <div class="flex_grow_1">
                         <div class="uname">用户名</div>
                         <div class="time">昨天 23:08</div>

@@ -8,7 +8,7 @@
         </div>
         <div class="flex list_item">
             <div class="img_box">
-                <img src="http://sscby.cn/zzh/defaulticon.png" alt="">
+                <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
             </div>
             <div class="flex_grow_1 content_box">
                 <div class="line_1">

@@ -8,8 +8,6 @@
     <div class='full_sc' v-show="loading">
       <rise-loader class="custom-class" color="#8adff4" :loading="loading" :size="15" sizeUnit="px"></rise-loader>
     </div>
-    <audio id="myaudio" preload="load" :src="dingdong" controls="controls" :loop="false" v-show="false"></audio>
-    <!-- <van-button @click="test">dingdong</van-button> -->
   </div>
 </template>
 
@@ -22,7 +20,6 @@ export default {
       is_qqorwx:false,
       endtime: '',
       curtime: '',
-      dingdong:'http://sscby.cn/zzh/dingdong.mp3',
       timer:null,
       timer_arr:[],
       curtime_arr:[],
