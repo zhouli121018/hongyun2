@@ -8,7 +8,7 @@
             <van-field label="验证码" maxlength="11" type="number" class="van_field" clearable v-model="code" placeholder="请输入验证码" />
             <CutDown ref="codeEl" @click="getvcode" :disabled="disabled" :mobile="mobile"></CutDown>
         </div>
-        <van-button style="background:#FC7953;color:#fff" @click="loginbyvcode">登录</van-button>
+        <van-button style="color:#fff" class="mian_bgcolor" @click="loginbyvcode">登录</van-button>
     </div>
 </template>
 
@@ -51,10 +51,9 @@ export default {
             }
             const { data }    = await loginbyvcode(obj)
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
+                window.localStorage['huid'] = data.uid
+                window.localStorage['hsid'] = data.sid
                 this.$router.replace('/home/index')
-                this.$root.$children[0].gethome();
             }
         },
     },
@@ -80,16 +79,6 @@ export default {
             }
         }
     },
-    activated(){
-        if(this.$root.$children[0].timer){
-          clearInterval(this.$root.$children[0].timer);
-          this.$root.$children[0].timer = null;
-        }
-        if(this.$root.$children[0].settimeout_timer){
-            clearTimeout(this.$root.$children[0].settimeout_timer)
-            this.$root.$children[0].settimeout_timer = null;
-        }
-    }
 }
 </script>
 

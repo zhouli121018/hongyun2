@@ -9,7 +9,7 @@
             <!-- <CutDown @click="codeVerify" :disabled="disabled" :moble="mobile"></CutDown> -->
         </div>
         <router-link tag="div" to="/login/verification" class="van_box_right">验证码登录</router-link>
-        <van-button  style="background:#FC7953;color:#fff"  @click="loginbypass">登录</van-button>
+        <van-button  style="color:#fff" class="mian_bgcolor"  @click="loginbypass">登录</van-button>
         <router-link tag="div" to="/register/index" class="van_box_right">注册</router-link>
     </div>
 </template>
@@ -35,10 +35,9 @@ export default {
                 pass: this.code
             });
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
+                window.localStorage['huid'] = data.uid
+                window.localStorage['hsid'] = data.sid
                 this.$router.replace('/home/index')
-                this.$root.$children[0].gethome();
             }
             
         },
@@ -65,16 +64,6 @@ export default {
             }
         }
     },
-    activated(){
-        if(this.$root.$children[0].timer){
-          clearInterval(this.$root.$children[0].timer);
-          this.$root.$children[0].timer = null;
-        }
-        if(this.$root.$children[0].settimeout_timer){
-            clearTimeout(this.$root.$children[0].settimeout_timer)
-            this.$root.$children[0].settimeout_timer = null;
-        }
-    }
 }
 </script>
 

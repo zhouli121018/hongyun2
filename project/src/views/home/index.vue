@@ -1,7 +1,7 @@
 <template>
   <div >
     <div id="home_page">
-        <!-- <div class="fixed_title">
+        <div class="fixed_title">
           <van-nav-bar
             title="鸿运四码"
             :left-text="left_text"
@@ -11,7 +11,7 @@
             <span slot="title">鸿运四码
             </span>
           </van-nav-bar>
-        </div> -->
+        </div>
         <van-swipe :autoplay="3000" indicator-color="#007BC2">
           <van-swipe-item  v-for="(image, index) in advs" :key="index">
             <div class="swipe_img_box" @click="jumpTo(image.url)">
