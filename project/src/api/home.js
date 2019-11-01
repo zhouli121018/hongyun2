@@ -16,7 +16,7 @@ export function deviceList (data) {
 //获取首页内容
 export function gethome (data) {
   return request({
-    url: '/gethome.php',
+    url: '/gethome_new.php',
     method: 'post',
     data:{
       ...data

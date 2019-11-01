@@ -31,30 +31,42 @@
         </van-row>
         <div style="background:#F5F5F5;height:0.2rem;"></div>
         <!-- 公告 -->
-        <div class="announcement_list" @click="jumpTo('/home/announcement/index')">
+        <div class="announcement_list" @click="jumpTo('/home/announcement/index')" style="padding-bottom:0;">
           <div>
             <img src="../../assets/gonggao.png" alt="">
             <span class="gonggao">公告</span>
-            <span class="gray">2019/12/12</span>
+            <span class="gray">{{notice.datetime}}</span>
           </div>
           <div>
             <van-notice-bar
               color="#333"
               text="111111111111111111111111111111111111111111111111111111"
             >
-            <span v-for="(n,index) in notice" :key="index" style="margin-right:50px;color:#000;" @click.stop="goDetail(n)">
-                  {{n.title}}
+            <span v-for="(n,index) in notice.arrs" :key="index" style="margin-right:50px;color:#000;" >
+                  {{n}}
                 </span>
             </van-notice-bar>
           </div>
         </div>
         <div style="background:#F5F5F5;height:0.2rem;"></div>
         <!-- 列表栏 -->
-        <div style="background:#F5F5F5;padding-bottom:.2rem;">
-          <div class="announcement_list" v-for="(item,index) in imgList" :key="index" @click="jumpTo(item.path)">
+        <div style="background:#F5F5F5;padding-bottom:.2rem;" v-if="info">
+          <div class="announcement_list" v-if="info.expreward">
             <div>
-              <img :src="item.src" alt="" style="width:.6rem;height:.6rem">
-              <span class="gonggao">{{item.txt}}</span>
+              <img src="~@/assets/speak _table.png" alt="" style="width:.6rem;height:.6rem">
+              <span class="gonggao">奖表</span>
+              <span class="gray">{{info.expreward.datetime}}</span>
+            </div>
+            <div>
+              <p v-for="(e,index) in info.expreward.arrs" :key="index">{{e}}</p>
+              <!-- <p>排列五 【1928】 ：887261</p> -->
+            </div>
+          </div>
+
+          <div class="announcement_list">
+            <div>
+              <img src="~@/assets/prize_figure.png" alt="" style="width:.6rem;height:.6rem">
+              <span class="gonggao">奖图</span>
               <span class="gray">2019/12/12</span>
             </div>
             <div>
@@ -62,6 +74,32 @@
               <p>排列五 【1928】 ：887261</p>
             </div>
           </div>
+
+          <div class="announcement_list">
+            <div>
+              <img src="~@/assets/lucky_star.png" alt="" style="width:.6rem;height:.6rem">
+              <span class="gonggao">幸运用户</span>
+              <span class="gray">2019/12/12</span>
+            </div>
+            <div>
+              <p>七星彩 【1928】 ：887261</p>
+              <p>排列五 【1928】 ：887261</p>
+            </div>
+          </div>
+
+          <div class="announcement_list">
+            <div>
+              <img src="~@/assets/expert_ ranking.png" alt="" style="width:.6rem;height:.6rem">
+              <span class="gonggao">专家排名奖励</span>
+              <span class="gray">2019/12/12</span>
+            </div>
+            <div>
+              <p>七星彩 【1928】 ：887261</p>
+              <p>排列五 【1928】 ：887261</p>
+            </div>
+          </div>
+
+
         </div>
         
     </div>
@@ -109,6 +147,7 @@ export default {
       banner_url:'#',
       is_ios:false,
       isFirstEnter:false,
+      info:null
     }
   },
   methods: {
@@ -145,6 +184,7 @@ export default {
       const { data } = await gethome(obj)
       this.advs = data.advs 
       this.notice = data.notices
+      this.info = data
       this.$store.dispatch('set_homedata',data)
       this.$store.dispatch('set_kfwecha',data.kfwecha)
       this.$store.dispatch('set_apkurl',data.apkurl)
