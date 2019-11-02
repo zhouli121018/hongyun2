@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <title-bar title_name="新用户注册" />
         <div class="van_box">
             <van-field label="手机号" maxlength="11" type="number" clearable v-model="phone" placeholder="请输入手机号" />

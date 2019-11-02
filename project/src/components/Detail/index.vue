@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <title-bar :title_name="title_name" />
         <div>
             <h3 style="font-size:18px;text-align:center;padding:16px 0">{{title}}</h3>

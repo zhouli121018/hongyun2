@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <title-bar title_name="密码登录" right_text="注册" right_url="/register/index"/>
         <div class="van_box">
             <van-field label="手机号" maxlength="11" type="number" clearable v-model="mobile" placeholder="请输入手机号" />

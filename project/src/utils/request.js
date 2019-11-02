@@ -27,11 +27,11 @@ service.interceptors.request.use(config => {
             let md5_data = md5('token='+now.getTime()+'&key=lldu43d98382');
             config.data.token = now.getTime();
             config.data.data = md5_data;
-            if(localStorage.getItem('uid')){
-              config.data.uid = localStorage.getItem('uid');
+            if(localStorage.getItem('huid')){
+              config.data.uid = localStorage.getItem('huid');
             }
-            if(localStorage.getItem('sid')){
-              config.data.sid = localStorage.getItem('sid');
+            if(localStorage.getItem('hsid')){
+              config.data.sid = localStorage.getItem('hsid');
             }
         }
 

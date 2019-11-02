@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <title-bar title_name="公告" />
         <div class="message_box ellipsis_box" v-for="(l,index) in list" :key="index">
             <van-cell :title="l.title" is-link :value="l.date" @click="goDetail(l)"/>
