@@ -123,3 +123,13 @@ export function getrankaward_exp (data) {
   })
 }
 
+//24、(新)首页-获取梦兆列表接口 getmengzhaolist.php
+export function getmengzhaolist (data) {
+  return request({
+    url: '/getmengzhaolist.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}

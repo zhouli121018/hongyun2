@@ -243,7 +243,7 @@ export default [
                 component: _import('personal/dreams'),
                 meta:{
                     title:'梦兆',
-                    cache: true,
+                    cache: false,
                 }
             },
             {//商城详情
