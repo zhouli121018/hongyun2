@@ -43,7 +43,7 @@ export function loginbyvcode(data) {
         }
     })
 }
-//获取用户中心数据
+//获取用户中心数据  我的-我的帐号数据getaccount.php
 export function getaccount(data) {
     return request({
         url: '/getaccount.php',
@@ -93,5 +93,132 @@ export function getwechatcode(data) {
         data
     })
 }
+
+// (新)商城-获取商品接口getproductlist.php
+export function getproductlist(data) {
+    return request({
+        url: '/getproductlist.php',
+        method: 'post',
+        data
+    })
+}
+
+// (新)商城-购买商品接口submitorder_buyproduct.php
+export function buyproduct(data) {
+    return request({
+        url: '/submitorder_buyproduct.php',
+        method: 'post',
+        data
+    })
+}
+// (新)商城-商品订单列表接口getbuyproduct.php
+export function getbuyproduct(data) {
+    return request({
+        url: '/getbuyproduct.php',
+        method: 'post',
+        data
+    })
+}
+// 我的-我的查看预测接口getmyviewpred.php
+export function getmyviewpred(data) {
+    return request({
+        url: '/getmyviewpred.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-获取关注的玩法接口getmyfollow.php
+export function getmyfollow(data) {
+    return request({
+        url: '/getmyfollow.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-我的会员码接口getvipcodelist.php
+export function getvipcodelist(data) {
+    return request({
+        url: '/getvipcodelist.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-提交预测接口submit_pred.php
+export function submitPred(data) {
+    return request({
+        url: '/submit_pred.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-我的提款列表接口getmytikuan.php
+export function getmytikuan(data) {
+    return request({
+        url: '/getmytikuan.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-收入明细接口getmyincome.php
+export function getmyincome(data) {
+    return request({
+        url: '/getmyincome.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-修改资料modify_userinfor.php
+export function modifyUserinfor(data) {
+    return request({
+        url: '/modify_userinfor.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的关注的彩友接口getmyfollow_caiyou.php
+export function getmyfollowCaiyou(data) {
+    return request({
+        url: '/getmyfollow_caiyou.php',
+        method: 'post',
+        data
+    })
+}
+// (新)首页-参与规则接口getjoinrule.php
+export function getjoinrule(data) {
+    return request({
+        url: '/getjoinrule.php',
+        method: 'post',
+        data
+    })
+}
+// (新)彩友圈-关注彩友接口follow_tiezi_user.php
+export function followTieziUser(data) {
+    return request({
+        url: '/follow_tiezi_user.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-提交预测条件接口getpredcondition.php
+export function getpredcondition(data) {
+    return request({
+        url: '/getpredcondition.php',
+        method: 'post',
+        data
+    })
+}
+// (新)我的-专家分享页接口getexpert_share.php
+export function getexpertShare(data) {
+    return request({
+        url: '/getexpert_share.php',
+        method: 'post',
+        data
+    })
+}
+
+
+
+
+
 
 

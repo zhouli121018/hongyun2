@@ -32,16 +32,24 @@
 </template>
 
 <script>
+import { getvipcodelist } from '@/api'
 export default {
     data(){
         return {
-            list:[
-                {},{}
-            ],
+            list: null
         }
     },
     methods:{
-        
+        async getvipcodelist() {
+            const { data } = await getvipcodelist({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid')
+            })
+            this.list = data.list
+        }
+    },
+    mounted() {
+        this.getvipcodelist()
     }
         
 }

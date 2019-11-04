@@ -1,46 +1,39 @@
 <template>
     <div>
         <title-bar title_name="商城" right_text="订单列表" right_url="/home/orderList"/>
-        <div class="shopping_box">
+        <div class="shopping_box" v-for="(item,index) in list" :key="index">
             <router-link class="shopping_list" to="/personal/shoppingDetail">
-                <img src="../../assets/recommend_page.png" alt="">
-                <div>七星彩实战宝典</div>
+                <img :src="item.imgs[0]" alt="">
+                <div>{{item.name}}</div>
                 <div>
-                    <span style="font-size:13px">1888人购买</span>
-                    <span class="pink">¥99.99</span>
+                    <span style="font-size:13px">{{item.buynum}}人购买</span>
+                    <span class="pink">¥{{item.price}}</span>
                 </div>
             </router-link>
-            <div class="shopping_list">
-                <img src="../../assets/recommend_page.png" alt="">
-                <div>七星彩实战宝典</div>
-                <div>
-                    <span style="font-size:13px">1888人购买</span>
-                    <span class="pink">¥99.99</span>
-                </div>
-            </div>
-                        <div class="shopping_list">
-                <img src="../../assets/recommend_page.png" alt="">
-                <div>七星彩实战宝典</div>
-                <div>
-                    <span style="font-size:13px">1888人购买</span>
-                    <span class="pink">¥99.99</span>
-                </div>
-            </div>
-            <div class="shopping_list">
-                <img src="../../assets/recommend_page.png" alt="">
-                <div>七星彩实战宝典</div>
-                <div>
-                    <span style="font-size:13px">1888人购买</span>
-                    <span class="pink">¥99.99</span>
-                </div>
-            </div>
         </div>
     </div>
 </template>
 
 <script>
+import { getproductlist } from '@/api'
 export default {
-
+    data() {
+        return {
+            list: null
+        }
+    },
+    methods: {
+        async getproductlist() {
+            const { data } = await getproductlist({
+                sid: localStorage.getItem('hsid'),
+                uid: localStorage.getItem('huid')
+            })
+            this.list = data.list
+        }
+    },
+    mounted() {
+        this.getproductlist()
+    }
 }
 </script>
 

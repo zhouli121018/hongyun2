@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { getmyviewpred } from '@/api'
 export default {
     data(){
         return {
@@ -113,6 +114,16 @@ export default {
         change_yc(index){
             this.yc_active = index;
         },
+        async getmyviewpred() {
+            const { data } = await getmyviewpred({
+                sid: localStorage.getItem('hsid'),
+                uid: localStorage.getItem('huid'),
+                issue: '',
+                lottype: '',
+                postype: '',
+                playtype: ''
+            })
+        }
     }
         
 }

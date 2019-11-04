@@ -27,7 +27,7 @@
                     slot-scope="props"
                     :src="props.active ? gender.active : gender.normal" alt="">
                 彩友圈</tabbar-item>
-            <tabbar-item :to="{name: 'recommend'}" icon="recommended">
+            <tabbar-item :to="{name: 'shopping'}" icon="recommended">
                 <img slot="icon" 
                     slot-scope="props"
                     :src="props.active ? recommended.active : recommended.normal" alt="">
@@ -78,7 +78,7 @@ export default {
         $route(newval){
             if(newval.name == 'predictSex' || newval.name == 'predictStart' || newval.name == 'predictResult'){
                 this.active = 2;
-            }else if(newval.name == 'recommend'){
+            }else if(newval.name == 'shopping'){
                 this.active = 3;
             }else if(newval.path.indexOf('/personal')>=0){
                 this.active = 4
@@ -95,7 +95,7 @@ export default {
         let newval = this.$route;
         if(newval.name == 'predictSex' || newval.name == 'predictStart' || newval.name == 'predictResult'){
             this.active = 2;
-        }else if(newval.name == 'recommend'){
+        }else if(newval.name == 'shopping'){
             this.active = 3;
         }else if(newval.path.indexOf('/personal')>=0){
             this.active = 4

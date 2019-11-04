@@ -1,24 +1,41 @@
 <template>
     <div>
         <title-bar title_name="订单列表"/>
-        <div class="order_box">
-            <van-cell value="2019/12/12 01:01:01" />
+        <div class="order_box" v-for="(item,index) in list" :key="index">
+            <van-cell :value="item.createtime" />
             <div class="list_div">
-                <img src="" alt="">
-                <span>七星彩实战宝典</span>
+                <img :src="item.pic" alt="">
+                <span>{{item.pname}}</span>
             </div>
             <div class="list_div">
-                <span>数量: 1</span>
-                <span>金额: ¥98</span>
-                <span>状态: <span class="pink">已收货</span></span>
+                <span>数量: {{item.num}}</span>
+                <span>金额: ¥{{item.sumfee}}</span>
+                <span>状态: <span class="pink">{{item.status}}</span></span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { getbuyproduct } from '@/api'
 export default {
-
+    data() {
+        return {
+            list: null
+        }
+    },
+    methods: {
+        async getbuyproduct() {
+            const { data } = await getbuyproduct({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid')
+            })
+            this.list = data.list
+        }
+    },
+    mounted() {
+        this.getbuyproduct()
+    }
 }
 </script>
 

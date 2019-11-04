@@ -12,7 +12,7 @@
                     <span v-else class="red">(非会员)</span>
                 </div>
                 <div class="goldcoins_fans">
-                    <p><span style="font-size:13px">粉丝: </span><span style="font-size:13px">0999</span></p> 
+                    <p><span style="font-size:13px">粉丝: </span><span style="font-size:13px">{{info.fans}}</span></p> 
                      <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
                     <!-- <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt="">
                     <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt="">
@@ -28,10 +28,10 @@
                 <img class="my_title_photo title_photo" src="~@/assets/icon.png" alt="">
                 <div class="my_title_center my_centers">
                     <p>
-                        <b style="font-size:0.5rem;font-weight:bold;">{{info.income_cur}}</b>
+                        <b style="font-size:0.5rem;font-weight:bold;">{{info.jindou}}</b>
                     </p>
                     <p class="goldcoins_fans">
-                        金币
+                        金豆
                     </p>
                 </div>
                 <van-button style="background:#87AC55;color:#fff;border-radius:.1rem;padding:0 .3rem" size="small" >购买</van-button>
@@ -40,7 +40,7 @@
                 <img class="my_title_photo title_photo" src="~@/assets/icon.png" alt="">
                 <div class="my_title_center my_centers">
                     <p>
-                        <b style="font-size:0.5rem;font-weight:bold;">{{info.invitenum}}</b>
+                        <b style="font-size:0.5rem;font-weight:bold;">{{info.income_cur}}</b>
                     </p>
                     <p class="goldcoins_fans">
                         余额
@@ -52,9 +52,9 @@
         <div>
             <van-cell title="修改资料" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
             <van-cell title="提交预测" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
-            <van-cell title="我查看的预测" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
+            <van-cell title="我查看的预测" is-link icon="kjtx"  @click="jumpTo('personal/myview')"/>
             <van-cell title="分享赚钱和金币(0元)" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
-            <van-cell title="我的关注" is-link icon="mylook"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="我的关注" is-link icon="mylook"  @click="jumpTo('/personal/myfocus')"/>
             <van-cell title="卖会员码（专家权限）" is-link icon="membercode"  @click="jumpTo('/personal/sell')"/>
             <van-cell title="专家推广页" is-link icon="promote"  @click="jumpTo('/personal/freeUse')"/>
             <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
@@ -98,8 +98,8 @@ export default {
         },
         async getaccount() {
             const { data } = await getaccount({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
+                sid: localStorage.getItem('hsid'),
+                uid: localStorage.getItem('huid')
             })
             this.info = data
         },

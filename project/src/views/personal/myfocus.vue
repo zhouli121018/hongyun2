@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { getmyfollow } from '@/api'
 export default {
     data(){
         return {

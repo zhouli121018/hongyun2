@@ -19,10 +19,22 @@
 </template>
 
 <script>
+import { modifyUserinfor } from '@/api'
 export default {
     data() {
         return {
             value: ''
+        }
+    },
+    methods: {
+        async modifyUserinfor() {
+            const { data } = await modifyUserinfor({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                icon: '',
+                username: '',
+                jianjie: ''
+            })
         }
     }
 }

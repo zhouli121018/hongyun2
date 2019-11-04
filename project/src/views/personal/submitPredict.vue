@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { submitPred } from '@/api'
 export default {
     data() {
         return {
@@ -47,6 +48,17 @@ export default {
         change_lottype(val){
             this.$toast(val)
         },
+        async submitPred() {
+            const { data } = await submitPred({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                lottype: ''
+            })
+            console.log(data)
+        }
+    },
+    mounted() {
+        this.submitPred()
     }
 }
 </script>

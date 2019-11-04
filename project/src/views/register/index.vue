@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="新用户注册" />
         <div class="van_box">
             <van-field label="手机号" maxlength="11" type="number" clearable v-model="phone" placeholder="请输入手机号" />
@@ -14,7 +14,7 @@
         <div class="van_box">
             <van-field label="邀请码" maxlength="11" type="number" :disabled="has_pid" class="van_field_code" clearable v-model="pid" :placeholder="regpiddes" />
         </div>
-        <van-button style="color:#fff" class="mian_bgcolor" @click="regist">注册</van-button>
+        <van-button style="color:#fff;margin-left:5%" class="mian_bgcolor" @click="regist">注册</van-button>
     </div>
 </template>
 
