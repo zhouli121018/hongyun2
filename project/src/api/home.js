@@ -133,3 +133,14 @@ export function getmengzhaolist (data) {
     }
   })
 }
+
+//25、(新)榜单-获取榜单排名接口 getpredrank.php
+export function getpredrank (data) {
+  return request({
+    url: '/getpredrank.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
