@@ -144,3 +144,14 @@ export function getpredrank (data) {
     }
   })
 }
+
+//26、(新)榜单-获取搜索专家接口 getsearchlist.php
+export function getsearchlist (data) {
+  return request({
+    url: '/getsearchlist.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}

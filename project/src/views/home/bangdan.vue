@@ -41,22 +41,23 @@
                     <div class="flex_grow_1 content_box">
                         <div class="line_1">
                             <span class="uname">用户名</span>
-                            <img class="zhuan_img" src="../../assets/zhuan.png" alt="">
-                            <img src="../../assets/vip.png" alt="">
-                            <van-button round  style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
+                            <img class="zhuan_img" src="../../assets/zhuan.png" alt="" v-if="item.isexp==1">
+                            <img src="../../assets/vip.png" alt="" v-if="item.isvip==1">
+                            <van-button round  v-if="item.isfollow==0" @click="focus_btn(item)" style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
                         </div>
                         <div class="line_2">
-                            <span>1万次查看</span><span style="padding:0 .3rem">测10期对10期</span><span>粉丝: 200</span>
+                            <span>{{item.viewtimes}}次查看</span><span style="padding:0 .3rem">{{item.hittimes}}</span><span>粉丝: {{item.fans}}</span>
                         </div>
                         <div class="line_3">
-                            <span>上期预测杀3码: 3 3 9</span><van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/>
+                            <span v-html="item.prepred"></span>
+                            <!-- <van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/> -->
                         </div>
                         <div class="line_4">
                             <span>上期预测杀3码: 3 3 9</span>
                         </div>
                         <div class="line_5">
-                            <span class="color_red">点击查看本次预测</span>
-                            <van-button round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
+                            <span class="color_red" @click="viewpre(item)">{{item.curpred}}</span>
+                            <van-button v-if="ishemai==1" round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
                         </div>
                     </div>
                 </div>
@@ -68,6 +69,7 @@
 </template>
 
 <script>
+import { Dialog } from 'vant';
 import {getpredrank } from '@/api/home'
 import {gethome_global} from '@/utils'
 export default {
@@ -79,10 +81,30 @@ export default {
             play_active:0,
             postype:[],
             playtype:[],
-            list:[]
+            list:[],
+            isFirstEnter:false
         }
     },
     methods:{
+        focus_btn(item){
+            let str = ''
+            if(item.isvip){
+                str = '<p style="text-align: left;">会员查看预测不需要花费金豆，确定查看吗？</p>'
+            }else{
+                str = '<p style="text-align: left;">查看本次预测需花费您'+item.jindou+'金豆，确定查看吗？</p>'
+            }
+            Dialog.confirm({
+                message: str,
+                cancelButtonText:'关闭'
+            }).then(() => {
+            // on confirm
+            }).catch(() => {
+            // on cancel
+            });
+        },
+        viewpre(item){
+            this.$toast(item.isviewcur)
+        },
         onClickLeft(){
             this.$router.push('/home/search')
         },
@@ -118,29 +140,41 @@ export default {
         },
     },
     created(){
-        if(this.$store.getters.homeData == null){
-            gethome_global().then(()=>{
+        this.isFirstEnter=true;
+        
+    },
+    activated(){
+        if(!this.$store.getters.isback || this.isFirstEnter){
+            if(this.$store.getters.homeData == null){
+                gethome_global().then(()=>{
+                    this.lottype = this.$store.getters.homeData.lottype
+                    this.lottype.map(item=>{
+                        item.value = item.lottype
+                        item.text = item.lotname
+                    })
+                    this.option_value = this.lottype[0].value
+                    this.pos_active = 0;
+                    this.play_active = 0;
+                    this.postype = this.lottype[0].postype;
+                    this.playtype = this.postype[0].playtype
+                    this.getpredrank();
+                })
+            }else{
                 this.lottype = this.$store.getters.homeData.lottype
                 this.lottype.map(item=>{
                     item.value = item.lottype
                     item.text = item.lotname
                 })
                 this.option_value = this.lottype[0].value
+                this.pos_active = 0;
+                this.play_active = 0;
                 this.postype = this.lottype[0].postype;
                 this.playtype = this.postype[0].playtype
                 this.getpredrank();
-            })
-        }else{
-            this.lottype = this.$store.getters.homeData.lottype
-            this.lottype.map(item=>{
-                item.value = item.lottype
-                item.text = item.lotname
-            })
-            this.option_value = this.lottype[0].value
-            this.postype = this.lottype[0].postype;
-            this.playtype = this.postype[0].playtype
-            this.getpredrank();
+            }
         }
+        this.isFirstEnter=false;
+        this.$store.dispatch('set_isback',false)
     }
         
 }
@@ -250,7 +284,7 @@ export default {
 /deep/ .van-tabs__nav.van-tabs__nav--line .van-tab--active
     span
         color:#87ac55;
-        font-size .4rem
+        font-size .43rem
 .van-tabs__nav.van-tabs__nav--line
     span
         font-weight bold

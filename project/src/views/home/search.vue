@@ -4,9 +4,11 @@
         <div class="">
             <div class="search_box">
                 <input v-model="keyword" placeholder="请输入号码或梦境关键词" />
-                <img src="../../assets/sreach_img.png" alt="">
+                <img @click="getsearchlist" src="../../assets/sreach_img.png" alt="">
             </div>
-            <div style="width:90%;margin:0 auto;padding:.1rem 0 .3rem;font-size:.37rem;color:#666;">热搜专家: *** *** ***</div>
+            <div style="width:90%;margin:0 auto;padding:.1rem 0 .3rem;font-size:.37rem;color:#666;">热搜专家: 
+                <span v-for="(h,index) in hotlist" :key="index" @click="onSearch(h)">{{h+' '}}</span>
+            </div>
            
         </div>
         <div style="background:#F5F5F5;height:0.2rem;"></div>
@@ -19,13 +21,13 @@
                     </div>
                     <div class="flex_grow_1 content_box">
                         <div class="line_1">
-                            <span class="uname">用户名</span>
-                            <img class="zhuan_img" src="../../assets/zhuan.png" alt="">
-                            <img src="../../assets/vip.png" alt="">
-                            <van-button round  style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
+                            <span class="uname">{{item.username}}</span>
+                            <img v-if="item.isexp==1" class="zhuan_img" src="../../assets/zhuan.png" alt="">
+                            <img v-if="item.isvip==1" src="../../assets/vip.png" alt="">
+                            <van-button v-if="item.isfollow==0" round  style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
                         </div>
                         <div class="line_2">
-                            <span>粉丝: <span style="color:#FE8F00">200</span></span><span  style="padding:0 0 0 .3rem">查看次数：222</span>
+                            <span>粉丝: <span style="color:#FE8F00">{{item.fans}}</span></span><span  style="padding:0 0 0 .3rem">查看次数：{{item.viewtimes}}</span>
                         </div>
                     </div>
                 </div>
@@ -38,17 +40,38 @@
 </template>
 
 <script>
+import {getsearchlist } from '@/api/home'
 export default {
     data(){
         return {
-            list:[
-                {},{},{}
-            ],
-            keyword:''
+            list:[],
+            keyword:'',
+            hotlist:[],
         }
     },
     methods:{
-        onSearch(){}
+        onSearch(h){
+            this.keyword = h;
+            this.getsearchlist();
+        },
+        async getsearchlist(){
+            let obj = {
+                keyword:this.keyword
+            }
+            const {data} = await getsearchlist(obj);
+            this.list = data.list;
+            this.hotlist = data.hotlist;
+        },
+    },
+    created(){
+        this.isFirstEnter=true;
+    },
+    activated(){
+        if(!this.$store.getters.isback || this.isFirstEnter){
+            this.getsearchlist();
+        }
+        this.isFirstEnter=false;
+        this.$store.dispatch('set_isback',false)
     }
         
 }
