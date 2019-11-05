@@ -39,11 +39,11 @@
                         <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     </div>
                     <div class="flex_grow_1 content_box">
-                        <div class="line_1">
-                            <span class="uname">用户名</span>
+                        <div class="line_1" @click="jumpTo('/personal/expertsname')">
+                            <span class="uname">{{item.username}}</span>
                             <img class="zhuan_img" src="../../assets/zhuan.png" alt="" v-if="item.isexp==1">
                             <img src="../../assets/vip.png" alt="" v-if="item.isvip==1">
-                            <van-button round  v-if="item.isfollow==0" @click="focus_btn(item)" style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
+                            <van-button round  @click.stop="follow_playtype(item)" style="float:right;margin-right:.39rem;" size="mini"><van-icon v-if="item.isfollow==0" name="plus" /> {{item.isfollow==0?'关注':'取消关注'}}</van-button>
                         </div>
                         <div class="line_2">
                             <span>{{item.viewtimes}}次查看</span><span style="padding:0 .3rem">{{item.hittimes}}</span><span>粉丝: {{item.fans}}</span>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="line_5">
                             <span class="color_red" @click="viewpre(item)">{{item.curpred}}</span>
-                            <van-button v-if="ishemai==1" round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
+                            <van-button v-if="item.ishemai==1" round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
 
 <script>
 import { Dialog } from 'vant';
-import {getpredrank } from '@/api/home'
+import {getpredrank,view_pred,follow_playtype } from '@/api/home'
 import {gethome_global} from '@/utils'
 export default {
     data(){
@@ -86,7 +86,27 @@ export default {
         }
     },
     methods:{
-        focus_btn(item){
+        jumpTo(path){
+            this.$router.push(path)
+        },
+        async follow_playtype(item){
+            let type = 0;
+            if(item.isfollow==0){
+                type = 1;
+            }
+            let obj = {
+                lottype:this.option_value,
+                postype:this.postype[this.pos_active].postype,
+                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype,
+                expid:item.userid,
+                type:type
+            }
+            const {data} = await follow_playtype(obj)
+            if(data.errorcode == 0){
+                item.isfollow = type
+            }
+        },
+        viewpre(item){
             let str = ''
             if(item.isvip){
                 str = '<p style="text-align: left;">会员查看预测不需要花费金豆，确定查看吗？</p>'
@@ -94,16 +114,30 @@ export default {
                 str = '<p style="text-align: left;">查看本次预测需花费您'+item.jindou+'金豆，确定查看吗？</p>'
             }
             Dialog.confirm({
+                title: '提示',
                 message: str,
                 cancelButtonText:'关闭'
             }).then(() => {
             // on confirm
+                this.view_pred(item.userid)
             }).catch(() => {
             // on cancel
             });
         },
-        viewpre(item){
-            this.$toast(item.isviewcur)
+        async view_pred(cid){
+            let obj = {
+                cid:cid
+            }
+            const {data} = await view_pred(obj)
+            if(data.content){
+                Dialog.alert({
+                    title: '提示',
+                    message: data.content
+                }).then(() => {
+                // on close
+                });
+            }
+
         },
         onClickLeft(){
             this.$router.push('/home/search')

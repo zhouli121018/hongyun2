@@ -155,3 +155,27 @@ export function getsearchlist (data) {
     }
   })
 }
+
+//27、(新)榜单-查看预测 view_pred.php
+export function view_pred (data) {
+  return request({
+    url: '/view_pred.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//28、(新)榜单-关注玩法接口 follow_playtype.php
+export function follow_playtype (data) {
+  return request({
+    url: '/follow_playtype.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+

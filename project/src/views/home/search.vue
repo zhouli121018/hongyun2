@@ -15,7 +15,7 @@
 
         <div>
             <div v-for="(item,index) in list" :key="index">
-                <div  class="flex list_item">
+                <div  class="flex list_item" @click="jumpTo('/personal/expertsname')">
                     <div class="img_box">
                         <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     </div>
@@ -50,6 +50,9 @@ export default {
         }
     },
     methods:{
+        jumpTo(path){
+            this.$router.push(path)
+        },
         onSearch(h){
             this.keyword = h;
             this.getsearchlist();
