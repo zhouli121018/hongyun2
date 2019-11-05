@@ -1,24 +1,33 @@
 <template>
     <div>
-        <title-bar title_name="榜单"/>
+        <div class="fixed_title left_width_box">
+        <van-nav-bar
+          title="榜单"
+          left-text=""
+          class="title_box"
+          @click-left="onClickLeft"
+          >
+          <van-icon name="search" slot="left" />
+        </van-nav-bar>
+        </div>
         <div class="right_button">
             <van-dropdown-menu>
-                <van-dropdown-item v-model="option_value" :options="option" @change="change_lottype" />
+                <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
             </van-dropdown-menu>
         </div>
         
         <div class="">
-            <van-tabs v-model="num_active" :swipe-threshold="7" v-if="poslist && poslist.length>0" @click="change_pos" class="no_bottom_border border_color">
-                <van-tab v-for="(p,index) in poslist" :key="index" :title="p.name">
+            <van-tabs v-model="pos_active" :swipe-threshold="7" v-if="postype && postype.length>0" @click="change_pos" class="no_bottom_border border_color">
+                <van-tab v-for="(p,index) in postype" :key="index" :title="p.posname">
                 <div slot="title">
-                    <img v-if="num_active==index" src="../../assets/an.png" alt="" style="position:absolute;width:0.5rem;left:50%;bottom:0;margin-left:-0.25rem;">
-                    <span style="padding-bottom:6px;">{{p.name}}</span>
+                    <img v-if="pos_active==index" src="../../assets/an.png" alt="" style="position:absolute;width:0.5rem;left:50%;bottom:0;margin-left:-0.25rem;">
+                    <span style="padding-bottom:6px;">{{p.posname}}</span>
                 </div>
                 </van-tab>
             </van-tabs>
-            <div class="flex fangan_box" v-if="ycplaytypes.length>0">
-                <div v-for="(item,k) in ycplaytypes" :key="k" @click="change_yc(k)">
-                <van-button :class="{mian_bgcolor:yc_active==k}" type="default" size="large">{{item.ycplayname}}</van-button>
+            <div class="flex fangan_box" v-if="playtype.length>0">
+                <div v-for="(item,k) in playtype" :key="k" @click="change_play(k)">
+                <van-button :class="{mian_bgcolor:play_active==k}" type="default" size="large">{{item.playname}}</van-button>
                 </div>
             </div>
         </div>
@@ -30,24 +39,25 @@
                         <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     </div>
                     <div class="flex_grow_1 content_box">
-                        <div class="line_1">
-                            <span class="uname">用户名</span>
-                            <img class="zhuan_img" src="../../assets/zhuan.png" alt="">
-                            <img src="../../assets/vip.png" alt="">
-                            <van-button round  style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
+                        <div class="line_1" @click="jumpTo('/personal/expertsname')">
+                            <span class="uname">{{item.username}}</span>
+                            <img class="zhuan_img" src="../../assets/zhuan.png" alt="" v-if="item.isexp==1">
+                            <img src="../../assets/vip.png" alt="" v-if="item.isvip==1">
+                            <van-button round  @click.stop="follow_playtype(item)" style="float:right;margin-right:.39rem;" size="mini"><van-icon v-if="item.isfollow==0" name="plus" /> {{item.isfollow==0?'关注':'取消关注'}}</van-button>
                         </div>
                         <div class="line_2">
-                            <span>1万次查看</span><span style="padding:0 .3rem">测10期对10期</span><span>粉丝: 200</span>
+                            <span>{{item.viewtimes}}次查看</span><span style="padding:0 .3rem">{{item.hittimes}}</span><span>粉丝: {{item.fans}}</span>
                         </div>
                         <div class="line_3">
-                            <span>上期预测杀3码: 3 3 9</span><van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/>
+                            <span v-html="item.prepred"></span>
+                            <!-- <van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/> -->
                         </div>
                         <div class="line_4">
                             <span>上期预测杀3码: 3 3 9</span>
                         </div>
                         <div class="line_5">
-                            <span class="color_red">点击查看本次预测</span>
-                            <van-button round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
+                            <span class="color_red" @click="viewpre(item)">{{item.curpred}}</span>
+                            <van-button v-if="item.ishemai==1" round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
                         </div>
                     </div>
                 </div>
@@ -59,67 +69,175 @@
 </template>
 
 <script>
+import { Dialog } from 'vant';
+import {getpredrank,view_pred,follow_playtype } from '@/api/home'
+import {gethome_global} from '@/utils'
 export default {
     data(){
         return {
             option_value:'a',
-            option: [
-                { text: '七星彩', value: 'a' },
-                { text: '七星彩1', value: 'b' },
-                { text: '七星彩2', value: 'c' },
-            ],
-            tabs_active:0,
-            num_active:0,
-            yc_active:0,
-            poslist:[
-                {
-                    name: "红球杀码",
-                    type: 101,
-                    ycplaytypes:[
-                        {ycplaytype: 103, ycplayname: "杀三码"},
-                        {ycplaytype: 106, ycplayname: "杀六码"},
-                        {ycplaytype: 110, ycplayname: "杀十码"}
-                    ]
-                },
-                {
-                    name: "球杀码",
-                    type: 102,
-                    ycplaytypes:[
-                        {ycplaytype: 106, ycplayname: "杀六码"},
-                        {ycplaytype: 110, ycplayname: "杀十码"}
-                    ]
-                },
-            ],
-            ycplaytypes:[
-                {ycplaytype: 103, ycplayname: "杀三码"},
-                {ycplaytype: 106, ycplayname: "杀六码"},
-                {ycplaytype: 110, ycplayname: "杀十码"},
-                {ycplaytype: 104, ycplayname: "杀三码"},
-                {ycplaytype: 107, ycplayname: "杀六码"},
-                {ycplaytype: 118, ycplayname: "杀十码"}
-            ],
-            list:[
-                {},{},{}
-            ]
+            lottype:[],
+            pos_active:0,
+            play_active:0,
+            postype:[],
+            playtype:[],
+            list:[],
+            isFirstEnter:false
         }
     },
     methods:{
+        jumpTo(path){
+            this.$router.push(path)
+        },
+        async follow_playtype(item){
+            let type = 0;
+            if(item.isfollow==0){
+                type = 1;
+            }
+            let obj = {
+                lottype:this.option_value,
+                postype:this.postype[this.pos_active].postype,
+                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype,
+                expid:item.userid,
+                type:type
+            }
+            const {data} = await follow_playtype(obj)
+            if(data.errorcode == 0){
+                item.isfollow = type
+            }
+        },
+        viewpre(item){
+            let str = ''
+            if(item.isvip){
+                str = '<p style="text-align: left;">会员查看预测不需要花费金豆，确定查看吗？</p>'
+            }else{
+                str = '<p style="text-align: left;">查看本次预测需花费您'+item.jindou+'金豆，确定查看吗？</p>'
+            }
+            Dialog.confirm({
+                title: '提示',
+                message: str,
+                cancelButtonText:'关闭'
+            }).then(() => {
+            // on confirm
+                this.view_pred(item.userid)
+            }).catch(() => {
+            // on cancel
+            });
+        },
+        async view_pred(cid){
+            let obj = {
+                cid:cid
+            }
+            const {data} = await view_pred(obj)
+            if(data.content){
+                Dialog.alert({
+                    title: '提示',
+                    message: data.content
+                }).then(() => {
+                // on close
+                });
+            }
+
+        },
+        onClickLeft(){
+            this.$router.push('/home/search')
+        },
         change_lottype(val){
-            this.$toast(val)
+            for(let i = 0;i<this.lottype.length;i++){
+                if(this.lottype[i].lottype == val){
+                    this.pos_active = 0;
+                    this.postype = this.lottype[i].postype;
+                    break;
+                }
+            }
+            this.pos_active = 0;
+            this.play_active = 0;
+            this.postype = this.lottype[0].postype;
+            this.playtype = this.postype[this.pos_active].playtype
         },
         change_pos(index){
-            this.num_active = index;
-            this.yc_active = 0;
+            this.pos_active = index;
+            this.play_active = 0;
+            this.playtype = this.postype[this.pos_active].playtype
         },
-        change_yc(index){
-            this.yc_active = index;
+        change_play(index){
+            this.play_active = index;
         },
+        async getpredrank(){
+            let obj = {
+                lottype:this.option_value,
+                postype:this.postype[this.pos_active].postype,
+                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype
+            }
+            const {data} = await getpredrank(obj);
+            this.list = data.list;
+        },
+    },
+    created(){
+        this.isFirstEnter=true;
+        
+    },
+    activated(){
+        if(!this.$store.getters.isback || this.isFirstEnter){
+            if(this.$store.getters.homeData == null){
+                gethome_global().then(()=>{
+                    this.lottype = this.$store.getters.homeData.lottype
+                    this.lottype.map(item=>{
+                        item.value = item.lottype
+                        item.text = item.lotname
+                    })
+                    this.option_value = this.lottype[0].value
+                    this.pos_active = 0;
+                    this.play_active = 0;
+                    this.postype = this.lottype[0].postype;
+                    this.playtype = this.postype[0].playtype
+                    this.getpredrank();
+                })
+            }else{
+                this.lottype = this.$store.getters.homeData.lottype
+                this.lottype.map(item=>{
+                    item.value = item.lottype
+                    item.text = item.lotname
+                })
+                this.option_value = this.lottype[0].value
+                this.pos_active = 0;
+                this.play_active = 0;
+                this.postype = this.lottype[0].postype;
+                this.playtype = this.postype[0].playtype
+                this.getpredrank();
+            }
+        }
+        this.isFirstEnter=false;
+        this.$store.dispatch('set_isback',false)
     }
         
 }
 </script>
 
 <style lang="stylus" scoped>
+/deep/ .van-nav-bar__left .van-icon-search
+    font-size .56rem
+.title_box{
+    background:red;
+    color:#fff;
+    background:url(../../assets/title.png);
+    background-size: 100%;
+  }
+  .title_box .van-ellipsis.van-nav-bar__title{
+    font-size:18px;
+    color:#fff;
+  }
+  .title_box.van-nav-bar .van-icon, .title_box .van-nav-bar__text{
+    color:#fff;
+  }
+  .fixed_title{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    top: 0;
+  }
 // 右上角下拉菜单样式 start
 /deep/ .van-dropdown-item.van-dropdown-item--down
     top 50px !important
@@ -200,7 +318,7 @@ export default {
 /deep/ .van-tabs__nav.van-tabs__nav--line .van-tab--active
     span
         color:#87ac55;
-        font-size .4rem
+        font-size .43rem
 .van-tabs__nav.van-tabs__nav--line
     span
         font-weight bold

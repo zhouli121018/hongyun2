@@ -133,3 +133,49 @@ export function getmengzhaolist (data) {
     }
   })
 }
+
+//25、(新)榜单-获取榜单排名接口 getpredrank.php
+export function getpredrank (data) {
+  return request({
+    url: '/getpredrank.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//26、(新)榜单-获取搜索专家接口 getsearchlist.php
+export function getsearchlist (data) {
+  return request({
+    url: '/getsearchlist.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//27、(新)榜单-查看预测 view_pred.php
+export function view_pred (data) {
+  return request({
+    url: '/view_pred.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//28、(新)榜单-关注玩法接口 follow_playtype.php
+export function follow_playtype (data) {
+  return request({
+    url: '/follow_playtype.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+
