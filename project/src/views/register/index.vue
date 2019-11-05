@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="">
         <title-bar title_name="新用户注册" />
         <div class="van_box">
             <van-field label="手机号" maxlength="11" type="number" clearable v-model="phone" placeholder="请输入手机号" />
@@ -82,8 +82,11 @@ export default {
                 pass: this.password,
                 vcode: this.vcode,
                 device: this.device,
-                pid: this.pid
+                // pid: this.pid
             };
+            if(this.pid) {
+                obj.pid = this.pid
+            }
             if(localStorage.getItem('hcid')){ //渠道号
                 obj.cid = localStorage.getItem('hcid')
             }
@@ -118,8 +121,9 @@ export default {
         }
     },
     created(){
-        this.pid = localStorage.getItem('hpid');
+        // this.pid = localStorage.getItem('hpid');
         if(localStorage.getItem('hpid')){
+            this.pid = localStorage.getItem('hpid');
             this.has_pid = true;
         }
         let u = navigator.userAgent, app = navigator.appVersion;

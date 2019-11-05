@@ -3,7 +3,7 @@
         <title-bar title_name="提交预测"/>
         <div class="right_button">
             <van-dropdown-menu>
-                <van-dropdown-item v-model="option_value" :options="option" @change="change_lottype" />
+                <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
             </van-dropdown-menu>
         </div>
         <h3>1七星彩999期预测</h3>
@@ -32,33 +32,61 @@
 
 <script>
 import { submitPred } from '@/api'
+import { getlottable } from '@/api/home'
+import {gethome_global } from '@/utils'
 export default {
     data() {
         return {
             option_value:'a',
-            option: [
-                { text: '七星彩', value: 'a' },
-                { text: '七星彩1', value: 'b' },
-                { text: '七星彩2', value: 'c' },
-            ],
+            lottype: [],
             tabs_active:0,
+            option_value: ''
         }
     },
     methods: {
-        change_lottype(val){
-            this.$toast(val)
+        async getlottable () {
+            let obj = {};
+            obj.lottype = this.option_value
+            const { data }    = await getlottable(obj);
+            this.list = data.list;
+            this.barcode = data.barcode;
+        },
+        change_lottype(){
+            this.getlottable();
         },
         async submitPred() {
             const { data } = await submitPred({
                 uid: localStorage.getItem('huid'),
                 sid: localStorage.getItem('hsid'),
-                lottype: ''
+                lottype: this.option_value
             })
             console.log(data)
         }
     },
+    created(){
+        if(this.$store.getters.homeData == null){
+            gethome_global().then(()=>{
+                this.lottype = this.$store.getters.homeData.lottype
+                this.lottype.map(item=>{
+                    item.value = item.lottype
+                    item.text = item.lotname
+                })
+                this.option_value = this.lottype[0].value
+                this.submitPred()
+            })
+        }else{
+            this.lottype = this.$store.getters.homeData.lottype
+            this.lottype.map(item=>{
+                item.value = item.lottype
+                item.text = item.lotname
+            })
+            this.option_value = this.lottype[0].value
+            this.submitPred()
+        }
+        console.log(this.lottype)
+    },
     mounted() {
-        this.submitPred()
+        
     }
 }
 </script>

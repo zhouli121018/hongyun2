@@ -2,18 +2,18 @@
     <div>
         <title-bar title_name="修改资料"/>
         <div style="text-align:center">
-            <img src="../../assets/recommend_page.png" alt="">
+            <img :src="icon" alt="">
         </div>
         <div class="modifydata_list">
             <p>昵称</p>
-            <van-field v-model="value" />
+            <van-field v-model="username" />
         </div>
         <div class="modifydata_list">
             <p style="padding-bottom:.4rem">简介</p>
-            <van-field style="border:1px solid #e3e3e3" v-model="value" type="textarea"/>
+            <van-field style="border:1px solid #e3e3e3" v-model="jianjie" type="textarea"/>
         </div>
         <div class="shopping_bottom">
-            <van-button size="normal" style="background:#87AC55;color:#fff;padding:0 35px">确认修改</van-button>
+            <van-button size="normal" @click="modifyUserinfor" style="background:#87AC55;color:#fff;padding:0 35px">确认修改</van-button>
         </div>
     </div>
 </template>
@@ -23,17 +23,23 @@ import { modifyUserinfor } from '@/api'
 export default {
     data() {
         return {
-            value: ''
+            icon: '',
+            username: '',
+            jianjie: ''
         }
     },
     methods: {
         async modifyUserinfor() {
+            if(!this.icon || !this.username || !this.jianjie) {
+                this.$toast('资料不能为空')
+                return
+            }
             const { data } = await modifyUserinfor({
                 uid: localStorage.getItem('huid'),
                 sid: localStorage.getItem('hsid'),
-                icon: '',
-                username: '',
-                jianjie: ''
+                icon: this.icon,
+                username: this.username,
+                jianjie: this.jianjie
             })
         }
     }

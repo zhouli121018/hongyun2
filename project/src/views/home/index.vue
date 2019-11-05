@@ -51,51 +51,48 @@
         <div style="background:#F5F5F5;height:0.2rem;"></div>
         <!-- 列表栏 -->
         <div style="background:#F5F5F5;padding-bottom:.2rem;" v-if="info">
-          <div class="announcement_list" v-if="info.expreward">
+          <div class="announcement_list" v-if="info.lottable" @click="jumpTo('/home/lottable')">
             <div>
               <img src="~@/assets/speak _table.png" alt="" style="width:.6rem;height:.6rem">
               <span class="gonggao">奖表</span>
-              <span class="gray">{{info.expreward.datetime}}</span>
+              <span class="gray">{{info.lottable.datetime}}</span>
             </div>
             <div>
-              <p v-for="(e,index) in info.expreward.arrs" :key="index">{{e}}</p>
+              <p v-for="(e,index) in info.lottable.arrs" :key="index">{{e}}</p>
               <!-- <p>排列五 【1928】 ：887261</p> -->
             </div>
           </div>
 
-          <div class="announcement_list">
+          <div class="announcement_list" v-if="info.lotmap" @click="jumpTo('/home/lotmap')">
             <div>
               <img src="~@/assets/prize_figure.png" alt="" style="width:.6rem;height:.6rem">
               <span class="gonggao">奖图</span>
-              <span class="gray">2019/12/12</span>
+              <span class="gray">{{info.lotmap.datetime}}</span>
             </div>
             <div>
-              <p>七星彩 【1928】 ：887261</p>
-              <p>排列五 【1928】 ：887261</p>
+              <p v-for="(l,index) in info.lotmap.arrs" :key="index">{{l}}</p>
             </div>
           </div>
 
-          <div class="announcement_list">
+          <div class="announcement_list" v-if="info.luckuser" @click="jumpTo('/personal/lunckson')">
             <div>
               <img src="~@/assets/lucky_star.png" alt="" style="width:.6rem;height:.6rem">
               <span class="gonggao">幸运用户</span>
-              <span class="gray">2019/12/12</span>
+              <span class="gray">{{info.luckuser.datetime}}</span>
             </div>
             <div>
-              <p>七星彩 【1928】 ：887261</p>
-              <p>排列五 【1928】 ：887261</p>
+              <p v-for="(l,index) in info.luckuser.arrs" :key="index">{{l}}</p>
             </div>
           </div>
 
-          <div class="announcement_list">
+          <div class="announcement_list" v-if="info.expreward" @click="jumpTo('/personal/expertranking')">
             <div>
               <img src="~@/assets/expert_ ranking.png" alt="" style="width:.6rem;height:.6rem">
               <span class="gonggao">专家排名奖励</span>
-              <span class="gray">2019/12/12</span>
+              <span class="gray">{{info.expreward.datetime}}</span>
             </div>
             <div>
-              <p>七星彩 【1928】 ：887261</p>
-              <p>排列五 【1928】 ：887261</p>
+              <p v-for="(e,index) in info.expreward.arrs" :key="index">{{e}}</p>
             </div>
           </div>
 
@@ -128,9 +125,9 @@ export default {
   data () {
     return {
       list:[
-        {src:require('../../assets/charts.png'),title:'走势图',link:'/personal/freeUse',islink: false},
+        {src:require('../../assets/charts.png'),title:'走势图',link:'/home/zoushi',islink: false},
         {src:require('../../assets/filter.png'),title:'过滤',link:'/home/filter',islink: false},
-        {src:require('../../assets/missing.png'),title:'遗漏',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/missing.png'),title:'遗漏',link:'/home/yilou',islink: localStorage.getItem('uid')?false:true},
         {src:require('../../assets/dreams.png'),title:'梦兆',link:'/personal/dreams',islink: localStorage.getItem('uid')?false:true}
         
       ],
@@ -265,6 +262,7 @@ export default {
     padding-top .2rem
     padding-left .84rem
     color #333
+    line-height: 1.4;
 .gray
   color #333
 .blue

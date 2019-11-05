@@ -79,3 +79,57 @@ export function gettuijiancode (data) {
   })
 }
 
+//20、(新)首页-获取奖表接口 getlottable.php
+export function getlottable (data) {
+  return request({
+    url: '/getlottable.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//21、(新)首页-获取奖图接口 getlotmap.php
+export function getlotmap (data) {
+  return request({
+    url: '/getlotmap.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//22、(新)首页-获取幸运用户接口 getdayluckuser.php
+export function getdayluckuser (data) {
+  return request({
+    url: '/getdayluckuser.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//23、(新)首页-获取专家排名奖励接口 getrankaward_exp.php
+export function getrankaward_exp (data) {
+  return request({
+    url: '/getrankaward_exp.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//24、(新)首页-获取梦兆列表接口 getmengzhaolist.php
+export function getmengzhaolist (data) {
+  return request({
+    url: '/getmengzhaolist.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}

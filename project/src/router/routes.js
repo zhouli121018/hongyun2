@@ -42,7 +42,7 @@ export default [
             },
             {//订单
                 path: 'order',
-                name:'home',
+                name:'order',
                 component: _import('home/order'),
                 meta:{
                     title:'订单',
@@ -51,7 +51,7 @@ export default [
             },
             {//订单列表
                 path: 'orderList',
-                name:'home',
+                name:'orderList',
                 component: _import('home/orderList'),
                 meta:{
                     title:'订单列表',
@@ -113,6 +113,42 @@ export default [
                 meta:{
                     title:'过滤',
                     cache: true,
+                }
+            },
+            {//奖表
+                path: 'lottable',
+                name: 'lottable',
+                component: _import('home/lottable'),
+                meta: {
+                    title: '奖表',
+                    cache: false
+                }
+            },
+            {//奖图
+                path: 'lotmap',
+                name: 'lotmap',
+                component: _import('home/lotmap'),
+                meta: {
+                    title: '奖图',
+                    cache: false
+                }
+            },
+            {//遗漏
+                path: 'yilou',
+                name: 'yilou',
+                component: _import('home/yilou'),
+                meta: {
+                    title: '遗漏',
+                    cache: false
+                }
+            },
+            {//走势图
+                path: 'zoushi',
+                name: 'zoushi',
+                component: _import('home/zoushi'),
+                meta: {
+                    title: '走势图',
+                    cache: false
                 }
             },
             {//开通会员
@@ -207,7 +243,7 @@ export default [
                 component: _import('personal/dreams'),
                 meta:{
                     title:'梦兆',
-                    cache: true,
+                    cache: false,
                 }
             },
             {//商城详情
@@ -282,6 +318,16 @@ export default [
                 component: _import('personal/lunckson'),
                 meta: {
                     title: '每日幸运儿',
+                    cache: true,
+                    has_bottom: false
+                }
+            },
+            {//每日幸运儿-参与规则
+                path: 'luckson_rules',
+                name: 'luckson_rules',
+                component: _import('personal/luckson_rules'),
+                meta: {
+                    title: '参与规则',
                     cache: true,
                     has_bottom: false
                 }

@@ -114,7 +114,29 @@ export default {
         change_yc(index){
             this.yc_active = index;
         },
-    }
+    },
+    created(){
+        if(this.$store.getters.homeData == null){
+            gethome_global().then(()=>{
+                this.lottype = this.$store.getters.homeData.lottype
+                this.lottype.map(item=>{
+                    item.value = item.lottype
+                    item.text = item.lotname
+                })
+                // this.option_value = this.lottype[0].value
+                // this.getlottable();
+            })
+        }else{
+            this.lottype = this.$store.getters.homeData.lottype
+            this.lottype.map(item=>{
+                item.value = item.lottype
+                item.text = item.lotname
+            })
+            // this.option_value = this.lottype[0].value
+            // this.getlottable();
+        }
+        console.log(this.lottype)
+    },
         
 }
 </script>

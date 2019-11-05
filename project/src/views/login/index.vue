@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <title-bar title_name="密码登录" right_text="注册" right_url="/register/index"/>
         <div class="van_box">
             <van-field label="手机号" maxlength="11" type="number" clearable v-model="mobile" placeholder="请输入手机号" />
@@ -9,7 +9,7 @@
             <!-- <CutDown @click="codeVerify" :disabled="disabled" :moble="mobile"></CutDown> -->
         </div>
         <router-link tag="div" to="/login/verification" class="van_box_right">验证码登录</router-link>
-        <van-button  style="color:#fff" class="mian_bgcolor"  @click="loginbypass">登录</van-button>
+        <van-button  style="color:#fff;margin-left:5%" class="mian_bgcolor"  @click="loginbypass">登录</van-button>
         <router-link tag="div" to="/register/index" class="van_box_right">注册</router-link>
     </div>
 </template>

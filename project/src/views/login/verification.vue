@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <title-bar title_name="验证码登录" right_text="注册" right_url="/register/index"/>
         <div class="van_box">
             <van-field label="手机号" maxlength="11" type="number" clearable v-model="mobile" placeholder="请输入手机号" />
@@ -8,7 +8,7 @@
             <van-field label="验证码" maxlength="11" type="number" class="van_field" clearable v-model="code" placeholder="请输入验证码" />
             <CutDown ref="codeEl" @click="getvcode" :disabled="disabled" :mobile="mobile"></CutDown>
         </div>
-        <van-button style="color:#fff" class="mian_bgcolor" @click="loginbyvcode">登录</van-button>
+        <van-button style="color:#fff;margin-left:5%" class="mian_bgcolor" @click="loginbyvcode">登录</van-button>
     </div>
 </template>
 

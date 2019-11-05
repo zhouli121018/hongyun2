@@ -3,35 +3,15 @@
         <title-bar title_name="梦兆"/>
         <div class="search_box">
             <input v-model="keyword" placeholder="请输入号码或梦境关键词" />
-            <img src="../../assets/sreach_img.png" alt="">
+            <img src="../../assets/sreach_img.png" alt="" @click="onSearch">
         </div>
-        <div class="dreams_list">
-            <img src="" alt="">
+        <div class="dreams_list" v-for="(d,index) in list" :key="index">
+            <img :src="l.pic" alt="">
             <div>
-                <p>七星彩实战宝典</p>
+                <p>{{d.title}}</p>
                 <p>
-                    <span>3089</span>
-                    <span>8790</span>
-                </p>
-            </div>
-        </div>
-        <div class="dreams_list">
-            <img src="" alt="">
-            <div>
-                <p>七星彩实战宝典</p>
-                <p>
-                    <span>3089</span>
-                    <span>8790</span>
-                </p>
-            </div>
-        </div>
-        <div class="dreams_list">
-            <img src="" alt="">
-            <div>
-                <p>七星彩实战宝典</p>
-                <p>
-                    <span>3089</span>
-                    <span>8790</span>
+                    <span>{{d.num1}}</span>
+                    <span>{{d.num2}}</span>
                 </p>
             </div>
         </div>
@@ -39,16 +19,30 @@
 </template>
 
 <script>
+import {getmengzhaolist } from '@/api/home'
 export default {
     data() {
         return {
-            keyword: ''
+            keyword: '',
+            list:[]
         }
     },
     methods: {
         onSearch() {
-
+            this.getmengzhaolist();
+        },
+        async getmengzhaolist (){
+            let obj = {};
+            if(this.keyword){
+                obj.keyword = this.keyword;
+            }
+            const {data} = await getmengzhaolist(obj);
+            this.list = data.list;
+            
         }
+    },
+    created(){
+        this.getmengzhaolist();
     }
 }
 </script>

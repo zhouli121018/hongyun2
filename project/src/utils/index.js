@@ -6,6 +6,8 @@
  * @param {*} [format='-'] 时间格式连接符
  * @returns String
  */
+import store from '@/store'
+import {gethome} from '@/api/home'
 export function parseTime(time, format = '-,:') {
   if (!time) {
     return 0
@@ -240,5 +242,13 @@ function getRD(number, divisor) {
     a: Math.floor(number / divisor),
     b: number % divisor
   }
+}
+
+export async function gethome_global() {
+  let obj = {};
+  const { data } = await gethome(obj)
+  store.dispatch('set_homedata',data)
+  store.dispatch('set_kfwecha',data.kfwecha)
+  store.dispatch('set_apkurl',data.apkurl)
 }
 
