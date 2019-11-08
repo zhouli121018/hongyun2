@@ -20,7 +20,7 @@
             <van-tabs v-model="pos_active" :swipe-threshold="7" v-if="postype && postype.length>0" @click="change_pos" class="no_bottom_border border_color">
                 <van-tab v-for="(p,index) in postype" :key="index" :title="p.posname">
                 <div slot="title">
-                    <img v-if="pos_active==index" src="../../assets/an.png" alt="" style="position:absolute;width:0.5rem;left:50%;bottom:0;margin-left:-0.25rem;">
+                    <img v-if="pos_active==index" src="../../assets/an.png" alt="" style="position:absolute;width:0.36rem;height:.23rem;left:50%;bottom:0;margin-left:-0.15rem;">
                     <span style="padding-bottom:6px;">{{p.posname}}</span>
                 </div>
                 </van-tab>
@@ -34,7 +34,7 @@
         <div style="background:#F5F5F5;height:0.2rem;"></div>
         <div>
             <div v-for="(item,index) in list" :key="index">
-                <div  class="flex list_item"  @click="goExp('/personal/expertsname')">
+                <div  class="flex list_item"  @click="goExp(item)">
                     <div class="img_box">
                         <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     </div>
@@ -56,8 +56,8 @@
                             <span>上期预测杀3码: 3 3 9</span>
                         </div>
                         <div class="line_5">
-                            <span class="color_red" @click="viewpre(item)">{{item.curpred}}</span>
-                            <van-button v-if="item.ishemai==1" round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button>
+                            <span class="color_red" @click.stop="viewpre(item)">{{item.curpred}}</span>
+                            <!-- <van-button v-if="item.ishemai==1" round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button> -->
                         </div>
                     </div>
                 </div>
@@ -86,13 +86,14 @@ export default {
         }
     },
     methods:{
-        goExp(path){
+        goExp(item){
             this.$router.push({
-                path:path,
+                path:'/personal/expertsname',
                 query:{
                     lottype:this.option_value,
                     postype:this.postype[this.pos_active].postype,
-                    playtype:this.postype[this.pos_active].playtype[this.play_active].playtype
+                    playtype:this.postype[this.pos_active].playtype[this.play_active].playtype,
+                    expid:item.userid
                 }
             })
         },
@@ -168,14 +169,17 @@ export default {
             this.play_active = 0;
             this.postype = this.lottype[0].postype;
             this.playtype = this.postype[this.pos_active].playtype
+            this.getpredrank();
         },
         change_pos(index){
             this.pos_active = index;
             this.play_active = 0;
             this.playtype = this.postype[this.pos_active].playtype
+            this.getpredrank();
         },
         change_play(index){
             this.play_active = index;
+            this.getpredrank();
         },
         async getpredrank(){
             let obj = {

@@ -178,4 +178,15 @@ export function follow_playtype (data) {
   })
 }
 
+//29、(新)榜单-获取专家预测列表接口 getexpert.php
+export function getexpert (data) {
+  return request({
+    url: '/getexpert.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
 

@@ -366,7 +366,7 @@ export default [
                 component: _import('personal/expertsname'),
                 meta:{
                     title:'专家名称',
-                    cache: true,
+                    cache: false,
                 }
             },
             {//提交预测 

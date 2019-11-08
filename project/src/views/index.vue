@@ -76,35 +76,31 @@ export default {
     },
     watch:{
         $route(newval){
-            if(newval.name == 'predictSex' || newval.name == 'predictStart' || newval.name == 'predictResult'){
+            if(newval.name == 'caiyouquan'){
                 this.active = 2;
             }else if(newval.name == 'shopping'){
                 this.active = 3;
-            }else if(newval.path.indexOf('/personal')>=0){
+            }else if(newval.name == 'personalIndex'){
                 this.active = 4
-            }else if(newval.path.indexOf('/boyOrgirl')>=0){
+            }else if(newval.name == 'bangdan' || newval.name == 'search'){
                 this.active = 1
             }else if(newval.name == 'home'){
                 this.active = 0
-            }else if(newval.name == 'news'){
-                this.active = 2;
             }
         }
     },
     created(){
         let newval = this.$route;
-        if(newval.name == 'predictSex' || newval.name == 'predictStart' || newval.name == 'predictResult'){
+        if(newval.name == 'caiyouquan'){
             this.active = 2;
         }else if(newval.name == 'shopping'){
             this.active = 3;
-        }else if(newval.path.indexOf('/personal')>=0){
+        }else if(newval.name == 'personalIndex'){
             this.active = 4
-        }else if(newval.path.indexOf('/boyOrgirl')>=0){
+        }else if(newval.name == 'bangdan' || newval.name == 'search'){
             this.active = 1
         }else if(newval.name == 'home'){
             this.active = 0
-        }else if(newval.name == 'news'){
-            this.active = 2;
         }
     }
 }

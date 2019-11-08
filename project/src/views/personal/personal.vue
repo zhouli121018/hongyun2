@@ -2,7 +2,7 @@
     <div>
         <title-bar title_name="用户中心" />
         <div class="my_title" v-if="info != null">
-            <img class="my_title_photo" :src="$https_img+info.img" alt="">
+            <img class="my_title_photo" :src="$https_img+'/'+info.img" alt="">
             <div class="my_title_center">
                 <div>
                     <span style="font-weight:bold;font-size:0.45rem;color:#232323;">{{info.uname}}</span>

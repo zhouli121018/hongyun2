@@ -17,7 +17,7 @@
             </table>
         </div>
         <div v-if="barcode" style="text-align:right;">
-            <img :src="this.$https_img+barcode" alt="" style="width:2.13rem;height:2.13rem;margin:.4rem .96rem .36rem 0;">
+            <img :src="this.$https_img+'/'+barcode" alt="" style="width:2.13rem;height:2.13rem;margin:.4rem .96rem .36rem 0;">
             <div style="text-align:right;padding-right:.47rem;font-size:0.35rem;line-height:0.4rem;padding-bottom:.4rem;">奖表由鸿运四码提供</div>
         </div>
         

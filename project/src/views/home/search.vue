@@ -15,7 +15,7 @@
 
         <div>
             <div v-for="(item,index) in list" :key="index">
-                <div  class="flex list_item" @click="goExp('/personal/expertsname')">
+                <div  class="flex list_item" @click="goExp(item)">
                     <div class="img_box">
                         <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     </div>
@@ -67,13 +67,14 @@ export default {
                 item.isfollow = type
             }
         },
-        goExp(path){
+        goExp(item){
             this.$router.push({
-                path:path,
+                path:'/personal/expertsname',
                 query:{
                     lottype:this.$route.query.lottype,
                     postype:this.$route.query.postype,
                     playtype:this.$route.query.playtype,
+                    expid:item.userid
                 }
             })
         },
