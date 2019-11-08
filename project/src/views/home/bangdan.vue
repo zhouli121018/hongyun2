@@ -34,12 +34,12 @@
         <div style="background:#F5F5F5;height:0.2rem;"></div>
         <div>
             <div v-for="(item,index) in list" :key="index">
-                <div  class="flex list_item">
+                <div  class="flex list_item"  @click="goExp('/personal/expertsname')">
                     <div class="img_box">
                         <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     </div>
                     <div class="flex_grow_1 content_box">
-                        <div class="line_1" @click="jumpTo('/personal/expertsname')">
+                        <div class="line_1">
                             <span class="uname">{{item.username}}</span>
                             <img class="zhuan_img" src="../../assets/zhuan.png" alt="" v-if="item.isexp==1">
                             <img src="../../assets/vip.png" alt="" v-if="item.isvip==1">
@@ -86,8 +86,15 @@ export default {
         }
     },
     methods:{
-        jumpTo(path){
-            this.$router.push(path)
+        goExp(path){
+            this.$router.push({
+                path:path,
+                query:{
+                    lottype:this.option_value,
+                    postype:this.postype[this.pos_active].postype,
+                    playtype:this.postype[this.pos_active].playtype[this.play_active].playtype
+                }
+            })
         },
         async follow_playtype(item){
             let type = 0;
@@ -119,7 +126,7 @@ export default {
                 cancelButtonText:'关闭'
             }).then(() => {
             // on confirm
-                this.view_pred(item.userid)
+                this.view_pred(item.cid)
             }).catch(() => {
             // on cancel
             });
@@ -140,7 +147,14 @@ export default {
 
         },
         onClickLeft(){
-            this.$router.push('/home/search')
+            this.$router.push({
+                path:'/home/search',
+                query:{
+                    lottype:this.option_value,
+                    postype:this.postype[this.pos_active].postype,
+                    playtype:this.postype[this.pos_active].playtype[this.play_active].playtype,
+                }
+                })
         },
         change_lottype(val){
             for(let i = 0;i<this.lottype.length;i++){

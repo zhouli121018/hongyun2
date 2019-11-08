@@ -15,7 +15,7 @@
 
         <div>
             <div v-for="(item,index) in list" :key="index">
-                <div  class="flex list_item" @click="jumpTo('/personal/expertsname')">
+                <div  class="flex list_item" @click="goExp('/personal/expertsname')">
                     <div class="img_box">
                         <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     </div>
@@ -24,7 +24,7 @@
                             <span class="uname">{{item.username}}</span>
                             <img v-if="item.isexp==1" class="zhuan_img" src="../../assets/zhuan.png" alt="">
                             <img v-if="item.isvip==1" src="../../assets/vip.png" alt="">
-                            <van-button v-if="item.isfollow==0" round  style="float:right;margin-right:.39rem;" size="mini"><van-icon name="plus" /> 关注</van-button>
+                            <van-button round  @click.stop="follow_playtype(item)" style="float:right;margin-right:.39rem;" size="mini"><van-icon v-if="item.isfollow==0" name="plus" /> {{item.isfollow==0?'关注':'取消关注'}}</van-button>
                         </div>
                         <div class="line_2">
                             <span>粉丝: <span style="color:#FE8F00">{{item.fans}}</span></span><span  style="padding:0 0 0 .3rem">查看次数：{{item.viewtimes}}</span>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {getsearchlist } from '@/api/home'
+import {getsearchlist,follow_playtype } from '@/api/home'
 export default {
     data(){
         return {
@@ -50,8 +50,32 @@ export default {
         }
     },
     methods:{
-        jumpTo(path){
-            this.$router.push(path)
+        async follow_playtype(item){
+            let type = 0;
+            if(item.isfollow==0){
+                type = 1;
+            }
+            let obj = {
+                lottype:this.$route.query.lottype,
+                postype:this.$route.query.postype,
+                playtype:this.$route.query.playtype,
+                expid:item.userid,
+                type:type
+            }
+            const {data} = await follow_playtype(obj)
+            if(data.errorcode == 0){
+                item.isfollow = type
+            }
+        },
+        goExp(path){
+            this.$router.push({
+                path:path,
+                query:{
+                    lottype:this.$route.query.lottype,
+                    postype:this.$route.query.postype,
+                    playtype:this.$route.query.playtype,
+                }
+            })
         },
         onSearch(h){
             this.keyword = h;
