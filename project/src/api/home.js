@@ -189,4 +189,14 @@ export function getexpert (data) {
   })
 }
 
+//30、(新)彩友圈-获取帖子接口 gettiezilist.php
+export function gettiezilist (data) {
+  return request({
+    url: '/gettiezilist.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
 
