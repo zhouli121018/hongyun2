@@ -13,10 +13,13 @@
             <div class="box"></div>
         </div>
         <div class="btn_box">
-            <van-button size="normal" @touchstart.native="start" @touchend.native="stop" @click.native="play"> <img src="~@/assets/luyin.png" style="width:.32rem" /> {{desc}}</van-button>
+            <van-button size="normal" @touchstart.native="start" @touchend.native="stop" @click.native="play" :color="desc=='长按录音'?'':'#87ac55'"> 
+                <img v-if="desc=='点击播放'" src="~@/assets/yy.png" style="width:0.29rem;height:0.33rem;" alt="" >
+                <img v-else src="~@/assets/luyin.png" style="width:.32rem" /> 
+                {{desc}}</van-button>
         </div>
         <div class="upload_box">
-            <van-uploader :after-read="afterRead" />
+            <van-uploader :after-read="afterRead" multiple v-model="fileList"/>
         </div>
         <div class="bottom_btn_box">
             <van-button >提交</van-button>
@@ -27,6 +30,9 @@
 </template>
 
 <script>
+import md5 from 'js-md5'
+import { formatDates } from '@/utils'
+import { uploadimg } from '@/api/home'
 export default {
     data(){
         return {
@@ -36,8 +42,7 @@ export default {
             option_value:'a',
             option: [
                 { text: '讨论区', value: 'a' },
-                { text: '七星彩1', value: 'b' },
-                { text: '七星彩2', value: 'c' },
+                { text: '晒奖区', value: 'b' },
             ],
 
             rec:null,
@@ -45,16 +50,29 @@ export default {
             blob:null,
             desc:'长按录音',
             start_status:false,
-            start_timer:null
+            start_timer:null,
+            fileList:[]
         }
     },
     methods:{
         change(val){
             this.$toast(val)
         },
-        afterRead(file) {
+        //上传图片
+        async afterRead(file) {
             // 此时可以自行将文件上传至服务器
             console.log(file);
+            // 此时可以自行将文件上传至服务器
+            let now = new Date();
+            let md5_data = md5('token=' + now.getTime() + '&key=lldu43d98382');
+            const formData = new FormData()
+            formData.append('image', file.file)
+            formData.append('token',now.getTime())
+            formData.append('data',md5_data)
+            formData.append('sid',localStorage.getItem('hsid'))
+            formData.append('uid',localStorage.getItem('huid'))
+            const { data } = await uploadimg(formData)
+            console.log(data)
         },
         start(){
             this.start_timer = setTimeout(()=>{
@@ -95,11 +113,12 @@ export default {
             /*立即播放例子*/
             if(this.blob){
                 this.audio=document.createElement("audio");
-                this.audio.controls=true;
+                this.audio.controls=false;
                 document.body.appendChild(this.audio);
                 //简单的一哔
                 this.audio.src=(window.URL||webkitURL).createObjectURL(this.blob);
                 this.audio.play();
+                // this.audio.remove();
             }
         }
 

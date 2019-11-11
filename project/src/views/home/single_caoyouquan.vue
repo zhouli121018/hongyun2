@@ -1,18 +1,11 @@
 <template>
     <div>
-        <title-bar title_name="彩友圈" right_text="发表" right_url="/home/publish"/>
-        <div class="top_menu">
-            <span class="item plq" :class="{active:areatype==0}" @click="change_area(0)">评论区</span>
-            <span class="item" :class="{active:areatype==1}" @click="change_area(1)">晒奖区</span>
-        </div>
-        <div class="newest">
-            <span class="item first" :class="{active:timetype==0}" @click="change_time(0)">最新</span>
-            <span class="item" :class="{active:timetype==1}" @click="change_time(1)">最热</span>
-        </div>
+        <title-bar title_name="个人彩友圈" right_text="发表" right_url="/home/publish"/>
+        
         
         <div  v-for="(item,index) in list" :key="index">
             <div class="content_item">
-                <div class="flex line_1" @click="goSingle(item)">
+                <div class="flex line_1">
                     <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
                     <div class="flex_grow_1">
                         <div class="uname flex">
@@ -129,14 +122,6 @@ export default {
         }
     },
     methods:{
-        goSingle(item){
-            this.$router.push({
-                path:'/home/single_caoyouquan',
-                query:{
-                    expid:item.userid
-                }
-            })
-        },
         goComment(item){
             this.$router.push({
                 path:'/home/comment',

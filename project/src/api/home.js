@@ -200,3 +200,56 @@ export function gettiezilist (data) {
   })
 }
 
+//32、(新)彩友圈-上传图片接口 uploadimg.php
+export function uploadimg (data) {
+  return request({
+    url: '/uploadimg.php',
+    method: 'post',
+    data
+  })
+}
+
+//33、(新)彩友圈-举报帖子接口 submitjubao.php
+export function submitjubao (data) {
+  return request({
+    url: '/submitjubao.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//34、(新)彩友圈-关注帖子接口 follow_tiezi.php
+export function follow_tiezi (data) {
+  return request({
+    url: '/follow_tiezi.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//35、(新))彩友圈-帖子点赞 submit_like.php
+export function submit_like (data) {
+  return request({
+    url: '/submit_like.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//36、(新)彩友圈-评论帖子接口 submittizi_disc.php
+export function submittizi_disc (data) {
+  return request({
+    url: '/submittizi_disc.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+

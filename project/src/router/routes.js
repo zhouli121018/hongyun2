@@ -106,6 +106,15 @@ export default [
                     cache: true,
                 }
             },
+            {//个人彩友圈
+                path: 'single_caoyouquan',
+                name:'single_caoyouquan',
+                component: _import('home/single_caoyouquan'),
+                meta:{
+                    title:'个人彩友圈',
+                    cache: true,
+                }
+            },
             {//过滤 
                 path: 'filter',
                 name:'filter',

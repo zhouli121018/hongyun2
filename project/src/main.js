@@ -34,6 +34,8 @@ import {
     Search,
     DropdownMenu,
     DropdownItem,
+    Collapse, CollapseItem,
+    RadioGroup, Radio
 } from 'vant'
 import wx from 'weixin-js-sdk'
 import { VueSpinners } from '@saeris/vue-spinners'
@@ -87,6 +89,10 @@ Vue
     .use(Search)
     .use(DropdownMenu)
     .use(DropdownItem)
+    .use(Collapse )
+    .use(CollapseItem)
+    .use(RadioGroup)
+    .use(Radio)
 Vue.prototype.$wx = wx
 new Vue({
     store,
