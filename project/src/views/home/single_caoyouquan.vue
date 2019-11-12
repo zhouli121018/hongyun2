@@ -36,8 +36,8 @@
                     <audio :id="'myaudio_'+index" preload="load" :src="item.soundurl" controls="controls" :loop="false" v-show="false"></audio>
                 </div>
                 <div class="flex line_3">
-                    <div class="img_box"  :class="{center_box:(i%3==1)}" v-for="(m,i) in item.imgs" :key="i" @click="prev_img(m)">
-                        <img :src="m" alt="">
+                    <div class="img_box"  :class="{center_box:(i%3==1)}" v-for="(m,i) in item.imgs" :key="i" @click="prev_img(item,i)">
+                        <img :src="$https_img+'/'+m" alt="" style="width:100%;">
                     </div>
                     <!-- <div class="img_box" :class="{center_box:((i+2)%3==1)}" v-for="(m,i) in item.imgs" :key="2+i"></div>
                     <div class="img_box" :class="{center_box:((i+4)%3==1)}" v-for="(m,i) in item.imgs" :key="4+i"></div> -->
@@ -114,6 +114,7 @@
 
 <script>
 import Mshare from 'm-share'
+import { ImagePreview } from 'vant';
 import {gettiezilist_user, submitjubao, follow_tiezi, submit_like, submittizi_disc } from '@/api/home'
 export default {
     data(){
@@ -216,9 +217,15 @@ export default {
             }
             document.getElementById(id).play()
         },
-        prev_img(src){
-            this.img_src = src;
-            this.show = true;
+        prev_img(item,i){
+            let big_imgs = [];
+            item.big_imgs.forEach(val=>{
+                big_imgs.push(this.$https_img+'/'+val);
+            })
+            ImagePreview({
+                images:big_imgs,
+                startPosition: i,
+            });
         },
         beforeClose(action,done){
             if(action == 'confirm'){
