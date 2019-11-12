@@ -23,7 +23,7 @@
         </div>
         <div class="bottom_btn_box">
             <van-button >提交</van-button>
-            <span class="pub">发表条款</span>
+            <span class="pub" @click="jumpTo('/home/tiaokuan')">发表条款</span>
         </div>
 
     </div>
@@ -55,6 +55,9 @@ export default {
         }
     },
     methods:{
+        jumpTo(path){
+            this.$router.push(path)
+        },
         change(val){
             this.$toast(val)
         },

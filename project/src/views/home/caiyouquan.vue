@@ -28,8 +28,8 @@
                     <audio :id="'myaudio_'+index" preload="load" :src="item.soundurl" controls="controls" :loop="false" v-show="false"></audio>
                 </div>
                 <div class="flex line_3">
-                    <div class="img_box"  :class="{center_box:(i%3==1)}" v-for="(m,i) in item.imgs" :key="i" @click="prev_img(m)">
-                        <img :src="m" alt="">
+                    <div class="img_box"  :class="{center_box:(i%3==1)}" v-for="(m,i) in item.imgs" :key="i" @click="prev_img(item,i)">
+                        <img :src="$https_img+'/'+m" alt="" style="width:100%;">
                     </div>
                     <!-- <div class="img_box" :class="{center_box:((i+2)%3==1)}" v-for="(m,i) in item.imgs" :key="2+i"></div>
                     <div class="img_box" :class="{center_box:((i+4)%3==1)}" v-for="(m,i) in item.imgs" :key="4+i"></div> -->
@@ -43,6 +43,8 @@
             </div>
             <div style="background:#F5F5F5;height:0.2rem;"></div>
         </div>
+
+        <div style="color:#a4d068;text-align:center;padding:.4rem 0;" v-if="lastid>0" @click="gettiezilist"> 加载更多</div>
 
         <van-dialog
             title=""
@@ -99,7 +101,6 @@
                 </van-field>
             </van-cell-group>
         </van-popup>
-        
 
     </div>
 </template>
@@ -107,6 +108,7 @@
 <script>
 import Mshare from 'm-share'
 import {gettiezilist, submitjubao, follow_tiezi, submit_like, submittizi_disc } from '@/api/home'
+import { ImagePreview } from 'vant';
 export default {
     data(){
         return {
@@ -126,6 +128,7 @@ export default {
             radio:'1',
             jub_value:'1',
             cur_item:{},
+            big_imgs:[],
         }
     },
     methods:{
@@ -192,7 +195,13 @@ export default {
                 lastid:this.lastid
             };
             const {data} = await gettiezilist(obj)
-            this.list = data.list;
+            if(this.lastid > 0){
+                this.list = data.list.concat(this.list);
+            }else{
+                this.list = data.list
+            }
+            this.lastid = data.lastid;
+
             this.jubos = data.jubos;
             this.jubos.forEach(val=>{
                 val.value = val.id;
@@ -209,9 +218,15 @@ export default {
             }
             document.getElementById(id).play()
         },
-        prev_img(src){
-            this.img_src = src;
-            this.show = true;
+        prev_img(item,i){
+            this.big_imgs = [];
+            item.big_imgs.forEach(val=>{
+                this.big_imgs.push(this.$https_img+'/'+val);
+            })
+            ImagePreview({
+                images:this.big_imgs,
+                startPosition: i,
+            });
         },
         beforeClose(action,done){
             if(action == 'confirm'){

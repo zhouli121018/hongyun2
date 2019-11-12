@@ -48,7 +48,6 @@ service.interceptors.request.use(config => {
     // 返回拦截器
 service.interceptors.response.use(
         response => {
-            console.log(response.config.data)
             // const { noToast = true, noLoading = true } = urlParse(response.config.data)
             const { noToast = true, noLoading = true } = response.config.data
             if (noLoading && noLoading !== 'false') {
