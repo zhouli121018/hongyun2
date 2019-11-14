@@ -253,3 +253,36 @@ export function submittizi_disc (data) {
   })
 }
 
+//37、(新)彩友圈-获取帖子详情 gettiezi_disclist.php
+export function gettiezi_disclist (data) {
+  return request({
+    url: '/gettiezi_disclist.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//38、(新)彩友圈-获取发布条款接口 gettiaokuan.php
+export function gettiaokuan (data) {
+  return request({
+    url: '/gettiaokuan.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+//39、(新)彩友圈-获取个人彩友圈帖子 gettiezilist_user.php
+export function gettiezilist_user (data) {
+  return request({
+    url: '/gettiezilist_user.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+

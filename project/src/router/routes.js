@@ -201,7 +201,17 @@ export default [
                     title: '推荐赚钱',
                     cache: true
                 }
-            }
+            },
+            //条款
+            {
+                path: 'tiaokuan',
+                name:'tiaokuan',
+                component: _import('home/tiaokuan'),
+                meta:{
+                    title:'条款',
+                    cache: false
+                }
+            },
             
         ]
     },

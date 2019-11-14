@@ -7,6 +7,7 @@
             :left-text="left_text"
             right-text="关于"
             @click-left="onClickLeft"
+            @click-right="onClickRight"
           >
             <span slot="title">鸿运四码
             </span>
@@ -148,6 +149,9 @@ export default {
     }
   },
   methods: {
+    onClickRight(){
+      this.$router.push('/personal/about')
+    },
     goDetail(data){
         this.$router.push({
             path: '/home/announcement/detail', 

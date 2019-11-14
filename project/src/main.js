@@ -35,7 +35,8 @@ import {
     DropdownMenu,
     DropdownItem,
     Collapse, CollapseItem,
-    RadioGroup, Radio
+    RadioGroup, Radio,
+    ImagePreview
 } from 'vant'
 import wx from 'weixin-js-sdk'
 import { VueSpinners } from '@saeris/vue-spinners'
@@ -93,6 +94,7 @@ Vue
     .use(CollapseItem)
     .use(RadioGroup)
     .use(Radio)
+    .use(ImagePreview)
 Vue.prototype.$wx = wx
 new Vue({
     store,

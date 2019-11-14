@@ -10,7 +10,12 @@
             <img src="~@/assets/dingwei.png" alt=""> 地址：*****
         </div>
         <div class="area">
-            <div class="box"></div>
+            <!-- <div class="box"></div> -->
+            <van-field class="box" type="textarea" style=""
+                v-model="value" maxlength="200"  show-word-limit
+                placeholder="我也说说...(最多200字以内）"
+            >
+            </van-field>
         </div>
         <div class="btn_box">
             <van-button size="normal" @touchstart.native="start" @touchend.native="stop" @click.native="play" :color="desc=='长按录音'?'':'#87ac55'"> 
@@ -23,7 +28,7 @@
         </div>
         <div class="bottom_btn_box">
             <van-button >提交</van-button>
-            <span class="pub">发表条款</span>
+            <span class="pub" @click="jumpTo('/home/tiaokuan')">发表条款</span>
         </div>
 
     </div>
@@ -36,6 +41,7 @@ import { uploadimg } from '@/api/home'
 export default {
     data(){
         return {
+            value:'',
             list:[
                 {},{}
             ],
@@ -55,6 +61,9 @@ export default {
         }
     },
     methods:{
+        jumpTo(path){
+            this.$router.push(path)
+        },
         change(val){
             this.$toast(val)
         },
@@ -129,6 +138,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+/deep/ .van-field__body
+    height 100%
+    textarea
+        height 100%
 /deep/ .van-dropdown-menu  
         background #87AC55
         height 26px

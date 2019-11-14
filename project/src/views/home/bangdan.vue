@@ -52,11 +52,11 @@
                             <span v-html="item.prepred"></span>
                             <!-- <van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/> -->
                         </div>
-                        <div class="line_4">
+                        <!-- <div class="line_4">
                             <span>上期预测杀3码: 3 3 9</span>
-                        </div>
+                        </div> -->
                         <div class="line_5">
-                            <span class="color_red" @click.stop="viewpre(item)">{{item.curpred}}</span>
+                            <span class="color_red" @click.stop="viewpre(item)" v-html="item.curpred"></span>
                             <!-- <van-button v-if="item.ishemai==1" round  style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;" size="small">转发合买</van-button> -->
                         </div>
                     </div>
@@ -115,6 +115,9 @@ export default {
             }
         },
         viewpre(item){
+            if(item.isviewcur==1){
+                return;
+            }
             let str = ''
             if(item.isvip){
                 str = '<p style="text-align: left;">会员查看预测不需要花费金豆，确定查看吗？</p>'

@@ -2,7 +2,22 @@
     <div>
         <title-bar title_name="个人彩友圈" right_text="发表" right_url="/home/publish"/>
         
-        
+        <div class="info_item" v-if="info"> 
+            <div class="flex line_1" >
+                <img :src="$https_img+'/img/defaulticon.png'" alt="">
+                <div class="flex_grow_1">
+                    <div>
+                        <span class="uname">{{info.username}}</span>
+                        <img v-if="info.isexp==1"  class="zhuan_img" src="../../assets/zhuan.png" alt="">
+                        <img v-if="info.isvip==1" src="../../assets/vip.png" alt="">
+                    </div>
+                    
+                    <div class="time"><span>粉丝：{{info.fans}}</span> <span style="margin-left:.8rem">关注：{{info.follows}}</span> </div>
+                </div>
+                <van-button size="small" color="#87AC55" style="margin-left:.2rem;border-radius:.1rem;">关注</van-button>
+            </div>
+        </div>
+        <div style="background:#F5F5F5;height:0.2rem;"></div>
         <div  v-for="(item,index) in list" :key="index">
             <div class="content_item">
                 <div class="flex line_1">
@@ -21,8 +36,8 @@
                     <audio :id="'myaudio_'+index" preload="load" :src="item.soundurl" controls="controls" :loop="false" v-show="false"></audio>
                 </div>
                 <div class="flex line_3">
-                    <div class="img_box"  :class="{center_box:(i%3==1)}" v-for="(m,i) in item.imgs" :key="i" @click="prev_img(m)">
-                        <img :src="m" alt="">
+                    <div class="img_box"  :class="{center_box:(i%3==1)}" v-for="(m,i) in item.imgs" :key="i" @click="prev_img(item,i)">
+                        <img :src="$https_img+'/'+m" alt="" style="width:100%;">
                     </div>
                     <!-- <div class="img_box" :class="{center_box:((i+2)%3==1)}" v-for="(m,i) in item.imgs" :key="2+i"></div>
                     <div class="img_box" :class="{center_box:((i+4)%3==1)}" v-for="(m,i) in item.imgs" :key="4+i"></div> -->
@@ -99,7 +114,8 @@
 
 <script>
 import Mshare from 'm-share'
-import {gettiezilist, submitjubao, follow_tiezi, submit_like, submittizi_disc } from '@/api/home'
+import { ImagePreview } from 'vant';
+import {gettiezilist_user, submitjubao, follow_tiezi, submit_like, submittizi_disc } from '@/api/home'
 export default {
     data(){
         return {
@@ -119,6 +135,7 @@ export default {
             radio:'1',
             jub_value:'1',
             cur_item:{},
+            info:null
         }
     },
     methods:{
@@ -163,21 +180,27 @@ export default {
         change_area(area){
             this.areatype = area;
             this.lastid = 0;
-            this.gettiezilist();
+            this.gettiezilist_user();
         },
         change_time(time){
             this.timetype = time;
             this.lastid = 0;
-            this.gettiezilist();
+            this.gettiezilist_user();
         },
-        async gettiezilist(){
+        async gettiezilist_user(){
             let obj = {
-                areatype:this.areatype,  
-                timetype:this.timetype, 
+                expid:this.$route.query.expid, 
                 lastid:this.lastid
             };
-            const {data} = await gettiezilist(obj)
-            this.list = data.list;
+            const {data} = await gettiezilist_user(obj)
+            this.info = data;
+            if(this.lastid > 0){
+                this.list = data.list.concat(this.list);
+            }else{
+                this.list = data.list
+            }
+            this.lastid = data.lastid;
+
             this.jubos = data.jubos;
             this.jubos.forEach(val=>{
                 val.value = val.id;
@@ -194,9 +217,15 @@ export default {
             }
             document.getElementById(id).play()
         },
-        prev_img(src){
-            this.img_src = src;
-            this.show = true;
+        prev_img(item,i){
+            let big_imgs = [];
+            item.big_imgs.forEach(val=>{
+                big_imgs.push(this.$https_img+'/'+val);
+            })
+            ImagePreview({
+                images:big_imgs,
+                startPosition: i,
+            });
         },
         beforeClose(action,done){
             if(action == 'confirm'){
@@ -221,7 +250,7 @@ export default {
             }
             const {data} = await follow_tiezi(obj);
             if(data.errorcode == 0){
-                this.gettiezilist();
+                this.gettiezilist_user();
             }
 
         },
@@ -254,7 +283,7 @@ export default {
     },
     activated(){
         if(!this.$store.getters.isback || this.isFirstEnter){
-            this.gettiezilist();
+            this.gettiezilist_user();
         }
         this.isFirstEnter=false;
         this.$store.dispatch('set_isback',false)
@@ -264,6 +293,28 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.info_item
+    padding .4rem .2rem
+    .line_1
+        .flex_grow_1
+            padding-left .23rem
+            span.uname
+                font-size:.42rem;
+                color:#333;
+                font-family:PingFang SC;
+                margin-right: .11rem;
+            img
+                width .6rem
+                height .6rem
+                vertical-align middle
+            .zhuan_img
+                margin-right .19rem
+        .time
+            padding-top .35rem
+            font-size .32rem
+        img
+            width 2.05rem
+            height 2.05rem
 /deep/ .van-radio-group>div
     padding .2rem 0
 /deep/ .van-popup 
