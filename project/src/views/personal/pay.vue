@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="info != null">
+    <div v-if="info != null">
         <title-bar title_name="微信二维码支付" />
         <div class="pay_title">
             <img src="~@/assets/wechat@2x.png" alt="">
@@ -44,14 +44,12 @@ export default {
         async getwechatcode() {
             const { data } = await getwechatcode({
                 money: this.money,
-                type: this.type//0购买金币，1开通会员
             })
             this.info = data
         }
     },
     created() {
         this.isFirstEnter=true;
-        this.type = this.$route.query.type
         this.money = this.$route.query.money
         this.getwechatcode()
     },

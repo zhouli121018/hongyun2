@@ -58,7 +58,8 @@ export default {
             const { data } = await submitPred({
                 uid: localStorage.getItem('huid'),
                 sid: localStorage.getItem('hsid'),
-                lottype: this.option_value
+                lottype: this.option_value,
+                content: ''
             })
             console.log(data)
         }

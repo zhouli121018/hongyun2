@@ -1,9 +1,9 @@
 <template>
     <div>
         <title-bar title_name="商城" right_text="订单列表" right_url="/home/orderList"/>
-        <div class="shopping_box" v-for="(item,index) in list" :key="index">
-            <router-link class="shopping_list" to="/personal/shoppingDetail">
-                <img :src="item.imgs[0]" alt="">
+        <div class="shopping_box">
+            <router-link  v-for="(item,index) in list" :key="index" class="shopping_list" :to="{name: 'shoppingDetail',query:{pid: item.id}}">
+                <img :src="$https+item.pic" alt="">
                 <div>{{item.name}}</div>
                 <div>
                     <span style="font-size:13px">{{item.buynum}}人购买</span>
@@ -19,7 +19,7 @@ import { getproductlist } from '@/api'
 export default {
     data() {
         return {
-            list: null
+            list: []
         }
     },
     methods: {

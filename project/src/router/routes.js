@@ -360,12 +360,21 @@ export default [
                     cache: true,
                 }
             },
-            {//我的关注 
+            {//我关注的预测 
                 path: 'myfocus',
                 name:'myfocus',
                 component: _import('personal/myfocus'),
                 meta:{
-                    title:'我的关注',
+                    title:'我关注的预测',
+                    cache: true,
+                }
+            },
+            {//我关注的彩友 
+                path: 'mycanyou',
+                name:'mycanyou',
+                component: _import('personal/mycanyou'),
+                meta:{
+                    title:'我关注的彩友',
                     cache: true,
                 }
             },

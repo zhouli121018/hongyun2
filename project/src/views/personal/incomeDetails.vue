@@ -7,28 +7,35 @@
                 <span>金额</span>
                 <span>类型</span>
             </div>
-            <div>
-                <span>000008088</span>
-                <span>2019/02/10 09:01</span>
-                <span>某某某</span>
-            </div>
-            <div>
-                <span>000008088</span>
-                <span>2019/02/10 09:01</span>
-                <span>某某某</span>
-            </div>
-            <div>
-                <span>000008088</span>
-                <span>2019/02/10 09:01</span>
-                <span>某某某</span>
+            <div v-for="(item,index) in list" :key="index">
+                <span>{{item.money}}</span>
+                <span>{{item.createtime}}</span>
+                <span>{{item.type}}</span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { getmyincome } from '@/api'
 export default {
-
+    data() {
+        return {
+            list: []
+        }
+    },
+    methods: {
+        async getmyincome() {
+            const { data } = await getmyincome({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+            })
+            this.list = data.list
+        }
+    },
+    mounted() {
+        this.getmyincome()
+    }
 }
 </script>
 

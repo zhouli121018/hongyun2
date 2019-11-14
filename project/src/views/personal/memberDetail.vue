@@ -7,28 +7,35 @@
                 <span>使用时间</span>
                 <span>使用人</span>
             </div>
-            <div>
-                <span>000008088</span>
-                <span>2019/02/10 09:01</span>
-                <span>某某某</span>
-            </div>
-            <div>
-                <span>000008088</span>
-                <span>2019/02/10 09:01</span>
-                <span>某某某</span>
-            </div>
-            <div>
-                <span>000008088</span>
-                <span>2019/02/10 09:01</span>
-                <span>某某某</span>
+            <div v-for="(item,i) in list" :key="i">
+                <span>{{item.vipcode}}</span>
+                <span>{{item.usedtime}}</span>
+                <span>{{item.username}}</span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { getvipcodelist } from '@/api'
 export default {
-
+    data() {
+        return {
+            list: []
+        }
+    },
+    methods: {
+        async getvipcodelist() {
+            const { data } = await getvipcodelist({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid')
+            })
+            this.list = data.list
+        }
+    },
+    mounted() {
+        this.getvipcodelist()
+    }
 }
 </script>
 

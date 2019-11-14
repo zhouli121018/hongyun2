@@ -46,17 +46,18 @@
                         余额
                     </p>
                 </div>
-                <van-button style="background:#87AC55;color:#fff;border-radius:.1rem;padding:0 .3rem" size="small" @click="jumpTo('/personal/inviteDetail')" >提款</van-button>
+                <van-button style="background:#87AC55;color:#fff;border-radius:.1rem;padding:0 .3rem" size="small" @click="jumpTo('/personal/withdrawals')" >提款</van-button>
             </div>
         </div>
         <div v-if="info != null">
-            <van-cell title="修改资料" is-link icon="tj" @click="jumpTo(`/personal/modifydata?uname=${info.uname}&icon=${info.img}`)"/>
+            <van-cell title="修改资料" is-link icon="tj" @click="jumpTo(`/personal/modifydata?uname=${info.uname}&icon=${info.img}&jianjie=${info.jianjie}`)"/>
             <van-cell title="提交预测" is-link icon="dlzq"  @click="jumpTo('/personal/submitPredict')"/>
             <van-cell title="我查看的预测" is-link icon="kjtx"  @click="jumpTo('personal/myview')"/>
             <van-cell title="分享赚钱和金币(0元)" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
-            <van-cell title="我的关注" is-link icon="mylook"  @click="jumpTo('/personal/myfocus')"/>
+            <van-cell title="我的关注的预测" is-link icon="mylook"  @click="jumpTo('/personal/myfocus')"/>
+            <van-cell title="我的关注的彩友" is-link icon="mylook"  @click="jumpTo('/personal/mycanyou')"/>
             <van-cell title="卖会员码（专家权限）" is-link icon="membercode"  v-if="info.isexp == 1" @click="jumpTo('/personal/sell')"/>
-            <van-cell title="专家推广页" is-link icon="promote"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="专家推广页" is-link icon="promote"  @click="jumpTo('/personal/promotionPage')"/>
             <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
 

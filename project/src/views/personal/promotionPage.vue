@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap_box">
+    <div class="wrap_box" v-if="info != null">
         <div class="recommend_title">
             <van-nav-bar
                 title="***专家"
@@ -7,21 +7,21 @@
                 @click-left="goBack"
             />
             <div class="photo_name">
-                <img src="../../assets/chart.png" alt="">
-                <div>昵称 <img src="../../assets/zhuan.png" alt=""><img src="../../assets/vip.png" alt=""></div>
+                <img :src="$https+info.icon" alt="">
+                <div>{{info.username}} <img v-if="info.isexp == 1" src="../../assets/zhuan.png" alt=""><img v-if="info.isvip == 1" src="../../assets/vip.png" alt=""></div>
             </div>
             <div class="code">
-                <img src="../../assets/submit.png" alt="">
+                <img :src="$https+info.barcode" alt="">
                 <p>扫码关注</p>
             </div>
             <div class="fans">
                 <div>
                     <p>粉丝</p>
-                    <p>2987294798</p>
+                    <p>{{info.fans}}</p>
                 </div>
                 <div>
                     <p>查看次数</p>
-                    <p>2987294798</p>
+                    <p>{{info.viewtimes}}</p>
                 </div>
             </div>
         </div>
@@ -32,13 +32,23 @@
 </template>
 
 <script>
+import { getexpertShare } from '@/api'
 export default {
     data() {
         return {
-            
+            lottype: 1004,
+            info: null
         }
     },
     methods: {
+        async getexpertShare() {
+            const { data } = await getexpertShare({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                lottype: this.lottype
+            })
+            this.info = data
+        },
         // 返回
         goBack(){
             this.$store.dispatch('set_isback',true)
@@ -47,6 +57,11 @@ export default {
             }, 500);
             this.$router.go(-1)
         },
+    },
+    activated() {
+        if(!this.$store.getters.isback || this.isFirstEnter){
+            this.getexpertShare()
+        }
     }
 }
 </script>

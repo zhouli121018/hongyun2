@@ -6,7 +6,7 @@
         </div>
         <div class="modifydata_list">
             <p>昵称</p>
-            <van-field v-model="username" />
+            <van-field v-model="uname" />
         </div>
         <div class="modifydata_list">
             <p style="padding-bottom:.4rem">简介</p>
@@ -24,21 +24,21 @@ export default {
     data() {
         return {
             icon: '',
-            username: '',
+            uname: '',
             jianjie: ''
         }
     },
     methods: {
         async modifyUserinfor() {
             if(!this.icon || !this.username || !this.jianjie) {
-                this.$toast('资料不能为空')
+                this.$toast('资料不能为空!')
                 return
             }
             const { data } = await modifyUserinfor({
                 uid: localStorage.getItem('huid'),
                 sid: localStorage.getItem('hsid'),
                 icon: this.icon,
-                username: this.username,
+                username: this.uname,
                 jianjie: this.jianjie
             })
         }

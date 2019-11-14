@@ -1,42 +1,71 @@
 <template>
-    <div>
+    <div v-if="info != null">
         <title-bar title_name="商品详情"/>
         <div style="padding:.2rem .35rem;box-sizing:border-box">
-            <van-swipe indicator-color="#007BC2">
-            <van-swipe-item  v-for="(image, index) in advs" :key="index">
-                <div class="swipe_img_box" @click="jumpTo(image.url)">
-                <img :src="$https+image.pic" />
+            <!-- <van-swipe indicator-color="#007BC2">
+            <van-swipe-item  v-for="(image, index) in info.imgs" :key="index"> -->
+                <div class="swipe_img_box">
+                <img :src="$https+info.pic" />
                 </div>
-            </van-swipe-item>
-            </van-swipe>
-            <div style="font-size:15px">七星彩实战宝典七星彩实战宝典</div>
-            <div style="color:#999;font-size:13px">简介少时诵诗书所所所所所哒哒哒哒哒哒多多哒哒哒哒哒哒多多多多多多多</div>
-            <p class="pink">¥99.99</p>
+            <!-- </van-swipe-item>
+            </van-swipe> -->
+            <div style="font-size:15px">{{info.name}}</div>
+            <div style="color:#999;font-size:13px">{{info.pdesc}}</div>
+            <p class="pink">¥{{info.price}}</p>
             <div class="money_sales">
-                <span>运费: 7.00</span>
-                <span>销量: 87777</span>
+                <span>运费: {{info.carriage}}</span>
+                <span>销量: {{info.buynum}}</span>
             </div>
         </div>
         <div class="xian"></div>
         <!-- 详情页 -->
-        <div></div>
+        <div v-for="(image, index) in info.imgs" :key="index">
+            <img style="width:100%;height:4rem" :src="$https+image" alt="">
+        </div>
         <div class="shopping_bottom">
-            <van-button size="large" style="background:#87AC55;color:#fff">前往购买</van-button>
+            <van-button @click="toOrder" size="large" style="background:#87AC55;color:#fff">前往购买</van-button>
         </div>
     </div>
 </template>
 
 <script>
+import  { getproduct } from '@/api'
 export default {
     data() {
         return {
-            advs:[],
+            info: null
         }
+    },
+    methods: {
+        toOrder() {
+            this.$router.push(`/home/order?pid=${this.info.pid}&carriage=${this.info.carriage}&pic=${this.info.pic}&price=${this.info.price}&name=${this.info.name}`)
+        },
+        async getproduct() {
+            const { data } = await getproduct({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                pid: this.$route.query.pid
+            })
+            this.info = data
+            console.log(this.info.pic)
+            
+        }
+    },
+    mounted() {
+        this.getproduct()
     }
+
 }
 </script>
 
 <style lang="stylus" scoped>
+    .swipe_img_box
+        width 100%
+        height 6rem
+        margin-bottom .2rem
+        img 
+            height 6rem
+            width 100%
     .van-button
         border-radius 0
     .shopping_bottom

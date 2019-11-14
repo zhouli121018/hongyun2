@@ -4,13 +4,13 @@
         <div class="money_box">
             <p>余额(元)</p>
             <div>
-                <span>235.99</span>
+                <span>{{yue}}</span>
                 <div>
                     <van-button style="background-color: transparent;color:#fff;border: 1px solid #D9E3CD;" size="small">提款</van-button>
                     <van-button style="background-color: transparent;color:#fff;border: 1px solid #D9E3CD;" size="small">分享赚钱</van-button>
                 </div>
             </div>    
-            <p>满50元可提款</p>
+            <p>{{mintikuan}}</p>
         </div> 
         <div class="xian"></div>
         <div class="member_box">
@@ -19,24 +19,38 @@
                 <span>金额</span>
                 <span>状态</span>
             </div>
-            <div>
-                <span>2019/02/10 09:01</span>
-                <span>0.001</span>
-                <span>审核中</span>
+            <div v-for="(item,i) in list" :key="i">
+                <span>{{item.createtime}}</span>
+                <span>{{item.money}}</span>
+                <span>{{item.status}}</span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { getmytikuan } from '@/api'
 export default {
     data() {
         return {
-
+            yue: 0,
+            mintikuan: '',
+            list: []
         }
     },
     methods: {
-        
+        async getmytikuan() {
+            const { data } = await getmytikuan({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid')
+            })
+            this.list = data.list
+            this.yue = data.yue
+            this.mintikuan = data.mintikuan
+        }
+    },
+    mounted() {
+        this.getmytikuan()
     }
 }
 </script>

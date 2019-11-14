@@ -74,7 +74,7 @@ export function getalipayorderinfor(data) {
     })
 }
 
-//开通会员
+//获取开通Vip会员内容协议 getvipdata.php
 export function getvipdata(data) {
     return request({
         url: '/getvipdata.php',
@@ -85,10 +85,10 @@ export function getvipdata(data) {
     })
 }
 
-// 获取微信二维码（金币和会员） 
+// 获取微信二维码（金币和会员） 获取微信二维码（会员） getwechatcode.php
 export function getwechatcode(data) {
     return request({
-        url: '/getwechatcode.php',
+        url: '/wepay/submitorder_buyproduct.php',
         method: 'post',
         data
     })
@@ -102,11 +102,18 @@ export function getproductlist(data) {
         data
     })
 }
-
+// 41、(新)商城-获取商品详情信息接口getproduct.php
+export function getproduct(data) {
+    return request({
+        url: '/getproduct.php',
+        method: 'post',
+        data
+    })
+}
 // (新)商城-购买商品接口submitorder_buyproduct.php
 export function buyproduct(data) {
     return request({
-        url: '/submitorder_buyproduct.php',
+        url: '/alipay_wap/submitorder_buyproduct.php',
         method: 'post',
         data
     })
@@ -135,10 +142,18 @@ export function getmyfollow(data) {
         data
     })
 }
-// (新)我的-我的会员码接口getvipcodelist.php
+// (新)我的-我的会员码接口getvipcodelist.php（会员码明细）
 export function getvipcodelist(data) {
     return request({
         url: '/getvipcodelist.php',
+        method: 'post',
+        data
+    })
+}
+// 买卖会员码接口getbuyvipcodedesc.php
+export function getbuyvipcodedesc(data) {
+    return request({
+        url: '/getbuyvipcodedesc.php',
         method: 'post',
         data
     })
@@ -215,7 +230,6 @@ export function getexpertShare(data) {
         data
     })
 }
-
 
 
 
