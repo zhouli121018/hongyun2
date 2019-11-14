@@ -7,16 +7,15 @@
                 <van-dropdown-item v-model="option_value2" :options="issues[this.option_value]" @change="change_issue" />
             </van-dropdown-menu>
         </div>
-        <div style="padding:.2rem;">
-            <table class="table" border="1">
-                <tr v-for="(s,index) in list" :key="index">
-                    <td>{{s.kjissue}}</td>
-                    <td>{{s.sum}}</td>
-                    <td v-for="(n,i) in s.kjnum.split(',')" :key="i">{{n}}</td>
-
-                </tr>
-            </table>
+        <div style="padding:.2rem;" class="">
+            <van-row :gutter="16">
+                <van-col :span="12" v-for="(item,index) in list" :key="index">
+                    <img :src="$https_img+item.mappath" alt="" style="width:100%;" @click="prev_img(index)">
+                    <div style="text-align:center;font-weight:bold;padding:.2rem 0 .4rem;font-size:.37rem;">{{item.mapname}}</div>
+                </van-col>
+            </van-row>
         </div>
+        
         
     </div>
 </template>
@@ -24,6 +23,7 @@
 <script>
 import {getlotmap } from '@/api/home'
 import {gethome_global } from '@/utils'
+import { ImagePreview } from 'vant';
 export default {
     data (){
         return {
@@ -53,6 +53,16 @@ export default {
         change_issue(val){
             console.log(val)
             this.getlotmap();
+        },
+        prev_img(i){
+            let big_imgs = [];
+            this.list.forEach(val=>{
+                big_imgs.push(this.$https_img+val.bigmappath);
+            })
+            ImagePreview({
+                images:big_imgs,
+                startPosition: i,
+            });
         },
     },
     created(){
