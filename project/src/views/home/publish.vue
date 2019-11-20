@@ -37,7 +37,7 @@
 <script>
 import md5 from 'js-md5'
 import { formatDates } from '@/utils'
-import { uploadimg } from '@/api/home'
+import { uploadimg, uploadaudio } from '@/api/home'
 export default {
     data(){
         return {
@@ -113,10 +113,25 @@ export default {
                     this.desc = '点击播放'
                     //已经拿到blob文件对象想干嘛就干嘛：立即播放、上传
                     this.blob = blob;
+                    this.uploadaudio(blob)
+                    
+
                 },(msg)=>{
                     this.$toast("录音失败:"+msg)
                 });
             }
+        },
+        async uploadaudio (blob){
+            let now = new Date();
+            let md5_data = md5('token=' + now.getTime() + '&key=lldu43d98382');
+            const formData = new FormData()
+            formData.append('file', blob)
+            formData.append('token',now.getTime())
+            formData.append('data',md5_data)
+            formData.append('sid',localStorage.getItem('hsid'))
+            formData.append('uid',localStorage.getItem('huid'))
+            const { data } = await uploadaudio(formData)
+            console.log(data)
         },
         play(){
             /*立即播放例子*/

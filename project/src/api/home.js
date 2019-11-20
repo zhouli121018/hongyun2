@@ -286,3 +286,23 @@ export function gettiezilist_user (data) {
   })
 }
 
+//57、(新)我的-上传音频接口 uploadaudio.php 
+export function uploadaudio (data) {
+  return request({
+    url: '/uploadaudio.php',
+    method: 'post',
+    data
+  })
+}
+
+//63、(新)首页-获取走势图数据接口 gettrenddata.php
+export function gettrenddata (data) {
+  return request({
+    url: '/gettrenddata.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
