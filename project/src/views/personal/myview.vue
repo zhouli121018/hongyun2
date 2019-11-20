@@ -4,7 +4,7 @@
         <div class="right_button">
             <van-dropdown-menu>
                 <van-dropdown-item v-model="option_value1" :options="option1" @change="change_lottype" />
-                <van-dropdown-item v-model="option_value" :options="option" @change="change_lottype" />
+                <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
             </van-dropdown-menu>
         </div>
         
@@ -53,15 +53,13 @@
 
 <script>
 import { getmyviewpred } from '@/api'
+import { getpredrank } from '@/api/home'
+import {gethome_global} from '@/utils'
 export default {
     data(){
         return {
             option_value:'a',
-            option: [
-                { text: '七星彩', value: 'a' },
-                { text: '七星彩1', value: 'b' },
-                { text: '七星彩2', value: 'c' },
-            ],
+            lottype: [],
             option_value1:'a',
             option1: [
                 { text: '第789期', value: 'a' },
@@ -105,7 +103,27 @@ export default {
     },
     methods:{
         change_lottype(val){
-            this.$toast(val)
+            for(let i = 0;i<this.lottype.length;i++){
+                if(this.lottype[i].lottype == val){
+                    this.pos_active = 0;
+                    this.postype = this.lottype[i].postype;
+                    break;
+                }
+            }
+            this.pos_active = 0;
+            this.play_active = 0;
+            this.postype = this.lottype[0].postype;
+            this.playtype = this.postype[this.pos_active].playtype
+            this.getpredrank();
+        },
+        async getpredrank(){
+            let obj = {
+                lottype:this.option_value,
+                postype:this.postype[this.pos_active].postype,
+                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype
+            }
+            const {data} = await getpredrank(obj);
+            this.list = data.list;
         },
         change_pos(index){
             this.num_active = index;
@@ -124,8 +142,44 @@ export default {
                 playtype: ''
             })
         }
-    }
+    },
+    created(){
+        this.isFirstEnter=true;
         
+    },
+    activated(){
+        if(!this.$store.getters.isback || this.isFirstEnter){
+            if(this.$store.getters.homeData == null){
+                gethome_global().then(()=>{
+                    this.lottype = this.$store.getters.homeData.lottype
+                    this.lottype.map(item=>{
+                        item.value = item.lottype
+                        item.text = item.lotname
+                    })
+                    this.option_value = this.lottype[0].value
+                    this.pos_active = 0;
+                    this.play_active = 0;
+                    this.postype = this.lottype[0].postype;
+                    this.playtype = this.postype[0].playtype
+                    this.getpredrank();
+                })
+            }else{
+                this.lottype = this.$store.getters.homeData.lottype
+                this.lottype.map(item=>{
+                    item.value = item.lottype
+                    item.text = item.lotname
+                })
+                this.option_value = this.lottype[0].value
+                this.pos_active = 0;
+                this.play_active = 0;
+                this.postype = this.lottype[0].postype;
+                this.playtype = this.postype[0].playtype
+                this.getpredrank();
+            }
+        }
+        this.isFirstEnter=false;
+        this.$store.dispatch('set_isback',false)
+    }
 }
 </script>
 

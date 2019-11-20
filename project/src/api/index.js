@@ -230,9 +230,35 @@ export function getexpertShare(data) {
         data
     })
 }
-
-
-
-
-
-
+// 59、(新)首页-获取过滤条件接口getfiltcondition.php
+export function getfiltcondition(data) {
+    return request({
+        url: '/getfiltcondition.php',
+        method: 'post',
+        data
+    })
+}
+// 60、(新)首页-获取我的历史过滤接口getfiltlist_my.php
+export function getfiltlist_my(data) {
+    return request({
+        url: '/getfiltlist_my.php',
+        method: 'post',
+        data
+    })
+}
+// (新)首页-修改历史过滤接口modify_filtname.php
+export function modify_filtname(data) {
+    return request({
+        url: '/modify_filtname.php',
+        method: 'post',
+        data
+    })
+}
+// 62、(新)首页-过滤接口filt.php
+export function filt(data) {
+    return request({
+        url: '/filt.php',
+        method: 'post',
+        data
+    })
+}

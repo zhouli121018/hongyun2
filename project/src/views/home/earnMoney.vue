@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="推荐赚钱" />
         <div style="padding:0.4rem 0.2rem;" v-if="info">
             <div style="line-height:1.6;padding-bottom:0.4rem;font-size:0.36rem" v-html="info.content"></div>

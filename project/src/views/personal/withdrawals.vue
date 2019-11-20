@@ -6,8 +6,8 @@
             <div>
                 <span>{{yue}}</span>
                 <div>
-                    <van-button style="background-color: transparent;color:#fff;border: 1px solid #D9E3CD;" size="small">提款</van-button>
-                    <van-button style="background-color: transparent;color:#fff;border: 1px solid #D9E3CD;" size="small">分享赚钱</van-button>
+                    <van-button @click="show_tikuan" style="background-color: transparent;color:#fff;border: 1px solid #D9E3CD;" size="small">提款</van-button>
+                    <van-button @click="toEarnMoney" style="background-color: transparent;color:#fff;border: 1px solid #D9E3CD;" size="small">分享赚钱</van-button>
                 </div>
             </div>    
             <p>{{mintikuan}}</p>
@@ -25,20 +25,40 @@
                 <span>{{item.status}}</span>
             </div>
         </div>
+        <van-dialog 
+            v-model="show_tt"
+            title="提款提示"
+            show-cancel-button
+            class="dialog_content_input"
+            :before-close="beforeClose"
+            >
+            <van-field
+                v-model.trim="alipay"
+                clearable
+                label="支付宝："
+            />
+        </van-dialog>
     </div>
 </template>
 
 <script>
 import { getmytikuan } from '@/api'
+import { submittikuan } from '@/api/home'
 export default {
     data() {
         return {
             yue: 0,
             mintikuan: '',
-            list: []
+            list: [],
+            show_tt:false,
+            alipay:''
         }
     },
     methods: {
+        //跳转推荐赚钱页面
+        toEarnMoney() {
+            this.$router.push('/home/earnMoney')
+        },
         async getmytikuan() {
             const { data } = await getmytikuan({
                 uid: localStorage.getItem('huid'),
@@ -47,7 +67,44 @@ export default {
             this.list = data.list
             this.yue = data.yue
             this.mintikuan = data.mintikuan
-        }
+        },
+        // 点击提款
+        show_tikuan(){
+            this.show_tt = true;
+            return;
+            Dialog.confirm({
+                title: '提款提示',
+                confirmButtonText:'确定',
+                cancelButtonText:'取消',
+                className: 'dialog_content_input',
+                message: `<span style="white-space: nowrap;">支付宝:</span> <input class="dialog_input" type="text" />`
+            }).then(() => {
+                // on confirm
+
+            }).catch(() => {
+                // on cancel
+            });
+        },
+        // 确认提款
+        async submittikuan() {
+            const { data } = await submittikuan({
+                alipay:this.alipay
+            })
+            this.info.yongjin = data.yongjin
+        },
+        //输入支付宝点击确定
+        beforeClose(action,done){
+            if(action == 'confirm'){
+                if(!this.alipay){
+                    this.$toast('请输入支付宝账号！')
+                    done(false)
+                    return;
+                }
+                this.submittikuan();
+                this.alipay = ''
+            }
+            done();
+        },
     },
     mounted() {
         this.getmytikuan()

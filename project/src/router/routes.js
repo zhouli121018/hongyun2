@@ -124,6 +124,15 @@ export default [
                     cache: true,
                 }
             },
+            {//历史过滤条件 
+                path: 'historyFilter',
+                name:'historyFilter',
+                component: _import('home/historyFilter'),
+                meta:{
+                    title:'历史过滤条件',
+                    cache: true,
+                }
+            },
             {//奖表
                 path: 'lottable',
                 name: 'lottable',
@@ -366,7 +375,7 @@ export default [
                 name:'myview',
                 component: _import('personal/myview'),
                 meta:{
-                    title:'我的查看',
+                    title:'我查看的预测',
                     cache: true,
                 }
             },

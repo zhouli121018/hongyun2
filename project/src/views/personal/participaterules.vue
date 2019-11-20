@@ -6,11 +6,11 @@
                 @click-left="goBack"
             />
         </div>
-        <div class="recommend_content">
+        <div class="recommend_content" v-if="info != null">
             <div class="rules_img">奖励红包</div>
-            <p>每期都奖励一名专家，奖励红包40元</p>
+            <p>{{info.jldes}}</p>
             <div class="rules_img rules_imgs">参与条件</div>
-            <p>每期都奖励一名专家，奖励红包40元</p>
+            <p v-html="info.jltj"></p>
         </div>
     </div>
 </template>
@@ -19,7 +19,7 @@
 export default {
     data() {
         return {
-            
+            info: null
         }
     },
     methods: {
@@ -31,6 +31,14 @@ export default {
             }, 500);
             this.$router.go(-1)
         },
+        async getjoinrule() {
+            const { data } = await getjoinrule({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                type: 1
+            })
+            this.info = data
+        }
     }
 }
 </script>

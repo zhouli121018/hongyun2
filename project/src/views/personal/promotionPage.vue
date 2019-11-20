@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="promotion_list">
-            <van-cell title="七星彩0912期" value="开奖: 122312" />
+            <van-cell v-for="(item,i) in list" :key="i" :title="item.hitrate+item.issue+'期'" :value="'开奖:'+ item.kjnum" />
         </div>
     </div>
 </template>
@@ -37,7 +37,8 @@ export default {
     data() {
         return {
             lottype: 1004,
-            info: null
+            info: null,
+            list: []
         }
     },
     methods: {
@@ -48,6 +49,7 @@ export default {
                 lottype: this.lottype
             })
             this.info = data
+            this.list = this.info.list
         },
         // 返回
         goBack(){

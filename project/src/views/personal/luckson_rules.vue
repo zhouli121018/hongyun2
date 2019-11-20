@@ -6,21 +6,21 @@
                 @click-left="goBack"
             />
         </div>
-        <div class="recommend_content">
+        <div class="recommend_content" v-if="info != null">
             <div class="rules_img">奖励红包</div>
-            <p>每天随机抽取一名幸运儿，奖励50元红包</p>
+            <p>{{info.jldes}}</p>
             <div class="rules_img rules_imgs">参与条件</div>
-            <p>推荐一位好友注册</p>
-            <p>抽取的红包直接可以提款</p>
+            <p v-html="info.jltj"></p>
         </div>
     </div>
 </template>
 
 <script>
+import { getjoinrule } from '@/api'
 export default {
     data() {
         return {
-            
+            info: null,
         }
     },
     methods: {
@@ -32,6 +32,17 @@ export default {
             }, 500);
             this.$router.go(-1)
         },
+        async getjoinrule() {
+            const { data } = await getjoinrule({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                type: 0
+            })
+            this.info = data
+        }
+    },
+    activated() {
+        this.getjoinrule()
     }
 }
 </script>

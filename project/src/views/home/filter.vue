@@ -1,21 +1,20 @@
 <template>
-    <div>
+    <div v-if="info != null">
         <title-bar title_name="过滤"/>
         <div class="right_button">
             <van-dropdown-menu>
-                <van-dropdown-item v-model="option_value" :options="option" @change="change_lottype" />
+                <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
             </van-dropdown-menu>
         </div>
         <div class="fil_box">
             <span>过滤条件：</span>
-            <select class="select">
-                <option value="1">第一位落码</option>
-                <option value="2">第二位落码</option>
+            <select class="select" v-model="filttypes" @change="changeProduct()">
+                <option v-for="(t,i) in info.list" :key="i" :value="t.filttype">{{t.filtname}}</option>
             </select>
             <img src="~@/assets/plus.png" alt="" style="width:.6rem;">
         </div>
         <div style="color:#FF0B60;background:#F5F5F5;font-size:.32rem;padding:.27rem .56rem">
-            特殊要求加微信：xxxkd
+            {{info.title}}
         </div>
         <div style="padding:0 .56rem;">
             <div v-for="(item,index) in list" :key="index" style="font-size:.373rem;color:#333333;padding:.3rem 0;border-bottom:2px solid #E3E3E3;line-height:.5rem">
@@ -24,7 +23,8 @@
             </div>
         </div>
         <div class="text_center" style="padding:.35rem 0;">
-            <van-button style="width:4.03rem;height:1.21rem;background:#87AC55;border-radius:.2rem;color:#fff;font-size:0.53rem;line-height:0.8rem;">过滤</van-button>
+            <router-link class="bottom_size" :to="{name: 'historyFilter',query: {lottype: option_value}}">历史过滤条件</router-link>
+            <van-button @click="filterContent()" style="width:4.03rem;height:1.21rem;background:#87AC55;border-radius:.2rem;color:#fff;font-size:0.53rem;line-height:0.8rem;">过滤</van-button>
         </div>
         <div style="background:#F5F5F5;height:0.27rem;"></div>
         <div style="padding:.4rem .56rem;">
@@ -43,35 +43,112 @@
 </template>
 
 <script>
+import { getpredrank } from '@/api/home'
+import {gethome_global} from '@/utils'
+import { getfiltcondition, filt } from '@/api'
 export default {
     data(){
         return {
             option_value:'a',
-            option: [
-                { text: '七星彩', value: 'a' },
-                { text: '七星彩1', value: 'b' },
-                { text: '七星彩2', value: 'c' },
-            ],
-
-            list:[
-                {},{},{},{}
-            ]
+            lottype:[],
+            list: [],
+            pos_active:0,
+            play_active:0,
+            postype:[],
+            playtype:[],
+            filtid: 0,
+            info: null,
+            filttypes: ''
         }
     },
     methods:{
+        changeProduct() {},
+        //获取下拉框条件
+        async getfiltcondition() {
+            const { data } = await getfiltcondition({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                lottype: this.option_value,
+                filtid: this.filtid
+            })
+            this.info = data
+            this.filtid = this.info.filtid
+            this.filttypes = this.info.list[0].filttype
+            console.log('--------',this.filttypes)
+            this.filterContent()
+        },
+        //获取过滤页面接口
+        async filterContent() {
+            const { data } = await filt({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                filttypes: this.filttypes,
+                filtid: this.filtid
+            })
+        },
+        //选择右上角条件
         change_lottype(val){
-            this.$toast(val)
+            for(let i = 0;i<this.lottype.length;i++){
+                if(this.lottype[i].lottype == val){
+                    this.pos_active = 0;
+                    this.postype = this.lottype[i].postype;
+                    break;
+                }
+            }
+            this.pos_active = 0;
+            this.play_active = 0;
+            this.postype = this.lottype[0].postype;
+            this.playtype = this.postype[this.pos_active].playtype
+            this.getfiltcondition()
         },
     },
     created(){
-        
-        
+        this.isFirstEnter=true;
+    },
+    activated(){
+        if(!this.$store.getters.isback || this.isFirstEnter){
+            if(this.$store.getters.homeData == null){
+                gethome_global().then(()=>{
+                    this.lottype = this.$store.getters.homeData.lottype
+                    this.lottype.map(item=>{
+                        item.value = item.lottype
+                        item.text = item.lotname
+                    })
+                    this.option_value = this.lottype[0].value
+                    this.pos_active = 0;
+                    this.play_active = 0;
+                    this.postype = this.lottype[0].postype;
+                    this.playtype = this.postype[0].playtype
+                    this.getfiltcondition()//获取过滤条件
+                })
+            }else{
+                this.lottype = this.$store.getters.homeData.lottype
+                this.lottype.map(item=>{
+                    item.value = item.lottype
+                    item.text = item.lotname
+                })
+                this.option_value = this.lottype[0].value
+                this.pos_active = 0;
+                this.play_active = 0;
+                this.postype = this.lottype[0].postype;
+                this.playtype = this.postype[0].playtype
+                this.getfiltcondition()//获取过滤条件
+            }
+        }
+        this.isFirstEnter=false;
+        this.$store.dispatch('set_isback',false)
     }
         
 }
 </script>
 
 <style lang="stylus" scoped>
+.bottom_size
+    padding-top .8rem
+    font-size 12px
+    padding-left .3rem
+    color #26B5FF
+    text-decoration:underline
 .fil_box
     padding .12rem .56rem
 .select
@@ -82,7 +159,7 @@ export default {
     width: 4.67rem;
     height: .92rem;
     text-align: center;
-    padding: 0 1rem;
+    padding: 0 .3rem;
 // 右上角下拉菜单样式 start
 /deep/ .van-dropdown-item.van-dropdown-item--down
     top 50px !important
