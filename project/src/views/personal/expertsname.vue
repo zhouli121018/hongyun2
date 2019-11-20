@@ -22,7 +22,7 @@
             </div>
             <van-button @click.stop="follow_playtype" style="float:right;margin-right:.39rem;background:#87AC55;color:#fff;width:2rem" size="mini">{{info.isfollow==0?'关注':'取消关注'}}</van-button>
         </div>
-        <div style="padding:.3rem .2rem;margin:0 .4rem .4rem;border:1px solid #E3E3E3;border-radius:.1rem;min-height:1.39rem;">
+        <div v-if="info" style="padding:.3rem .2rem;margin:0 .4rem .4rem;border:1px solid #E3E3E3;border-radius:.1rem;min-height:1.39rem;">
             {{info.jianjie}}
         </div>
         <div style="height:.27rem;background:#F5F5F5"></div>
