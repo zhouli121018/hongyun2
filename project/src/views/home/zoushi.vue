@@ -19,7 +19,7 @@
         <div  style="padding:.55rem;">
             <table class="table" border="0">
                 <tr>
-                    <td v-for="(c,ci) in issues" :key="ci">{{c}}</td>
+                    <td v-for="(c,ci) in issues_list" :key="ci">{{c}}</td>
                 </tr>
             </table>
         </div>
@@ -42,7 +42,8 @@ export default {
             is_active:0,
             option_value2:'',
             trendtype:'',
-            trendtypes:[]
+            trendtypes:[],
+            issues_list:[],
         }
     },
     methods:{
@@ -53,6 +54,7 @@ export default {
             obj.trendtype = this.trendtype
             const { data }    = await gettrenddata(obj);
             this.list = data.list;
+            this.issues_list = data.issues;
         },
         change_lottype(val){
             this.option_value2 = this.issues[this.option_value][0].value
