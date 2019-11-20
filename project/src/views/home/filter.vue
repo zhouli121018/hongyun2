@@ -8,18 +8,20 @@
         </div>
         <div class="fil_box">
             <span>过滤条件：</span>
-            <select class="select" v-model="filttypes" @change="changeProduct()">
+            <select class="select" @change="indexSelect($event)">
                 <option v-for="(t,i) in info.list" :key="i" :value="t.filttype">{{t.filtname}}</option>
             </select>
-            <img src="~@/assets/plus.png" alt="" style="width:.6rem;">
+            <img @click="addfilters()" src="~@/assets/plus.png" alt="" style="width:.6rem;">
         </div>
         <div style="color:#FF0B60;background:#F5F5F5;font-size:.32rem;padding:.27rem .56rem">
             {{info.title}}
         </div>
         <div style="padding:0 .56rem;">
-            <div v-for="(item,index) in list" :key="index" style="font-size:.373rem;color:#333333;padding:.3rem 0;border-bottom:2px solid #E3E3E3;line-height:.5rem">
-                <img src="~@/assets/min.png" alt="" style="width:.48rem;">
-                 第1位落码
+            <div v-for="(item,index) in info.defaltfilttype" :key="index" style="font-size:.373rem;color:#333333;padding:.3rem 0;border-bottom:2px solid #E3E3E3;line-height:.5rem">
+                <img @click="deletefilters()" src="~@/assets/min.png" alt="" style="width:.48rem;">
+                 {{item.filtname}}
+                 <span style="width:.5rem;display:inline-block"></span>
+                 {{item.filthint}}
             </div>
         </div>
         <div class="text_center" style="padding:.35rem 0;">
@@ -30,10 +32,10 @@
         <div style="padding:.4rem .56rem;">
             <div style="padding-bottom:.27rem;">
                 <span style="font-size:0.37rem;color:#333333">过滤结果</span> 
-                <span style="float:right;font-size:0.37rem;color:#FF0B60">复制</span>
+                <span @click="doCopy(content)" style="float:right;font-size:0.37rem;color:#FF0B60">复制</span>
             </div>
             <div style="font-size:0.29rem;color:#333333;line-height:0.6rem;text-align:justify">
-                1123   2313   3131  4567   334   8272   2292   4242   4232   1123   2313   3131  4567   334   8272   2292   4242   4232   4334   2313   3131  4567   334   8272   2292   4242   4232   1123   2313   2313   3131  4567   334   8272   2292   4242   4232   334   8272   2292   4242   4232   4334   2313   2313   3131  4567   334   8272   2292   4242   4232   4334   2313   3131  4567   334   8272   2292   4242   4232   1123   2313   3131  4567   334   8272   2292   4242   4232   4334
+                {{content}}
             </div>
         </div>
         
@@ -46,6 +48,10 @@
 import { getpredrank } from '@/api/home'
 import {gethome_global} from '@/utils'
 import { getfiltcondition, filt } from '@/api'
+import { Dialog } from 'vant'
+import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
 export default {
     data(){
         return {
@@ -58,11 +64,42 @@ export default {
             playtype:[],
             filtid: 0,
             info: null,
-            filttypes: ''
+            filttypes: '',
+            content: '',
+            defaltfilttypeList: null
         }
     },
     methods:{
-        changeProduct() {},
+        //选择下拉框
+        indexSelect(event) {
+            let filttype = event.target.value
+            this.defaltfilttypeList = this.info.list.filter(item => item.filttype == filttype)[0]
+        },
+        //点击添加过滤条件并且追加到info.defaltfilttype里面 显示在页面中间内容区域
+        addfilters() {
+            this.info.defaltfilttype.unshift(this.defaltfilttypeList)
+        },
+        //删除中间区域内容
+        deletefilters() {
+            
+        },
+        doCopy (text) {
+            this.$copyText(text).then(function (e) {
+                Dialog.alert({
+                    title: '提示',
+                    message: '复制成功，请粘贴分享到微信或QQ。'
+                }).then(() => {
+                // on close
+                });
+            }, function (e) {
+                Dialog.alert({
+                    title: '提示',
+                    message: '复制失败，请手动复制！'
+                }).then(() => {
+                // on close
+                });
+            })
+        },
         //获取下拉框条件
         async getfiltcondition() {
             const { data } = await getfiltcondition({
@@ -73,8 +110,11 @@ export default {
             })
             this.info = data
             this.filtid = this.info.filtid
-            this.filttypes = this.info.list[0].filttype
-            console.log('--------',this.filttypes)
+            let filttypes = this.info.list.map(item => {
+                return item.filttype
+            })
+            this.filttypes = filttypes.join(',')
+            this.defaltfilttypeList = this.info.list[0]
             this.filterContent()
         },
         //获取过滤页面接口
@@ -85,6 +125,8 @@ export default {
                 filttypes: this.filttypes,
                 filtid: this.filtid
             })
+            this.content = data.content
+            this.filtid = data.filtid
         },
         //选择右上角条件
         change_lottype(val){
