@@ -5,13 +5,13 @@
             <input v-model="keyword" placeholder="请输入号码或梦境关键词" />
             <img src="../../assets/sreach_img.png" alt="" @click="onSearch">
         </div>
-        <div class="dreams_list" v-for="(d,index) in list" :key="index">
-            <img :src="l.pic" alt="">
+        <div class="dreams_list" v-for="(item,index) in list" :key="index">
+            <img :src="$https_img+'/'+item.pic" alt="">
             <div>
-                <p>{{d.title}}</p>
+                <p>{{item.title}}</p>
                 <p>
-                    <span>{{d.num1}}</span>
-                    <span>{{d.num2}}</span>
+                    <span>{{item.num1}}</span>
+                    <span>{{item.num2}}</span>
                 </p>
             </div>
         </div>

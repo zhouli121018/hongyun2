@@ -7,7 +7,7 @@
             <span class="line_border"></span>
         </div>
         <div style="line-height:0.64rem;padding:.65rem .42rem .76rem;">
-            <div style="font-size:0.37rem;">{{info.buydesc}}</div>
+            <div style="font-size:0.37rem;" v-html="info.buydesc"></div>
             
         </div>
         <div style="background:#F5F5F5;height:0.27rem;"></div>
@@ -17,11 +17,10 @@
             <span class="line_border"></span>
         </div>
         <div style="line-height:0.64rem;padding:.65rem 1.83rem .76rem;">
-            <div style="font-size:0.37rem;" class="flex">
+            <div style="font-size:0.37rem;" v-html="info.buytype">
                 <!-- <span class="flex_grow_1">添加微信：<span style="color:#FF0B60;">SNSN889922</span></span>
                 
                 <span>购买会员码</span> -->
-                {{info.buytype}}
             </div>
             <!-- <div style="font-size:0.37rem;">购买的会员码不可以退还，也不能退款</div> -->
         </div>

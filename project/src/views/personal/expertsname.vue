@@ -195,7 +195,7 @@ export default {
             const {data} = await getexpert(obj);
             
             if(this.lastid > 0){
-                this.list = data.list.concat(this.list);
+                this.list = this.list.concat(data.list);
             }else{
                 this.list = data.list
             }

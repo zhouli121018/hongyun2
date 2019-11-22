@@ -57,7 +57,6 @@ export default {
             this.issues_list = data.issues;
         },
         change_lottype(val){
-            this.option_value2 = this.issues[this.option_value][0].value
             this.gettrenddata();
 
         },

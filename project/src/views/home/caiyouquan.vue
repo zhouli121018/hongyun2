@@ -24,8 +24,8 @@
                 </div>
                 <div class="line_2" @click="goComment(item)">{{item.content}}</div>
                 <div v-if="item.soundurl">
-                    <van-button color="#87AC55" size="small" style="width:2.76rem;height:.81rem;border-radius:.1rem;margin-bottom:.33rem;" @click="play('myaudio_'+index)"><img src="~@/assets/yy.png" style="width:0.29rem;height:0.33rem;" alt="" > 点击听语音</van-button>
-                    <audio :id="'myaudio_'+index" preload="load" :src="item.soundurl" controls="controls" :loop="false" v-show="false"></audio>
+                    <van-button color="#87AC55" size="small" style="width:2.76rem;height:.81rem;border-radius:.1rem;margin-bottom:.33rem;" @click="play_sound('myaudio_'+index)"><img src="~@/assets/yy.png" style="width:0.29rem;height:0.33rem;" alt="" > 点击听语音</van-button>
+                    <audio :id="'myaudio_'+index" preload="load" :src="$https_img+'/'+item.soundurl" controls="controls" :loop="false" v-show="false"></audio>
                 </div>
                 <div class="flex line_3">
                     <div class="img_box"  :class="{center_box:(i%3==1)}" v-for="(m,i) in item.imgs" :key="i" @click="prev_img(item,i)">
@@ -84,30 +84,29 @@
         <van-popup v-if="show_pinglun"
         v-model="show_pinglun"
         position="bottom"
+        :style="{ height: '2.2rem' }"
         >
-        <div style="text-align:center;padding:.4rem 0 .4rem;font-size:.45rem;border-bottom:1px dashed #aaa;">{{pl_title}}</div>
-            <van-cell-group>
-                <van-field
-                v-model="pinglun"
-                rows="2"
-                autosize
-                label="评论"
-                type="textarea"
-                maxlength="80"
-                placeholder="请输入文字"
-                show-word-limit
+        <div style="text-align:center;padding:.2rem 0 .2rem;font-size:.45rem;border-bottom:1px dashed #aaa;">{{pl_title}}</div>
+            <div  class="flex" style="background:#E9E9E9;height:1.4rem;position:absolute;bottom:0;width:100%;">
+                <img src="~@/assets/luyin.png" style="width:0.45rem;height:0.64rem;margin:0 .3rem;" alt="" @click="volumn = !volumn">
+                <van-field style="border-radius:.1rem;" ref="pinglun_input"
+                    v-model="value" maxlength="200" 
+                    clearable v-show="!volumn"
+                    placeholder="我也说说...(最多200字以内）"
                 >
-                    <van-button slot="button" size="small" type="primary">发布</van-button>
                 </van-field>
-            </van-cell-group>
+                <van-button v-show="volumn" class="flex_grow_1"  @touchstart.native="start" @touchend.native="stop" @click.native="play" :color="desc=='长按录音'?'':'#87ac55'">{{desc}}</van-button>
+                <van-button size="small" color="#87AC55" @click="submittizi_disc" style="margin:0 .3rem;border-radius:.1rem;">发布</van-button>
+            </div>
         </van-popup>
 
     </div>
 </template>
 
 <script>
+import md5 from 'js-md5'
 import Mshare from 'm-share'
-import {gettiezilist, submitjubao, follow_tiezi, submit_like, submittizi_disc } from '@/api/home'
+import {gettiezilist, submitjubao, follow_tiezi, submit_like, submittizi_disc, uploadaudio } from '@/api/home'
 import { ImagePreview } from 'vant';
 export default {
     data(){
@@ -121,7 +120,6 @@ export default {
             show:false,
             img_src:'',
             show_bottom:false,
-            pinglun:'',
             show_pinglun:false,
             pl_title:'',
             config:{},
@@ -129,6 +127,13 @@ export default {
             jub_value:'1',
             cur_item:{},
             big_imgs:[],
+            value:'',
+            volumn:false,
+            desc:'长按录音',
+            start_status:false,
+            start_timer:null,
+            sound:'',
+            blob:null,
         }
     },
     methods:{
@@ -172,7 +177,11 @@ export default {
         },
         pinglun_click(item){
             this.pl_title = item.username
+            this.cur_item = item;
             this.show_pinglun = true;
+            this.$nextTick(()=>{
+                this.$refs.pinglun_input.focus();
+            })
         },
         show_more(item){
             this.show_bottom = true;
@@ -196,7 +205,7 @@ export default {
             };
             const {data} = await gettiezilist(obj)
             if(this.lastid > 0){
-                this.list = data.list.concat(this.list);
+                this.list = this.list.concat(data.list);
             }else{
                 this.list = data.list
             }
@@ -208,7 +217,7 @@ export default {
                 val.text = val.content;
             })
         },
-        play(id){
+        play_sound(id){
             let audios = document.querySelectorAll('audio');
             if(audios.length>0){
                 audios.forEach(val=>{
@@ -277,6 +286,96 @@ export default {
             }
             const {data} = await submittizi_disc(obj);
         },
+        start(){
+            this.start_timer = setTimeout(()=>{
+                this.rec=Recorder({type:"mp3",sampleRate:16000});
+                if(this.rec){
+                    this.rec.close();
+                    this.rec.open(()=>{//打开麦克风授权获得相关资源
+                        //dialog&&dialog.Cancel(); 如果开启了弹框，此处需要取消
+                        this.rec.start();//开始录音
+                        this.start_status = true;
+                        this.desc = '松开停止录音'
+                    },(msg,isUserNotAllow)=>{//用户拒绝未授权或不支持
+                        //dialog&&dialog.Cancel(); 如果开启了弹框，此处需要取消
+                        this.$toast((isUserNotAllow?"UserNotAllow，":"")+"无法录音:"+msg)
+                    });
+                }else{
+                    this.$toast('初始化录音失败！')
+                }
+            },500);
+        },
+        stop(){
+            clearTimeout(this.start_timer);
+            this.start_timer = null
+            if(this.start_status){
+                this.rec.stop((blob,duration)=>{//到达指定条件停止录音
+                    this.rec.close();//释放录音资源
+                    this.start_status = false;
+                    this.desc = '点击播放'
+                    //已经拿到blob文件对象想干嘛就干嘛：立即播放、上传
+                    this.blob = blob;
+                    this.uploadaudio(blob)
+                },(msg)=>{
+                    this.$toast("录音失败:"+msg)
+                });
+            }
+        },
+        async uploadaudio (blob){
+            let now = new Date();
+            let md5_data = md5('token=' + now.getTime() + '&key=lldu43d98382');
+            const formData = new FormData()
+            formData.append('file', blob)
+            formData.append('token',now.getTime())
+            formData.append('data',md5_data)
+            formData.append('sid',localStorage.getItem('hsid'))
+            formData.append('uid',localStorage.getItem('huid'))
+            const { data } = await uploadaudio(formData)
+            this.sound = data.url
+        },
+        play(){
+            /*立即播放例子*/
+            if(this.blob){
+                this.audio=document.createElement("audio");
+                this.audio.controls=false;
+                document.body.appendChild(this.audio);
+                //简单的一哔
+                this.audio.src=(window.URL||webkitURL).createObjectURL(this.blob);
+                this.audio.play();
+                // this.audio.remove();
+            }
+        },
+        async submittizi_disc(){
+            let obj = {
+                tid: this.cur_item.tid
+            }
+            if(this.volumn){
+                if(this.sound){
+                    obj.sound = this.sound;
+                }else{
+                    this.$toast('请先录音~')
+                    return;
+                }
+            }else{
+                if(this.value){
+                    obj.content = this.value;
+                }else{
+                    this.$toast('请输入内容~')
+                    return;
+                }
+            }
+            const {data} = await submittizi_disc(obj);
+            if(data.errorcode == 0){
+                this.show_pinglun = false;
+                this.sound = '';
+                this.desc = '长按录音'
+                this.start_status = false;
+                this.start_timer = null;
+                this.value = '';
+                this.lastid = 0;
+                this.gettiezilist();
+            }
+        },
 
     },
     created(){
@@ -284,6 +383,9 @@ export default {
     },
     activated(){
         if(!this.$store.getters.isback || this.isFirstEnter){
+            this.lastid = 0;
+            this.areatype = 0 
+            this.timetype = 0
             this.gettiezilist();
         }
         this.isFirstEnter=false;

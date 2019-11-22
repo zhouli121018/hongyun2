@@ -306,3 +306,17 @@ export function gettrenddata (data) {
   })
 }
 
+//31、(新)彩友圈-发表帖子接口 submittizi.php
+export function submittizi (data) {
+  return request({
+    url: '/submittizi.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+
+
+
