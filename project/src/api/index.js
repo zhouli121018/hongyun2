@@ -262,3 +262,14 @@ export function filt(data) {
         data
     })
 }
+
+//(新)首页-获取规则接口 getrule.php
+export function getrule (data) {
+    return request({
+      url: '/getrule.php',
+      method: 'post',
+      data:{
+        ...data
+      }
+    })
+  }

@@ -424,12 +424,21 @@ export default [
                     cache: true,
                 }
             },
-            {
+            {//关于
                 path: 'about',
                 name:'about',
                 component: _import('personal/about'),
                 meta:{
                     title:'关于鸿运四码',
+                    cache: false
+                }
+            },
+            {//预测规则
+                path: 'yucerule',
+                name:'yucerule',
+                component: _import('personal/yucerule'),
+                meta:{
+                    title:'预测规则',
                     cache: false
                 }
             }
