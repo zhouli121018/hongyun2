@@ -88,7 +88,7 @@ export function getvipdata(data) {
 // 获取微信二维码（金币和会员） 获取微信二维码（会员） getwechatcode.php
 export function getwechatcode(data) {
     return request({
-        url: '/wepay/submitorder_buyproduct.php',
+        url: '/getwechatcode.php',
         method: 'post',
         data
     })
@@ -258,6 +258,31 @@ export function modify_filtname(data) {
 export function filt(data) {
     return request({
         url: '/filt.php',
+        method: 'post',
+        data
+    })
+}
+
+// getbuyjindoudesc.php 购买金豆页面数据
+export function getbuyjindoudesc(data) {
+    return request({
+        url: '/getbuyjindoudesc.php',
+        method: 'post',
+        data
+    })
+}
+// 获取免费试用内容getfreeusedesc.php
+export function getfreeusedesc(data) {
+    return request({
+        url: '/getfreeusedesc.php',
+        method: 'post',
+        data
+    })
+}
+// 商城-微信购买商品接口wepay/submitorder_buyproduct.php
+export function submitorder_buyproduct(data) {
+    return request({
+        url: '/wepay/submitorder_buyproduct.php',
         method: 'post',
         data
     })

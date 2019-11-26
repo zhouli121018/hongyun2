@@ -55,6 +55,7 @@
             </div>
             
         </div>
+        <div style="color:#a4d068;text-align:center;padding:.4rem 0;" v-if="lastid>0" @click="getpredrank"> 加载更多</div>
     </div>
 </template>
 
@@ -72,7 +73,8 @@ export default {
             postype:[],
             playtype:[],
             list:[],
-            isFirstEnter:false
+            isFirstEnter:false,
+            lastid: 0
         }
     },
     methods:{
@@ -87,6 +89,7 @@ export default {
                 }
             })
         },
+        //取消关注
         async follow_playtype(item){
             let type = 0;
             if(item.isfollow==0){
@@ -102,6 +105,7 @@ export default {
             const {data} = await follow_playtype(obj)
             if(data.errorcode == 0){
                 item.isfollow = type
+                this.getpredrank()
             }
         },
         viewpre(item){
@@ -171,14 +175,21 @@ export default {
             this.play_active = index;
             this.getpredrank();
         },
+        //列表数据请求
         async getpredrank(){
             let obj = {
                 lottype:this.option_value,
                 postype:this.postype[this.pos_active].postype,
-                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype
+                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype,
+                lastid: this.lastid
             }
-            const {data} = await getpredrank(obj);
-            this.list = data.list;
+            const {data} = await getmyfollow(obj);
+            if(this.lastid > 0) {
+                this.list = this.list.concat(data.list)
+            }else {
+                this.list = data.list
+            }
+            this.lastid = data.lastid
         },
     },
      created(){

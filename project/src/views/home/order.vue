@@ -55,13 +55,13 @@
         <div style="width:100%;height:3rem"></div>
         <div class="order_pay">
             <span>应付:  ¥{{Number(sumfee)+Number(carriage)}}</span>
-            <van-button @click="buyproduct">购买</van-button>
+            <van-button @click="sumBuy">购买</van-button>
         </div>
     </div>
 </template>
 
 <script>
-import { buyproduct, getalipayorderinfor } from '@/api'
+import { buyproduct, getalipayorderinfor, submitorder_buyproduct } from '@/api'
 export default {
     data() {
         return {
@@ -93,7 +93,15 @@ export default {
         add() {
             this.num ++
         },
-        // 点击购买
+        //点击购买(// paytype: this.payType,//0为微信，1为支付宝)
+        sumBuy() {
+            if(this.payType == 0) {
+                this.submitorder_buyproduct()
+            }else {
+                this.buyproduct()
+            }
+        },
+        // 点击购买(并且选择支付宝支付)
         async buyproduct() {
             if(!this.revname || !this.revphone || !this.revaddress) {
                 this.$toast('请填写收货信息!')
@@ -110,16 +118,34 @@ export default {
                 price: this.price,
                 carriage: this.carriage,
                 sumfee: parseFloat(Number(this.sumfee)+Number(this.carriage)).toFixed(2),
-                paytype: this.payType,//0为微信，1为支付宝
             })
             if(data.errorcode == 0) {
-                if(this.payType == 1) {
-                    this.getalipayorderinfor()
-                }else {
-                    let money = parseFloat(Number(this.sumfee)+Number(this.carriage)).toFixed(2)
-                    this.$router.replace(`/personal/pay?money=${money}`)
-                }
+                this.getalipayorderinfor()
             }
+        },
+        //点击购买（微信支付，调用接口成功后跳转到微信支付页面）
+        async submitorder_buyproduct() {
+            if(!this.revname || !this.revphone || !this.revaddress) {
+                this.$toast('请填写收货信息!')
+                return
+            }
+            const { data } = await submitorder_buyproduct({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                revname: this.revname,
+                revphone: this.revphone,
+                revaddress: this.revaddress,
+                num: this.num,
+                pid: this.pid,
+                price: this.price,
+                carriage: this.carriage,
+                sumfee: parseFloat(Number(this.sumfee)+Number(this.carriage)).toFixed(2),
+            })
+            if(data.errorcode == 0) {
+                let money = parseFloat(Number(this.sumfee)+Number(this.carriage)).toFixed(2)
+                this.$router.replace(`/personal/pay?money=${money}`)
+            }
+            
         },
         //支付宝支付
         async getalipayorderinfor() {
@@ -145,7 +171,6 @@ export default {
         this.carriage = this.$route.query.carriage
         this.pid = this.$route.query.pid
         this.pic = this.$route.query.pic
-        console.log(this.pic)
     },
     mounted() {
         

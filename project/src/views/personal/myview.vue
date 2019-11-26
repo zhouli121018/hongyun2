@@ -3,23 +3,23 @@
         <title-bar title_name="我的查看"/>
         <div class="right_button">
             <van-dropdown-menu>
-                <van-dropdown-item v-model="option_value1" :options="option1" @change="change_lottype" />
+                <van-dropdown-item v-model="option_value1" :options="issues[this.option_value]" @change="change_issue" />
                 <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
             </van-dropdown-menu>
         </div>
         
         <div class="">
-            <van-tabs v-model="num_active" :swipe-threshold="7" v-if="poslist && poslist.length>0" @click="change_pos" class="no_bottom_border border_color">
-                <van-tab v-for="(p,index) in poslist" :key="index" :title="p.name">
+            <van-tabs v-model="pos_active" :swipe-threshold="7" v-if="postype && postype.length>0" @click="change_pos" class="no_bottom_border border_color">
+                <van-tab v-for="(p,index) in postype" :key="index" :title="p.posname">
                 <div slot="title">
-                    <img v-if="num_active==index" src="../../assets/an.png" alt="" style="position:absolute;width:0.5rem;left:50%;bottom:0;margin-left:-0.25rem;">
-                    <span style="padding-bottom:6px;">{{p.name}}</span>
+                    <img v-if="pos_active==index" src="../../assets/an.png" alt="" style="position:absolute;width:0.5rem;left:50%;bottom:0;margin-left:-0.25rem;">
+                    <span style="padding-bottom:6px;">{{p.posname}}</span>
                 </div>
                 </van-tab>
             </van-tabs>
-            <div class="flex fangan_box" v-if="ycplaytypes.length>0">
-                <div v-for="(item,k) in ycplaytypes" :key="k" @click="change_yc(k)">
-                <van-button :class="{mian_bgcolor:yc_active==k}" type="default" size="large">{{item.ycplayname}}</van-button>
+            <div class="flex fangan_box" v-if="playtype.length>0">
+                <div v-for="(item,k) in playtype" :key="k" @click="change_play(k)">
+                <van-button :class="{mian_bgcolor:play_active==k}" type="default" size="large">{{item.playname}}</van-button>
                 </div>
             </div>
         </div>
@@ -28,19 +28,21 @@
             <div v-for="(item,index) in list" :key="index">
                 <div  class="flex list_item">
                     <div class="img_box">
-                        <img src="http://sscby.cn/hysm/defaulticon.png" alt="">
+                        <img :src="$https+item.icon" alt="">
                     </div>
                     <div class="flex_grow_1 content_box">
                         <div class="line_1">
-                            <span class="uname">用户名</span>
-                            <img class="zhuan_img" src="../../assets/zhuan.png" alt="">
-                            <img src="../../assets/vip.png" alt="">
+                            <span class="uname">{{item.username}}</span>
+                            <img v-if="item.isexp == 1" class="zhuan_img" src="../../assets/zhuan.png" alt="">
+                            <img v-if="item.isvip == 1" src="../../assets/vip.png" alt="">
                         </div>
                         <div class="line_2">
-                            <span>粉丝: 200</span><span style="padding-left:.3rem;">1万次查看</span>
+                            <span>粉丝: {{item.fans}}</span><span style="padding-left:.3rem;">{{item.viewtimes}}次查看</span>
                         </div>
                         <div class="line_3">
-                            <span>上期预测杀3码: 3 3 <span style="color:#FF0B60">9</span></span><van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/>
+                            {{item.issue}}期    
+                            <span style="display:inline-block;padding-left:.5rem" v-html="item.content"></span>
+                            <!-- <span>上期预测杀3码: 3 3 <span style="color:#FF0B60">9</span></span><van-icon name="success" color="#FF0B60" style="margin-left:.71rem;"/> -->
                         </div>
                     </div>
                 </div>
@@ -53,55 +55,24 @@
 
 <script>
 import { getmyviewpred } from '@/api'
-import { getpredrank } from '@/api/home'
 import {gethome_global} from '@/utils'
 export default {
     data(){
         return {
             option_value:'a',
-            lottype: [],
-            option_value1:'a',
-            option1: [
-                { text: '第789期', value: 'a' },
-                { text: '第1548期', value: 'b' },
-                { text: '第1487期', value: 'c' },
-            ],
-            tabs_active:0,
-            num_active:0,
-            yc_active:0,
-            poslist:[
-                {
-                    name: "红球杀码",
-                    type: 101,
-                    ycplaytypes:[
-                        {ycplaytype: 103, ycplayname: "杀三码"},
-                        {ycplaytype: 106, ycplayname: "杀六码"},
-                        {ycplaytype: 110, ycplayname: "杀十码"}
-                    ]
-                },
-                {
-                    name: "球杀码",
-                    type: 102,
-                    ycplaytypes:[
-                        {ycplaytype: 106, ycplayname: "杀六码"},
-                        {ycplaytype: 110, ycplayname: "杀十码"}
-                    ]
-                },
-            ],
-            ycplaytypes:[
-                {ycplaytype: 103, ycplayname: "杀三码"},
-                {ycplaytype: 106, ycplayname: "杀六码"},
-                {ycplaytype: 110, ycplayname: "杀十码"},
-                {ycplaytype: 104, ycplayname: "杀三码"},
-                {ycplaytype: 107, ycplayname: "杀六码"},
-                {ycplaytype: 118, ycplayname: "杀十码"}
-            ],
-            list:[
-                {},{},{}
-            ]
+            lottype:[],
+            pos_active:0,
+            play_active:0,
+            postype:[],
+            playtype:[],
+            list:[],
+            isFirstEnter:false,
+            option_value1: '',
+            issues: []
         }
     },
     methods:{
+        // 选择彩种
         change_lottype(val){
             for(let i = 0;i<this.lottype.length;i++){
                 if(this.lottype[i].lottype == val){
@@ -114,33 +85,34 @@ export default {
             this.play_active = 0;
             this.postype = this.lottype[0].postype;
             this.playtype = this.postype[this.pos_active].playtype
-            this.getpredrank();
+            this.option_value1 = this.issues[this.option_value][0].value
+            this.getmyviewpred();
         },
-        async getpredrank(){
-            let obj = {
-                lottype:this.option_value,
-                postype:this.postype[this.pos_active].postype,
-                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype
-            }
-            const {data} = await getpredrank(obj);
-            this.list = data.list;
+        //选择期数
+        change_issue(val){
+            console.log(val)
+            this.getmyviewpred();
         },
         change_pos(index){
-            this.num_active = index;
-            this.yc_active = 0;
+            this.pos_active = index;
+            this.play_active = 0;
+            this.playtype = this.postype[this.pos_active].playtype
+            this.getmyviewpred();
         },
-        change_yc(index){
-            this.yc_active = index;
+        change_play(index){
+            this.play_active = index;
+            this.getmyviewpred()
         },
         async getmyviewpred() {
             const { data } = await getmyviewpred({
                 sid: localStorage.getItem('hsid'),
                 uid: localStorage.getItem('huid'),
-                issue: '',
-                lottype: '',
-                postype: '',
-                playtype: ''
+                issue: this.option_value1,
+                lottype: this.option_value,
+                postype:this.postype[this.pos_active].postype,
+                playtype:this.postype[this.pos_active].playtype[this.play_active].playtype
             })
+            this.list = data.list
         }
     },
     created(){
@@ -161,7 +133,18 @@ export default {
                     this.play_active = 0;
                     this.postype = this.lottype[0].postype;
                     this.playtype = this.postype[0].playtype
-                    this.getpredrank();
+                    let issues = this.$store.getters.homeData.issues
+                    for(let key in issues){
+                    this.issues[key] = []
+                    issues[key].map(item=>{
+                        this.issues[key].push({
+                            value:item,
+                            text:'第 '+item+' 期'
+                        })
+                    })
+                }
+                this.option_value1 = this.issues[this.option_value][0].value
+                    this.getmyviewpred();
                 })
             }else{
                 this.lottype = this.$store.getters.homeData.lottype
@@ -174,7 +157,19 @@ export default {
                 this.play_active = 0;
                 this.postype = this.lottype[0].postype;
                 this.playtype = this.postype[0].playtype
-                this.getpredrank();
+                let issues = this.$store.getters.homeData.issues
+                    for(let key in issues){
+                    this.issues[key] = []
+                    issues[key].map(item=>{
+                        this.issues[key].push({
+                            value:item,
+                            text:'第 '+item+' 期'
+                        })
+                    })
+                }
+                this.option_value1 = this.issues[this.option_value][0].value
+                // this.getpredrank();
+                this.getmyviewpred()
             }
         }
         this.isFirstEnter=false;
@@ -190,7 +185,7 @@ export default {
 .right_button
     /deep/ .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after
             border none
-    width: 4.8rem;
+    width: 6.8rem;
     position: absolute;
     top: 10px;
     right: 8px;

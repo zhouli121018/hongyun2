@@ -34,7 +34,7 @@
                         金豆
                     </p>
                 </div>
-                <van-button style="background:#87AC55;color:#fff;border-radius:.1rem;padding:0 .3rem" size="small" >购买</van-button>
+                <van-button @click="toTopup" style="background:#87AC55;color:#fff;border-radius:.1rem;padding:0 .3rem" size="small" >购买</van-button>
             </div>
             <div class="my_title" style="border:none;width:51%" v-if="info">
                 <img class="my_title_photo title_photo" src="~@/assets/icon.png" alt="">
@@ -81,6 +81,10 @@ export default {
         }
     },
     methods:{
+        //点击去金豆购买页面
+        toTopup() {
+            this.$router.push('/personal/topUp')
+        },
         logout(){
             Dialog.confirm({
                 className:'small_padding',

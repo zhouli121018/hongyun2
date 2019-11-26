@@ -3,9 +3,9 @@
         <title-bar title_name="历史过滤条件"/>
         <div class="member_box">
             <div v-for="(item,index) in list" :key="index">
-                <span>{{item}}</span>
+                <span>{{item.name}}</span>
                 <van-button @click="modifyClick(item.filtid)" style="height:1rem;line-height:1rem;padding:0 .1rem;border:1px solid #87AC55;border-radius:.2rem;color:#87AC55;">备注过滤名称</van-button>
-                <van-button style="height:1rem;line-height:1rem;padding:0 .1rem;border:1px solid #87AC55;border-radius:.2rem;color:#87AC55;">导入</van-button>
+                <van-button @click="tofilter(item.filtid)" style="height:1rem;line-height:1rem;padding:0 .1rem;border:1px solid #87AC55;border-radius:.2rem;color:#87AC55;">导入</van-button>
             </div>
         </div>
         <van-dialog 
@@ -21,6 +21,7 @@
                 label="名称："
             />
         </van-dialog>
+        <div style="color:#a4d068;text-align:center;padding:.4rem 0;" v-if="lastid>0" @click="getfiltlist_my"> 加载更多</div>
     </div>
 </template>
 
@@ -31,13 +32,17 @@ export default {
         return {
             lastid: 0,
             lottype: '',
-            list: [1,2,3],
+            list: [],
             name: '',
             show_tt: false,
             filtid: ''
         }
     },
     methods: {
+        // 去过滤页面
+        tofilter(id) {
+            this.$router.replace(`/home/filter?filtid=${id}`)
+        },
         //点击
         modifyClick(filtid) {
             this.filtid = filtid
@@ -51,12 +56,17 @@ export default {
                 lottype: this.lottype,
                 lastid: this.lastid
             })
+            if(this.lastid > 0) {
+                this.list = this.list.concat(data.list)
+            }else {
+                this.list = data.list
+            }
             this.lastid = data.lastid
         },
         //点击确定修改名称
         beforeClose(action,done){
             if(action == 'confirm'){
-                if(!this.alipay){
+                if(!this.name){
                     this.$toast('请输入名称！')
                     done(false)
                     return;
@@ -75,6 +85,7 @@ export default {
                 filtid: this.filtid
             })
             if(data.errorcode == 0) {
+                this.lastid = 0
                 this.getfiltlist_my()
             }
         }
@@ -100,5 +111,5 @@ export default {
         span    
             font-size 13px
             text-align center
-            width 30%
+            width 45%
 </style>

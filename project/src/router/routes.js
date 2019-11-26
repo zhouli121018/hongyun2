@@ -247,6 +247,15 @@ export default [
                     has_bottom:true
                 }
             },
+            {//免费使用
+                path: 'freeUse',
+                name:'freeUse',
+                component: _import('personal/freeUse'),
+                meta:{
+                    title:'免费使用',
+                    cache: true
+                }
+            },
             {//微信支付页面
                 path: 'pay',
                 name:'pay',
@@ -366,6 +375,16 @@ export default [
                 component: _import('personal/participaterules'),
                 meta: {
                     title: '参与规则',
+                    cache: true,
+                    has_bottom: false
+                }
+            },
+            {//充值
+                path: 'topUp',
+                name: 'topUp',
+                component: _import('personal/topUp'),
+                meta: {
+                    title: '充值',
                     cache: true,
                     has_bottom: false
                 }

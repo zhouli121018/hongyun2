@@ -16,7 +16,7 @@
             <div class="qrcode">
                 <img :src="$https+info.barcodeurl" alt="">
             </div>
-            <p>充值失败联系微信:{{$store.getters.kfwecha}}</p>
+            <p>充值失败联系微信:{{$store.getters.homeData.kfwecha}}</p>
         </div>
         <div class="xian"></div>
         <div class="simulate_rules">

@@ -158,26 +158,24 @@ export default {
                     content:val.content
                 })
             });
-            console.log(this.defaltfilttypeobj)
-            // if(this.info.defaltfilttype != []) {
-            //     this.info.defaltfilttype = this.list.map(item => {
-            //         for(let i = 0; i < this.info.defaltfilttype.length; i++) {
-            //             if(item.filttype == this.info.defaltfilttype[i].filttype) {
-            //                 return {
-            //                     ...item
-            //                 }
-            //             }
-            //         }
-            //     })
-            // }
-            // this.filterContent()
+            //如果服务器defaltfilttype数组有返回值就用filttype去list里面相同的filttype查找相应的filtname值
+            this.defaltfilttypeList = this.defaltfilttypeList.map(item => {
+                for(let i = 0; i < this.info.list.length; i++) {
+                    if(item.filttype == this.info.list[i].filttype) {
+                        return {
+                            ...item,
+                            filtname: this.info.list[i].filtname
+                        }
+                    }
+                }
+            })
         },
         //获取过滤页面接口
         async filterContent() {
             const { data } = await filt({
                 uid: localStorage.getItem('huid'),
                 sid: localStorage.getItem('hsid'),
-                filttypes: this.filttypes,
+                filttypes: this.filttypes.substring(0,this.filttypes.length-1),
                 lottype: this.option_value,
                 filtid: this.filtid
             })
@@ -191,6 +189,9 @@ export default {
     },
     created(){
         this.isFirstEnter=true;
+        if(this.$route.query.filtid) {
+            this.filtid = this.$route.query.filtid
+        }
     },
     activated(){
         if(!this.$store.getters.isback || this.isFirstEnter){
