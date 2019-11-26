@@ -20,6 +20,7 @@
                 <div style="background:#F5F5F5;height:0.2rem;"></div>
             </div>
         </div>
+        <div style="color:#a4d068;text-align:center;padding:.4rem 0;" v-if="lastid>0" @click="getmyfollowCaiyou"> 加载更多</div>
     </div>
 </template>
 
@@ -39,7 +40,11 @@ export default {
                 uid: localStorage.getItem('huid'),
                 lastid: this.lastid
             })
-            this.list = data.list
+            if(this.lastid > 0){
+                this.list = this.list.concat(data.list);
+            }else{
+                this.list = data.list
+            }
             this.lastid = data.lastid
         },
         //取消关注

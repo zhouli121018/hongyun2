@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="info">
+    <div class="wrap_box" v-if="info">
         <div class="recommend_title">
             <div class="title_top">
                 <div @click="goBack" style="width:1rem;height:1rem;line-height:1rem">
@@ -133,5 +133,11 @@ export default {
         z-index 99999
 .container
     padding-top 0!important
+.wrap_box
+    position absolute 
+    top 0
+    bottom 0
+    left 0 
+    right 0
 </style>
 

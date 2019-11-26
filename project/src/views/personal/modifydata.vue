@@ -2,7 +2,7 @@
     <div>
         <title-bar title_name="修改资料"/>
         <div style="text-align:center">
-            <img :src="icon" alt="">
+            <img :src="$https+icon" alt="">
         </div>
         <div class="modifydata_list">
             <p>昵称</p>
@@ -42,6 +42,11 @@ export default {
                 jianjie: this.jianjie
             })
         }
+    },
+    created() {
+        this.icon = this.$route.query.icon
+        this.uname = this.$route.query.uname
+        this.jianjie = this.$route.query.jianjie
     }
 }
 </script>

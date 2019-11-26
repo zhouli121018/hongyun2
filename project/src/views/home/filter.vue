@@ -16,20 +16,21 @@
         <div style="color:#FF0B60;background:#F5F5F5;font-size:.32rem;padding:.27rem .56rem">
             {{info.title}}
         </div>
+        <!-- 手动添加的数据 -->
         <div style="padding:0 .56rem;">
-            <div v-for="(item,index) in info.defaltfilttype" :key="index" style="font-size:.373rem;color:#333333;padding:.3rem 0;border-bottom:2px solid #E3E3E3;line-height:.5rem">
-                <img @click="deletefilters()" src="~@/assets/min.png" alt="" style="width:.48rem;">
-                 {{item.filtname}}
-                 <span style="width:.5rem;display:inline-block"></span>
-                 {{item.filthint}}
+            <div v-for="(item,index) in defaltfilttypeList" :key="index" style="font-size:.373rem;color:#333333;padding:.3rem 0;border-bottom:2px solid #E3E3E3;line-height:.5rem;">
+                <img @click="deletefilters(index)" src="~@/assets/min.png" alt="" style="width:.48rem;">
+                {{item.filtname}}
+                <span style="width:.5rem;display:inline-block"></span>
+                <input style="border-bottom:1px solid #eee;padding:.2rem" type="text" :placeholder="item.filthint?item.filthint:item.content">
             </div>
         </div>
         <div class="text_center" style="padding:.35rem 0;">
             <router-link class="bottom_size" :to="{name: 'historyFilter',query: {lottype: option_value}}">历史过滤条件</router-link>
-            <van-button @click="filterContent()" style="width:4.03rem;height:1.21rem;background:#87AC55;border-radius:.2rem;color:#fff;font-size:0.53rem;line-height:0.8rem;">过滤</van-button>
+            <van-button @click="filterContentClick()" style="width:4.03rem;height:1.21rem;background:#87AC55;border-radius:.2rem;color:#fff;font-size:0.53rem;line-height:0.8rem;">过滤</van-button>
         </div>
         <div style="background:#F5F5F5;height:0.27rem;"></div>
-        <div style="padding:.4rem .56rem;">
+        <div style="padding:.4rem .56rem;" v-if="content != ''">
             <div style="padding-bottom:.27rem;">
                 <span style="font-size:0.37rem;color:#333333">过滤结果</span> 
                 <span @click="doCopy(content)" style="float:right;font-size:0.37rem;color:#FF0B60">复制</span>
@@ -66,22 +67,31 @@ export default {
             info: null,
             filttypes: '',
             content: '',
-            defaltfilttypeList: null
+            defaltfilttypeList: [],
+            defaltfilttypeobj: null
         }
     },
     methods:{
         //选择下拉框
         indexSelect(event) {
             let filttype = event.target.value
-            this.defaltfilttypeList = this.info.list.filter(item => item.filttype == filttype)[0]
+            this.defaltfilttypeobj = this.info.list.filter(item => item.filttype == filttype)[0]
         },
         //点击添加过滤条件并且追加到info.defaltfilttype里面 显示在页面中间内容区域
         addfilters() {
-            this.info.defaltfilttype.unshift(this.defaltfilttypeList)
+            this.defaltfilttypeList.unshift(this.defaltfilttypeobj)
         },
         //删除中间区域内容
-        deletefilters() {
-            
+        deletefilters(e) {
+            this.defaltfilttypeList = this.defaltfilttypeList.filter((item,i) => {
+                if(e != i) {
+                   return item
+                }
+            })
+        },
+        //点击过滤按钮
+        filterContentClick() {
+            console.log(this.filttypes)
         },
         doCopy (text) {
             this.$copyText(text).then(function (e) {
@@ -110,12 +120,21 @@ export default {
             })
             this.info = data
             this.filtid = this.info.filtid
-            let filttypes = this.info.list.map(item => {
-                return item.filttype
-            })
-            this.filttypes = filttypes.join(',')
-            this.defaltfilttypeList = this.info.list[0]
-            this.filterContent()
+            this.defaltfilttypeobj = this.info.list[0]
+            this.defaltfilttypeList = this.info.defaltfilttype
+            console.log(this.defaltfilttypeobj)
+            // if(this.info.defaltfilttype != []) {
+            //     this.info.defaltfilttype = this.list.map(item => {
+            //         for(let i = 0; i < this.info.defaltfilttype.length; i++) {
+            //             if(item.filttype == this.info.defaltfilttype[i].filttype) {
+            //                 return {
+            //                     ...item
+            //                 }
+            //             }
+            //         }
+            //     })
+            // }
+            // this.filterContent()
         },
         //获取过滤页面接口
         async filterContent() {
@@ -123,6 +142,7 @@ export default {
                 uid: localStorage.getItem('huid'),
                 sid: localStorage.getItem('hsid'),
                 filttypes: this.filttypes,
+                lottype: this.option_value,
                 filtid: this.filtid
             })
             this.content = data.content

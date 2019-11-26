@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <title-bar title_name="开通会员" />
         <div class="openingMember_box" @click="onClick(index,item.nowprice)" :class="active == index?'active':''" v-for="(item,index) in list" :key="index">
             <p style="color:#333;">开通{{item.days}}天</p>
@@ -187,7 +187,7 @@ h4
     padding .2rem 0
     box-sizing border-box
     &.active
-        border 1px solid red
+        border 1px solid #87AC55
     p
         font-size .38rem
         display flex

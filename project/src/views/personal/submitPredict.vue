@@ -6,32 +6,20 @@
                 <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
             </van-dropdown-menu>
         </div>
-        <h3>1七星彩999期预测</h3>
-        <div class="predict_list">
-            <div class="line_first"><span class="line"></span>第一位</div>
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
-        </div>
-        <div class="predict_list">
-            <div class="line_first"><span class="line"></span>第一位</div>
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
-            <van-cell title="杀3码: " value="内容" />
+        <h3>{{title}}</h3>
+        <div class="predict_list" v-for="(item,index) in list" :key="index">
+            <div class="line_first"><span class="line"></span>{{item.posname}}</div>
+            <van-cell v-for="(dom,i) in item.playtypes" :key="i" :title="dom.playname" :value="dom.playhint" />
         </div>
         <div class="shopping_bottom">
-            <van-button style="background:#87AC55;color:#fff">提交</van-button>
+            <van-button style="background:#87AC55;color:#fff" @click="submitPred">提交</van-button>
             <router-link class="bottom_size" to="">预测规则</router-link>
         </div>
     </div>
 </template>
 
 <script>
-import { submitPred } from '@/api'
+import { submitPred, getpredcondition } from '@/api'
 import { getlottable } from '@/api/home'
 import {gethome_global } from '@/utils'
 export default {
@@ -40,7 +28,9 @@ export default {
             option_value:'a',
             lottype: [],
             tabs_active:0,
-            option_value: ''
+            option_value: '',
+            list: [],
+            title: ''
         }
     },
     methods: {
@@ -53,6 +43,16 @@ export default {
         },
         change_lottype(){
             this.getlottable();
+        },
+        async getpredcondition() {
+            const { data } = await getpredcondition({
+                uid: localStorage.getItem('huid'),
+                sid: localStorage.getItem('hsid'),
+                lottype: this.option_value
+            })
+            this.list = data.list
+            this.title = data.title
+            console.log(data)
         },
         async submitPred() {
             const { data } = await submitPred({
@@ -73,7 +73,7 @@ export default {
                     item.text = item.lotname
                 })
                 this.option_value = this.lottype[0].value
-                this.submitPred()
+                this.getpredcondition()
             })
         }else{
             this.lottype = this.$store.getters.homeData.lottype
@@ -82,7 +82,7 @@ export default {
                 item.text = item.lotname
             })
             this.option_value = this.lottype[0].value
-            this.submitPred()
+            this.getpredcondition()
         }
         console.log(this.lottype)
     },
@@ -129,7 +129,7 @@ h3
     .van-cell
         border-bottom 1px solid #e3e3e3
     .van-cell__title
-        width 35%
+        width 32%
         flex none
     .van-cell__value
         text-align left 
