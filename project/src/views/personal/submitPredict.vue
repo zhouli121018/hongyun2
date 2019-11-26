@@ -6,21 +6,24 @@
                 <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
             </van-dropdown-menu>
         </div>
-        <h3>{{title}}</h3>
+        <h3 style="font-size:.43rem;font-weight:bold;color:#232323;">{{title}}</h3>
         <div class="predict_list" v-for="(item,index) in list" :key="index">
-            <div class="line_first"><span class="line"></span>{{item.posname}}</div>
-            <van-cell v-for="(dom,i) in item.playtypes" :key="i" :title="dom.playname" :value="dom.playhint" />
+            <div class="line_first" style="font-size:.35rem;"><span class="line"></span>{{item.posname}}</div>
+            <!-- <van-cell v-for="(dom,i) in item.playtypes" :key="i" :title="dom.playname" :value="dom.playhint" /> -->
+
+            <van-field  v-for="(dom,i) in item.playtypes" :key="i" v-model="dom.value" clearable :label="dom.playname" :placeholder="dom.playhint" style="padding-left:0;" :label-width="90">
+                <span slot="label" style="font-size:.35rem;color:#232323;">{{dom.playname}}</span>
+            </van-field>
         </div>
         <div class="shopping_bottom">
-            <van-button style="background:#87AC55;color:#fff" @click="submitPred">提交</van-button>
-            <router-link class="bottom_size" to="">预测规则</router-link>
+            <van-button style="background:#87AC55;color:#fff;font-size:.53rem;" @click="submitPred">提交</van-button>
+            <router-link class="bottom_size" to="/personal/yucerule">预测规则</router-link>
         </div>
     </div>
 </template>
 
 <script>
 import { submitPred, getpredcondition } from '@/api'
-import { getlottable } from '@/api/home'
 import {gethome_global } from '@/utils'
 export default {
     data() {
@@ -34,34 +37,53 @@ export default {
         }
     },
     methods: {
-        async getlottable () {
-            let obj = {};
-            obj.lottype = this.option_value
-            const { data }    = await getlottable(obj);
-            this.list = data.list;
-            this.barcode = data.barcode;
-        },
         change_lottype(){
-            this.getlottable();
+            this.getpredcondition();
         },
         async getpredcondition() {
             const { data } = await getpredcondition({
-                uid: localStorage.getItem('huid'),
-                sid: localStorage.getItem('hsid'),
                 lottype: this.option_value
             })
+            data.list.forEach(val => {
+                val.playtypes.forEach(dom=>{
+                    dom.value = ''
+                })
+            });
             this.list = data.list
             this.title = data.title
-            console.log(data)
         },
         async submitPred() {
+            let content = '';
+            let ischeck = false;
+            for(let i=0;i<this.list.length;i++){
+                let obj = this.list[i]
+                content += obj.postype+'-'
+                for(let k=0;k<obj.playtypes.length;k++){
+                    let objk = obj.playtypes[k];
+                    if(!objk.value){
+                        ischeck = true;
+                        break;
+                    }
+                    content += objk.playtype+':'+objk.value
+                    if(k<obj.playtypes.length-1){
+                        content += ','
+                    }
+                }
+                if(ischeck){
+                    break;
+                }
+                if(i<this.list.length-1){
+                    content += ';'
+                }
+            }
+            if(ischeck){
+                this.$toast('请输入完整内容~')
+                return;
+            }
             const { data } = await submitPred({
-                uid: localStorage.getItem('huid'),
-                sid: localStorage.getItem('hsid'),
                 lottype: this.option_value,
-                content: ''
+                content: content
             })
-            console.log(data)
         }
     },
     created(){
@@ -84,7 +106,6 @@ export default {
             this.option_value = this.lottype[0].value
             this.getpredcondition()
         }
-        console.log(this.lottype)
     },
     mounted() {
         

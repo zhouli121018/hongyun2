@@ -263,6 +263,7 @@ export function filt(data) {
     })
 }
 
+<<<<<<< HEAD
 // getbuyjindoudesc.php 购买金豆页面数据
 export function getbuyjindoudesc(data) {
     return request({
@@ -287,3 +288,15 @@ export function submitorder_buyproduct(data) {
         data
     })
 }
+=======
+//(新)首页-获取规则接口 getrule.php
+export function getrule (data) {
+    return request({
+      url: '/getrule.php',
+      method: 'post',
+      data:{
+        ...data
+      }
+    })
+  }
+>>>>>>> 81ee0bc7ae9977110c686032ede31d0612f1e8da
