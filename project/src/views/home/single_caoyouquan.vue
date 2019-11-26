@@ -150,16 +150,16 @@ export default {
         pop(){
             const config = {
                 link:  '', // 网址，默认使用window.location.href  http://www.qq.com
-                title: '标题',  // 标题，默认读取document.title 
-                desc:  '分享描述', // 描述, 默认读取<meta name="description" content="desc" />
-                imgUrl: 'http://punchingtop.com/bysq/defaulticon.png' ,// 图片, 默认取网页中第一个img标签
+                title: '',  // 标题，默认读取document.title 
+                desc:  '', // 描述, 默认读取<meta name="description" content="desc" />
+                imgUrl: '' ,// 图片, 默认取网页中第一个img标签
                 types: ['wx', 'wxline', 'qq', 'qzone', 'sina'], // 启用的社交分享,默认为全部启用
                 infoMap: { // 针对不同平台设定不同分享内容
                     wx: {
                     link: '', // 覆盖分享到微信的链接
-                    title: '1234', // 覆盖分享到微信的标题
-                    desc: '开始的佛撒旦法', // 覆盖分享到微信的标题
-                    imgUrl: 'http://punchingtop.com/bysq/admin/uicon/1561707470151.jpg' // 覆盖分享到微信的图片链接
+                    title: '', // 覆盖分享到微信的标题
+                    desc: '', // 覆盖分享到微信的标题
+                    imgUrl: '' // 覆盖分享到微信的图片链接
                     }
                 },
                 fnDoShare(type) {

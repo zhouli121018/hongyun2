@@ -16,7 +16,7 @@
             </van-field>
         </div>
         <div class="shopping_bottom">
-            <van-button style="background:#87AC55;color:#fff" @click="submitPred">提交</van-button>
+            <van-button style="background:#87AC55;color:#fff;font-size:.53rem;" @click="submitPred">提交</van-button>
             <router-link class="bottom_size" to="/personal/yucerule">预测规则</router-link>
         </div>
     </div>
