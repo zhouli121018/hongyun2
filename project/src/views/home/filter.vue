@@ -8,9 +8,15 @@
         </div>
         <div class="fil_box">
             <span>过滤条件：</span>
-            <select class="select" @change="indexSelect($event)">
+            <!-- <select class="select" @change="indexSelect($event)">
                 <option v-for="(t,i) in info.list" :key="i" :value="t.filttype">{{t.filtname}}</option>
-            </select>
+            </select> -->
+            <div class="filt_select" style="display:inline-block;border:1px solid #E3E3E3; padding: 0 .4rem 0 .2rem;margin-right:.3rem;border-radius:.12rem;">
+                <van-dropdown-menu>
+                    <van-dropdown-item v-model="value1" :options="info.list" @change="indexSelect"/>
+                </van-dropdown-menu>
+            </div>
+            
             <img @click="addfilters()" src="~@/assets/plus.png" alt="" style="width:.6rem;">
         </div>
         <div style="color:#FF0B60;background:#F5F5F5;font-size:.32rem;padding:.27rem .56rem">
@@ -18,11 +24,14 @@
         </div>
         <!-- 手动添加的数据 -->
         <div style="padding:0 .56rem;">
-            <div v-for="(item,index) in defaltfilttypeList" :key="index" style="font-size:.373rem;color:#333333;padding:.3rem 0;border-bottom:2px solid #E3E3E3;line-height:.5rem;">
-                <img @click="deletefilters(index)" src="~@/assets/min.png" alt="" style="width:.48rem;">
-                {{item.filtname}}
-                <span style="width:.5rem;display:inline-block"></span>
-                <input style="border-bottom:1px solid #eee;padding:.2rem" type="text" :placeholder="item.filthint?item.filthint:item.content">
+            <div v-for="(item,index) in defaltfilttypeList" :key="index" style="font-size:.373rem;color:#333333;border-bottom:2px solid #E3E3E3;line-height:.5rem;">
+                <!-- <img @click="deletefilters(index)" src="~@/assets/min.png" alt="" style="width:.48rem;"> -->
+                <!-- {{item.filtname}} -->
+                <!-- <span style="width:.5rem;display:inline-block"></span> -->
+                <!-- <input style="border-bottom:1px solid #eee;padding:.2rem" v-model="item.content" type="text" :placeholder="item.filthint"> -->
+                <van-field  v-model="item.content"  clearable :label="item.filtname" :placeholder="item.filthint" style="padding-left:0;" :label-width="135">
+                    <span slot="label"><img @click="deletefilters(index)" src="~@/assets/min.png" alt="" style="width:.48rem;"> {{item.filtname}}</span>
+                </van-field>
             </div>
         </div>
         <div class="text_center" style="padding:.35rem 0;">
@@ -59,27 +68,28 @@ export default {
             option_value:'a',
             lottype:[],
             list: [],
-            pos_active:0,
-            play_active:0,
-            postype:[],
-            playtype:[],
             filtid: 0,
             info: null,
             filttypes: '',
             content: '',
             defaltfilttypeList: [],
-            defaltfilttypeobj: null
+            defaltfilttypeobj: null,
+            value1:'',
         }
     },
     methods:{
         //选择下拉框
-        indexSelect(event) {
-            let filttype = event.target.value
+        indexSelect(filttype) {
             this.defaltfilttypeobj = this.info.list.filter(item => item.filttype == filttype)[0]
         },
         //点击添加过滤条件并且追加到info.defaltfilttype里面 显示在页面中间内容区域
         addfilters() {
-            this.defaltfilttypeList.unshift(this.defaltfilttypeobj)
+            this.defaltfilttypeList.unshift({
+                filttype:this.defaltfilttypeobj.filttype,
+                filthint:this.defaltfilttypeobj.filthint,
+                filtname:this.defaltfilttypeobj.filtname,
+                content:''
+                })
         },
         //删除中间区域内容
         deletefilters(e) {
@@ -91,7 +101,20 @@ export default {
         },
         //点击过滤按钮
         filterContentClick() {
-            console.log(this.filttypes)
+            this.filttypes = '';
+            let ischeck = false;
+            this.defaltfilttypeList.forEach(item=>{
+                if(!item.content){
+                    ischeck = true;
+                    return;
+                }
+                this.filttypes += item.filttype+':'+item.content+';'
+            })
+            if(ischeck){
+                this.$toast('请输入内容~')
+                return;
+            }
+            this.filterContent();
         },
         doCopy (text) {
             this.$copyText(text).then(function (e) {
@@ -119,9 +142,22 @@ export default {
                 filtid: this.filtid
             })
             this.info = data
+            this.info.list.forEach(val=>{
+                val.value = val.filttype;
+                val.text = val.filtname
+            })
+            this.value1 = this.info.list[0].value;
             this.filtid = this.info.filtid
             this.defaltfilttypeobj = this.info.list[0]
-            this.defaltfilttypeList = this.info.defaltfilttype
+            this.defaltfilttypeList = [];
+            this.info.defaltfilttype.forEach(val => {
+                this.defaltfilttypeList.push({
+                    filttype:val.filttype,
+                    filthint:val.filthint,
+                    filtname:val.filtname,
+                    content:val.content
+                })
+            });
             console.log(this.defaltfilttypeobj)
             // if(this.info.defaltfilttype != []) {
             //     this.info.defaltfilttype = this.list.map(item => {
@@ -150,17 +186,6 @@ export default {
         },
         //选择右上角条件
         change_lottype(val){
-            for(let i = 0;i<this.lottype.length;i++){
-                if(this.lottype[i].lottype == val){
-                    this.pos_active = 0;
-                    this.postype = this.lottype[i].postype;
-                    break;
-                }
-            }
-            this.pos_active = 0;
-            this.play_active = 0;
-            this.postype = this.lottype[0].postype;
-            this.playtype = this.postype[this.pos_active].playtype
             this.getfiltcondition()
         },
     },
@@ -177,10 +202,6 @@ export default {
                         item.text = item.lotname
                     })
                     this.option_value = this.lottype[0].value
-                    this.pos_active = 0;
-                    this.play_active = 0;
-                    this.postype = this.lottype[0].postype;
-                    this.playtype = this.postype[0].playtype
                     this.getfiltcondition()//获取过滤条件
                 })
             }else{
@@ -190,10 +211,6 @@ export default {
                     item.text = item.lotname
                 })
                 this.option_value = this.lottype[0].value
-                this.pos_active = 0;
-                this.play_active = 0;
-                this.postype = this.lottype[0].postype;
-                this.playtype = this.postype[0].playtype
                 this.getfiltcondition()//获取过滤条件
             }
         }
@@ -205,6 +222,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+/deep/ .filt_select .van-dropdown-menu
+    height .92rem
+
 .bottom_size
     padding-top .8rem
     font-size 12px
@@ -223,7 +243,7 @@ export default {
     text-align: center;
     padding: 0 .3rem;
 // 右上角下拉菜单样式 start
-/deep/ .van-dropdown-item.van-dropdown-item--down
+/deep/ .right_button .van-dropdown-item.van-dropdown-item--down
     top 50px !important
 .right_button
     width: 2.4rem;
