@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
     if (title) {
         document.title = title
     }
-    if( to.name == 'openRemind' || to.name == 'freeUse' || to.name == 'earnMoney' || to.name == 'personalIndex1' || to.name == 'modifydata' || to.name == 'submitPredict'){
+    if( to.name == 'openRemind' || to.name == 'freeUse' || to.name == 'earnMoney' || to.name == 'personalIndex1' || to.name == 'modifydata' || to.name == 'submitPredict' || to.name == 'myview' || to.name == 'myfocus' || to.name == 'mycanyou' || to.name == 'order' || to.name == 'single_caoyouquan' || to.name == 'publish'){
         if(!localStorage.getItem('uid') || !localStorage.getItem('sid')) {
             next({
                 path:'/login/index'
