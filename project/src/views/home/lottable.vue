@@ -87,14 +87,11 @@ export default {
 .message_box
     border-bottom 1px solid #cccccc
 // 右上角下拉菜单样式 start
-/deep/ .van-dropdown-item.van-dropdown-item--down
-    top 50px !important
 .right_button
     width: 2.4rem;
     position: absolute;
     top: 10px;
     right: 8px;
-    z-index: 1000;
     /deep/ .van-dropdown-menu  
         background #A4D068
         height 26px

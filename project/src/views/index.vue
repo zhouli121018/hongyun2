@@ -1,7 +1,7 @@
 <template>
-    <div class="container" :class="{has_bottom:$route.meta.has_bottom}">
+    <div class="" :class="{has_bottom:$route.meta.has_bottom}">
         
-            <div class="scroll">
+            <div class="scroll" style="padding-top:50px;" :style="{minHeight:body_height+'px'}">
                 <!-- <transition name='slide-fade' mode="out-in"> -->
                     <keep-alive>
                         <router-view v-if="$route.meta.cache"></router-view>
@@ -65,7 +65,8 @@ export default {
             personal: {
                 normal: require("../assets/personal_normal.png"),
                 active: require("../assets/personal_select.png"),
-            }
+            },
+            body_height:300
         }
     },
     components: {
@@ -102,6 +103,15 @@ export default {
         }else if(newval.name == 'home'){
             this.active = 0
         }
+    },
+    mounted(){
+        this.$nextTick(() => {
+            const height = document.body.scrollHeight
+            if(height>350){
+                this.body_height = height-50;
+            }
+            
+        })
     }
 }
 </script>

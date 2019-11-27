@@ -354,4 +354,19 @@ export default {
             color #666
             font-family:PingFang SC;
             font-size .37rem
+            
+// 右上角下拉菜单样式 start
+.right_button
+    width: 2.4rem;
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    /deep/ .van-dropdown-menu  
+        background #A4D068
+        height 26px
+        border-radius 5px
+        .van-dropdown-menu__title 
+            color #fff
+            .van-ellipsis
+                font-size .32rem
 </style>

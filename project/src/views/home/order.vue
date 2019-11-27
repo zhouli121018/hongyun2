@@ -189,6 +189,7 @@ export default {
     padding .1rem .3rem
     box-sizing border-box
     z-z-index 999
+    background #eee
     .van-button
         background #87AC55
         width 3rem

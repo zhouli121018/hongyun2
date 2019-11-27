@@ -1,6 +1,6 @@
 <template>
-    <div >
-        <div :class="{has_bot:has_bot}" @click="has_bot = false" style="position:absolute;top:50px;bottom:0;left:0;right:0;overflow: auto;">
+    <div style="min-height:15rem;">
+        <div :class="{has_bot:has_bot}" @click="has_bot = false" >
             <title-bar title_name="评论"/>
             <div class="content_item" v-if="info"> 
                 <div class="flex line_1" @click="goSingle">
@@ -57,7 +57,7 @@
                                 <audio :id="'myaudio_child_'+index" preload="load" :src="$https_img+'/'+item.parentItem.soundurl" controls="controls" :loop="false" v-show="false"></audio>
                             </div>
                         </div>
-                        <div style="width:0;height: 0;border-width: .3rem;border-style: solid;border-color: transparent transparent #EDEDED transparent;position:absolute;top:-.6rem;left:.3rem;"></div>
+                        <div style="width:0;height: 0;border-width: .3rem;border-style: solid;border-color: transparent transparent #EDEDED transparent;position:absolute;top:-.5rem;left:.3rem;"></div>
                     </div>
                     
                 </div>
@@ -68,7 +68,7 @@
         </div>
         
 
-        <div v-show="has_bot" class="flex" style="background:#E9E9E9;height:1.4rem;position:absolute;bottom:0;width:100%;">
+        <!-- <div v-show="has_bot" class="flex" style="background:#E9E9E9;height:1.4rem;position:absolute;bottom:0;width:100%;">
             <img src="~@/assets/luyin.png" style="width:0.45rem;height:0.64rem;margin:0 .3rem;" alt="" @click="volumn = !volumn">
             <van-field style="border-radius:.1rem;" ref="pinglun_input"
                 v-model="value" maxlength="200" 
@@ -78,7 +78,7 @@
             </van-field>
             <van-button v-show="volumn" class="flex_grow_1"  @touchstart.native="start" @touchend.native="stop" @click.native="play" :color="desc=='长按录音'?'':'#87ac55'">{{desc}}</van-button>
             <van-button size="small" color="#87AC55" @click="submittizi_disc" style="margin:0 .3rem;border-radius:.1rem;">发布</van-button>
-        </div>
+        </div> -->
 
         <van-popup v-if="has_bot"
         v-model="has_bot"
@@ -86,7 +86,7 @@
         :style="{ height: '1.4rem' }"
         >
             <!-- <div style="text-align:center;padding:.4rem 0 .4rem;font-size:.45rem;border-bottom:1px dashed #aaa;">{{pl_title}}</div> -->
-            <div class="flex" style="background:#E9E9E9;height:1.4rem;position:absolute;bottom:0;width:100%;">
+            <div class="flex" style="background:#E9E9E9;height:1.4rem;width:100%;">
                 <img src="~@/assets/luyin.png" style="width:0.45rem;height:0.64rem;margin:0 .3rem;" alt="" @click="volumn = !volumn">
                 <van-field style="border-radius:.1rem;" ref="pinglun_input"
                     v-model="value" maxlength="200" 

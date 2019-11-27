@@ -136,14 +136,11 @@ export default {
     background none
 /deep/ .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after
     border none
-/deep/ .van-dropdown-item.van-dropdown-item--down
-    top 50px !important
 .right_button
     width: 5.2rem;
     position: absolute;
     top: 10px;
     right: 8px;
-    z-index: 1000;
     /deep/ .van-dropdown-menu 
         height 26px
         border-radius 5px

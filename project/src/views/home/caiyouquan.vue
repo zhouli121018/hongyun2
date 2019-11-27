@@ -83,11 +83,11 @@
         
         <van-popup v-if="show_pinglun"
         v-model="show_pinglun"
-        position="bottom"
+        position="bottom" 
         :style="{ height: '2.2rem' }"
         >
         <div style="text-align:center;padding:.2rem 0 .2rem;font-size:.45rem;border-bottom:1px dashed #aaa;">{{pl_title}}</div>
-            <div  class="flex" style="background:#E9E9E9;height:1.4rem;position:absolute;bottom:0;width:100%;">
+            <div  class="flex" style="background:#E9E9E9;height:1.4rem;width:100%;">
                 <img src="~@/assets/luyin.png" style="width:0.45rem;height:0.64rem;margin:0 .3rem;" alt="" @click="volumn = !volumn">
                 <van-field style="border-radius:.1rem;" ref="pinglun_input"
                     v-model="value" maxlength="200" 
