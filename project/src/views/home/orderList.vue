@@ -33,7 +33,7 @@ export default {
             this.list = data.list
         }
     },
-    mounted() {
+    created() {
         this.getbuyproduct()
     }
 }

@@ -317,7 +317,15 @@ export function submittizi (data) {
   })
 }
 
-
-
+//64、(新)首页-获取遗漏数据接口 getyiloudata.php
+export function getyiloudata (data) {
+  return request({
+    url: '/getyiloudata.php',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
 
 

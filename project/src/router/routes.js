@@ -55,7 +55,7 @@ export default [
                 component: _import('home/orderList'),
                 meta:{
                     title:'订单列表',
-                    cache: true,
+                    cache: false,
                 }
             },
             {//榜单

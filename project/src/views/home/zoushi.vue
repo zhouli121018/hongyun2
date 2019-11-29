@@ -10,18 +10,23 @@
         </div>
         <div style="padding:.55rem;" v-for="(item,index) in list" :key="index">
             <div style="font-size:.29rem;color:#333333;padding-bottom:.23rem;">{{item.posname}}</div>
-            <table class="table" border="1">
-                <tr v-for="(s,i) in item.erweiarray" :key="i">
-                    <td  v-for="(c,ci) in s" :key="ci"><span :class="{spec:c==0}">{{c?c:s[0]}}</span></td>
-                </tr>
-            </table>
+            <div style="width:100%;overflow:auto;">
+                <table class="table" border="1">
+                    <tr v-for="(s,i) in item.erweiarray" :key="i">
+                        <td  v-for="(c,ci) in s" :key="ci"><span :class="{spec:c==0}">{{c?c:s[0]}}</span></td>
+                    </tr>
+                </table>
+            </div>
+            
         </div>
         <div  style="padding:.55rem;">
-            <table class="table" border="0">
-                <tr>
-                    <td v-for="(c,ci) in issues_list" :key="ci">{{c}}</td>
-                </tr>
-            </table>
+            <div style="width:100%;overflow:auto;">
+                <table class="table" border="0">
+                    <tr>
+                        <td v-for="(c,ci) in issues_list" :key="ci">{{c}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         
     </div>
@@ -140,6 +145,7 @@ export default {
     width 2rem
 .table
     width 100%
+    max-width 100%
     border 1px solid #aaa
     td
         padding:.2rem

@@ -61,11 +61,11 @@
             <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
 
-        <div class="xian"></div>
+        <div class="xian" style="height:.2rem"></div>
 
-        <!-- <div class="text_center">
+        <div class="text_center" style="padding-bottom:.4rem">
             <van-button @click="logout" type="danger" size="small" style="width:30%">退出账号</van-button>
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -238,7 +238,7 @@ export default {
 .my_title_box
     width 100%
     background #eee
-    padding .4rem 0
+    padding .3rem 0 .2rem
     box-sizing border-box
     display flex
     justify-content space-between
