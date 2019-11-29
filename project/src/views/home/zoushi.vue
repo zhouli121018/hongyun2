@@ -88,8 +88,8 @@ export default {
                 this.issues = [];
                 issues.map(item=>{
                     this.issues.push({
-                       value:item,
-                        text:'第 '+item+' 期'
+                        value:item,
+                        text:'近 '+item+' 期'
                     })
                 })
                 this.option_value2 = this.issues[0].value
@@ -113,7 +113,7 @@ export default {
             issues.map(item=>{
                 this.issues.push({
                     value:item,
-                    text:'第 '+item+' 期'
+                    text:'近 '+item+' 期'
                 })
             })
             this.option_value2 = this.issues[0].value

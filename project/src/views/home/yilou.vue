@@ -4,7 +4,7 @@
         <div class="right_button">
             <van-dropdown-menu>
                 <van-dropdown-item v-model="option_value" :options="lottype" @change="change_lottype" />
-                <van-dropdown-item v-model="option_value2" :options="issues[this.option_value]" @change="change_issue" />
+                <van-dropdown-item v-model="option_value2" :options="issues" @change="change_issue" />
             </van-dropdown-menu>
         </div>
         <div style="padding:0 .4rem;" v-for="(item,index) in list" :key="index">
@@ -56,7 +56,6 @@ export default {
             this.tablehead = data.tablehead;
         },
         change_lottype(val){
-            this.option_value2 = this.issues[this.option_value][0].value
             this.getyiloudata();
 
         },
@@ -69,43 +68,39 @@ export default {
         if(this.$store.getters.homeData == null){
             gethome_global().then(()=>{
                 this.lottype = this.$store.getters.homeData.lottype
-                let issues = this.$store.getters.homeData.issues
+                let issues = this.$store.getters.homeData.trendissues
                 this.lottype.map(item=>{
                     item.value = item.lottype
                     item.text = item.lotname
                 })
                 this.option_value = this.lottype[0].value
             
-                for(let key in issues){
-                    this.issues[key] = []
-                    issues[key].map(item=>{
-                        this.issues[key].push({
-                            value:item,
-                            text:'第 '+item+' 期'
-                        })
+                this.issues = [];
+                issues.map(item=>{
+                    this.issues.push({
+                        value:item,
+                        text:'近 '+item+' 期'
                     })
-                }
-                this.option_value2 = this.issues[this.option_value][0].value
+                })
+                this.option_value2 = this.issues[0].value
                 this.getyiloudata();
             })
         }else{
             this.lottype = this.$store.getters.homeData.lottype
-            let issues = this.$store.getters.homeData.issues
+            let issues = this.$store.getters.homeData.trendissues
             this.lottype.map(item=>{
                 item.value = item.lottype
                 item.text = item.lotname
             })
             this.option_value = this.lottype[0].value
-            for(let key in issues){
-                this.issues[key] = [];
-                issues[key].map(item=>{
-                    this.issues[key].push({
-                        value:item,
-                        text:'第 '+item+' 期'
-                    })
+            this.issues = [];
+            issues.map(item=>{
+                this.issues.push({
+                    value:item,
+                    text:'近 '+item+' 期'
                 })
-            }
-            this.option_value2 = this.issues[this.option_value][0].value
+            })
+            this.option_value2 = this.issues[0].value
             this.getyiloudata();
         }
         console.log(this.lottype)
@@ -152,7 +147,7 @@ export default {
 /deep/ .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after
     border none
 .right_button
-    width: 5.2rem;
+    width: 4.6rem;
     position: absolute;
     top: 10px;
     right: 8px;
